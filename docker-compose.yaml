@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  web:
+    image: wordpress
+    links:
+      - mysql
+    environment:
+      - WORDPRESS_DB_PASSWORD=password
+      - WORDPRESS_DEBUG=1
+    ports:
+      - "127.0.0.3:8080:80"
+    volumes:
+      - ./src/:/var/www/html/wp-content/plugins/
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=my-wpdb
