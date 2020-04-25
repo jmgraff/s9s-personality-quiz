@@ -19,10 +19,14 @@ function Questions(props) {
     props.onChange(currentState);
   }
 
+  function handleClick(e) {
+    setQuestions([...questions, {question: '', answers: []}]);
+  }
+
   function renderQuestions(data) {
     return data.map((k,v) => {
       return (
-        <li key={v}>
+        <li key={v} data-testid={`question-${v}`}>
           <input 
             type="text" 
             name="question" 
@@ -39,9 +43,12 @@ function Questions(props) {
   }
 
   return(
-    <ul>
-      {renderQuestions(questions)}
-    </ul>
+    <div>
+      <ul>
+        {renderQuestions(questions)}
+      </ul>
+      <button onClick={e => handleClick(e)} >Add Question</button>
+    </div>
   );
 }
 
