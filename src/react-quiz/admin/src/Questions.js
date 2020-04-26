@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import Answers from './Answers.js';
 
 function Questions(props) {
@@ -19,8 +18,12 @@ function Questions(props) {
     props.onChange(currentState);
   }
 
-  function handleClick(e) {
+  function handleAdd(e) {
     setQuestions([...questions, {question: '', answers: []}]);
+  }
+
+  function handleRemove(e, index) {
+    setQuestions(questions.filter((q,i) => i !== index));
   }
 
   function renderQuestions(data) {
@@ -33,6 +36,11 @@ function Questions(props) {
             value={k.question} 
             onChange={e => onQuestionChange(e, v)}
           />
+          <button 
+            data-testid="remove-question-button"
+            onClick={e => handleRemove(e,v) }>
+              &times;
+          </button>
           <Answers 
             data={k.answers} 
             onChange={data => onAnswerChange(data, v)}
@@ -47,7 +55,7 @@ function Questions(props) {
       <ul>
         {renderQuestions(questions)}
       </ul>
-      <button onClick={e => handleClick(e)} >Add Question</button>
+      <button onClick={e => handleAdd(e)} >Add Question</button>
     </div>
   );
 }
