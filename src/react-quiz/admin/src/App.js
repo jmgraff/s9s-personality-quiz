@@ -78,17 +78,23 @@ class App extends React.Component {
 
   handleTitleChange(e) {
     console.log(this.state);
-    this.setState({quizData: {title: e.target.value}});
+    let newState = {...this.state};
+    newState.quizData.title = e.target.value;
+    this.setState(newState);
   }
 
   handleDescriptionChange(e) {
     console.log(this.state);
-    this.setState({quizData: {description: e.target.value}});
+    let newState = {...this.state};
+    newState.quizData.description = e.target.value;
+    this.setState(newState);
   }
 
   handleQuestionsChange(data) {
     console.log(this.state);
-    this.setState({quizData: {questions: data}});
+    let newState = {...this.state};
+    newState.quizData.questions = data;
+    this.setState(newState);
   }
 
   render() {
@@ -96,13 +102,22 @@ class App extends React.Component {
       <div className="App">
         <div>
           <label htmlFor="title">Title</label>
-          <input value={this.state.quizData.title} onChange={e => this.handleTitleChange(e)}/>
+          <input 
+            value={this.state.quizData.title || ''} 
+            onChange={e => this.handleTitleChange(e)}
+          />
         </div>
         <div>
           <label htmlFor="description">Description</label>
-          <input value={this.state.quizData.description} onChange={e => this.handleDescriptionChange(e)} />
+          <input 
+            value={this.state.quizData.description || ''} 
+            onChange={e => this.handleDescriptionChange(e)} 
+          />
         </div>
-        <Questions data={this.state.quizData.questions} onChange={data => this.handleQuestionsChange(data)} />
+        <Questions 
+          data={this.state.quizData.questions} 
+          onChange={data => this.handleQuestionsChange(data)} 
+        />
       </div>
     );
   }

@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import {v4 as uuidv4} from 'uuid';
 
 function Answers(props) {
-  const [answers, setAnswers] = useState(props.data);
+  const [answers, setAnswers] = useState(props.data.map(a => {
+    if (!a.id) { 
+      a.id = uuidv4();
+    }
+    return a;
+  }));
 
   function onChange(e, i) {
     const currentState = [...answers];
@@ -12,7 +17,7 @@ function Answers(props) {
   }
 
   function handleAdd(e) {
-    setAnswers([...answers, {answer: '', value: ''}]);
+    setAnswers([...answers, {id: uuidv4(), answer: '', value: ''}]);
   }
 
   function handleRemove(e, index) {
@@ -33,56 +38,36 @@ function Answers(props) {
 
 
   function renderAnswers(answers) {
-    return answers.map((k,v) => {
+    return answers.map((a,i) => {
       return (
-        <Draggable key={v} draggableId={`${v}`} index={v}>
-          {(provided, snapshot) => (
-            <li
-              key={v} 
-              data-testid={`answer-${v}`}
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-           >
-             <input 
-               type="text" 
-               name='answer' 
-               value={k.answer} 
-               onChange={e => onChange(e,v)}
-             />
-             <input 
-               type="text" 
-               name='value' 
-               size="3" 
-               value={k.value} 
-               onChange={e => onChange(e,v)}/>
-             <button 
-                data-testid="remove-button" 
-                onClick={e => handleRemove(e, v)}>
-                  &times;
-             </button>
-            </li>
-          )}
-        </Draggable>
-      );
+        <li key={a.id} data-testid={`answer-${i}`}>
+         <input 
+           type="text" 
+           name='answer' 
+           value={a.answer}
+           onChange={e => onChange(e,i)}
+         />
+         <input 
+           type="text" 
+           name='value' 
+           size="3" 
+           value={a.value} 
+           onChange={e => onChange(e,i)}/>
+         <button 
+            data-testid="remove-button" 
+            onClick={e => handleRemove(e,i)}>
+              &times;
+         </button>
+        </li>
+      )
     });
   }
 
   return (
-      <DragDropContext onDragEnd={r => handleDragEnd(r)}>
-        <Droppable droppableId="1">
-          {(provided, snapshot) => (
-            <ul
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {renderAnswers(answers)}
-              {provided.placeholder}
-              <button onClick={e => handleAdd(e)}>Add Answer</button>
-            </ul>
-          )}        
-        </Droppable>
-      </DragDropContext>
+    <ul>
+      {renderAnswers(answers)}
+      <button onClick={e => handleAdd(e)}>Add Answer</button>
+    </ul>
   );
 }
 
