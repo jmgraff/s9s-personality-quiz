@@ -47,7 +47,6 @@ function Questions(props) {
 
   function renderQuestions(data) {
     return data.map((q,i) => {
-      console.log(`Question: ${q.question}`);
       return (
         <Draggable key={q.id} draggableId={q.id} index={i}>
           {(provided, snapshot) => (

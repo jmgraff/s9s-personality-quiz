@@ -24,6 +24,30 @@ function Answers(props) {
     setAnswers(answers.filter((a,i) => i !== index));
   }
 
+  function handleMoveUp(e, index) {
+    if ((index - 1) < 0) {
+      console.log("Can't move up");
+      return;
+    }
+    const state = [...answers];
+    const [movedItem] = state.splice(index, 1);
+    state.splice(index - 1, 0, movedItem);
+    setAnswers(state);
+    props.onChange(state);
+  }
+
+  function handleMoveDown(e, index) {
+    if ((index + 1) >= answers.length) {
+      console.log("Can't move down");
+      return;
+    }
+    const state = [...answers];
+    const [movedItem] = state.splice(index, 1);
+    state.splice(index + 1, 0, movedItem);
+    setAnswers(state);
+    props.onChange(state);
+  }
+
   function handleDragEnd(r) {
     if (!r.destination) {
       console.log("Dropped outside drop zone!");
@@ -42,17 +66,29 @@ function Answers(props) {
       return (
         <li key={a.id} data-testid={`answer-${i}`}>
          <input 
+           data-testid="answer-input"
            type="text" 
            name='answer' 
            value={a.answer}
            onChange={e => onChange(e,i)}
          />
          <input 
+           data-testid="value-input"
            type="text" 
            name='value' 
            size="3" 
            value={a.value} 
            onChange={e => onChange(e,i)}/>
+         <button 
+            data-testid="move-up-button" 
+            onClick={e => handleMoveUp(e,i)}>
+             &9650; 
+         </button>
+         <button 
+            data-testid="move-down-button" 
+            onClick={e => handleMoveDown(e,i)}>
+             &9660; 
+         </button>
          <button 
             data-testid="remove-button" 
             onClick={e => handleRemove(e,i)}>
