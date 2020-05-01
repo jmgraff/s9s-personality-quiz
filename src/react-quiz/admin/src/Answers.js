@@ -82,12 +82,12 @@ function Answers(props) {
          <button 
             data-testid="move-up-button" 
             onClick={e => handleMoveUp(e,i)}>
-             &9650; 
+             &#9650; 
          </button>
          <button 
             data-testid="move-down-button" 
             onClick={e => handleMoveDown(e,i)}>
-             &9660; 
+             &#9660; 
          </button>
          <button 
             data-testid="remove-button" 
