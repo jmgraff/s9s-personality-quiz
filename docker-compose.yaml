@@ -9,9 +9,9 @@ services:
       - WORDPRESS_DB_PASSWORD=password
       - WORDPRESS_DEBUG=1
     ports:
-      - "127.0.0.3:8080:80"
+      - "3000:80"
     volumes:
-      - ./src/react-quiz/:/var/www/html/wp-content/plugins/react-quiz/
+      - ./plugin/:/var/www/html/wp-content/plugins/react-quiz/
   mysql:
     image: mysql:5.7
     environment:
