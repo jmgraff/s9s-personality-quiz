@@ -17,14 +17,17 @@ function Answers(props) {
   }
 
   function handleAdd(e) {
+    e.preventDefault();
     setAnswers([...answers, {id: uuidv4(), answer: '', value: ''}]);
   }
 
   function handleRemove(e, index) {
+    e.preventDefault();
     setAnswers(answers.filter((a,i) => i !== index));
   }
 
   function handleMoveUp(e, index) {
+    e.preventDefault();
     if ((index - 1) < 0) {
       console.log("Can't move up");
       return;
@@ -37,6 +40,7 @@ function Answers(props) {
   }
 
   function handleMoveDown(e, index) {
+    e.preventDefault();
     if ((index + 1) >= answers.length) {
       console.log("Can't move down");
       return;

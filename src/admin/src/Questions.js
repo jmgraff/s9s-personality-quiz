@@ -4,7 +4,8 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {v4 as uuidv4} from 'uuid';
 
 function Questions(props) {
-  const [questions, setQuestions] = useState(props.data.map(q => {
+  let propQuestions = props.data ? props.data : [];
+  const [questions, setQuestions] = useState(propQuestions.map(q => {
     if (!q.id) { 
       q.id = uuidv4();
     }
@@ -26,6 +27,7 @@ function Questions(props) {
   }
 
   function handleAdd(e) {
+    e.preventDefault();
     setQuestions([...questions, {id: uuidv4(), question: '', answers: []}]);
   }
 
@@ -46,6 +48,7 @@ function Questions(props) {
   }
 
   function renderQuestions(data) {
+    if (data == undefined) return;
     return data.map((q,i) => {
       return (
         <Draggable key={q.id} draggableId={q.id} index={i}>
@@ -87,7 +90,7 @@ function Questions(props) {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {renderQuestions(questions)}
+            {props.data ? renderQuestions(questions): null}
             {provided.placeholder}
             <button onClick={e => handleAdd(e)} >Add Question</button>
           </ul>
