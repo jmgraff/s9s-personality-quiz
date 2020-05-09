@@ -14,7 +14,7 @@ function Questions(props) {
 
   function onQuestionChange(e, i) {
     const currentState = [...questions];
-    currentState[i].question = e.target.data;
+    currentState[i].question = e.target.value;
     setQuestions(currentState);
     props.onChange(currentState);
   }

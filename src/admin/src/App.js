@@ -105,10 +105,12 @@ class App extends React.Component {
     }
 
     handleQuestionsChange(data) {
+        console.log("Question change (App): ", data);
         console.log(this.state);
         let newState = {...this.state};
         newState.quizData.questions = data;
         this.setState(newState);
+        console.log("App New State: ", newState);
     }
 
     render() {
