@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {v4 as uuidv4} from 'uuid';
 
 function Answers(props) {
@@ -9,11 +9,14 @@ function Answers(props) {
     return a;
   }));
 
+  useEffect(() => {
+    props.onChange(answers);
+  }, [answers]);
+
   function onChange(e, i) {
     const currentState = [...answers];
     currentState[i][e.target.name] = e.target.value;
     setAnswers(currentState);
-    props.onChange(currentState);
   }
 
   function handleAdd(e) {
@@ -36,7 +39,6 @@ function Answers(props) {
     const [movedItem] = state.splice(index, 1);
     state.splice(index - 1, 0, movedItem);
     setAnswers(state);
-    props.onChange(state);
   }
 
   function handleMoveDown(e, index) {
@@ -49,7 +51,6 @@ function Answers(props) {
     const [movedItem] = state.splice(index, 1);
     state.splice(index + 1, 0, movedItem);
     setAnswers(state);
-    props.onChange(state);
   }
 
   function handleDragEnd(r) {
@@ -61,7 +62,6 @@ function Answers(props) {
     const [movedItem] = state.splice(r.source.index, 1);
     state.splice(r.destination.index, 0, movedItem);
     setAnswers(state);
-    props.onChange(state);
   }
 
 

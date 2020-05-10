@@ -2,7 +2,7 @@ import React from 'react';
 import Quiz from './Quiz.js';
 import { useHistory } from 'react-router-dom';
 
-
+/*
 window.quizData = {
   title: 'Which 90 Day Fiance Couple Are You?',
   description: 'Find out which couple you are with this super cool quiz!',
@@ -66,12 +66,13 @@ window.quizData = {
     { title: 'Ashley and Jay', value: 'aj' }
   ]
 }
+*/
 
 function App () {
   const history = useHistory();
 
   return (
-    <Quiz history={history} quizData={window.quizData} /> 
+    <Quiz history={history} quizData={JSON.parse(window.quizData).quizData} /> 
   );
 }
 

@@ -81,11 +81,9 @@ class App extends React.Component {
             results: []
         };
 
-        if (window.quizData == "") {
-            console.log("Creating blank quiz");
+        if (!!!window.quizData) {
             return {quizData: blankQuizData};
         } else {
-            console.log("We have a quiz already, parsing JSON");
             return JSON.parse(window.quizData);
         }
     }
