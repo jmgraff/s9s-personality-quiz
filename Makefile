@@ -1,3 +1,4 @@
+SHELL=/bin/sh
 SRC_BASE=./src
 ADMIN_DIR=$(SRC_BASE)/admin
 FRONTEND_DIR=$(SRC_BASE)/frontend

@@ -32,7 +32,6 @@ function Answers(props) {
   function handleMoveUp(e, index) {
     e.preventDefault();
     if ((index - 1) < 0) {
-      console.log("Can't move up");
       return;
     }
     const state = [...answers];
@@ -44,7 +43,6 @@ function Answers(props) {
   function handleMoveDown(e, index) {
     e.preventDefault();
     if ((index + 1) >= answers.length) {
-      console.log("Can't move down");
       return;
     }
     const state = [...answers];
@@ -55,7 +53,6 @@ function Answers(props) {
 
   function handleDragEnd(r) {
     if (!r.destination) {
-      console.log("Dropped outside drop zone!");
       return;
     }
     const state = [...answers]; 

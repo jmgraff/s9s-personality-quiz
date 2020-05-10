@@ -14,7 +14,9 @@ function Questions(props) {
     }));
 
     useEffect(() => {
-        props.onChange(questions);
+        if (props.onChange) {
+            props.onChange(questions);
+        }
     }, [questions]);
 
     function onQuestionChange(e, i) {
@@ -42,7 +44,6 @@ function Questions(props) {
 
     function handleDragEnd(r) {
         if (!r.destination) {
-            console.log("Dropped outside drop zone!");
             return;
         }
         const state = [...questions]; 

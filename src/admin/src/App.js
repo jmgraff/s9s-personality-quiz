@@ -24,28 +24,24 @@ class App extends React.Component {
     }
 
     handleTitleChange(e) {
-        console.log(this.state);
         let newState = {...this.state};
         newState.quizData.title = e.target.value;
         this.setState(newState);
     }
 
     handleDescriptionChange(e) {
-        console.log(this.state);
         let newState = {...this.state};
         newState.quizData.description = e.target.value;
         this.setState(newState);
     }
 
     handleQuestionsChange(data) {
-        console.log(this.state);
         let newState = {...this.state};
         newState.quizData.questions = data;
         this.setState(newState);
     }
 
     handleResultsChange(data) {
-        console.log(this.state);
         let newState = {...this.state};
         newState.quizData.results = data;
         this.setState(newState);

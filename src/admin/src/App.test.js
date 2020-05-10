@@ -6,7 +6,7 @@ import Question from './Questions';
 let app = null;
 
 beforeEach(() => {
-  window.quizData = {
+  window.quizData = {quizData: {
     title: 'Which 90 Day Fiance Couple Are You?',
     description: 'Find out which couple you are with this super cool quiz!',
     questions: 
@@ -45,10 +45,11 @@ beforeEach(() => {
       { title: 'B', value: 'b' },   
       { title: 'C', value: 'c' },   
     ]
-  }
-
+  }};
+  window.quizData = JSON.stringify(window.quizData);
   app = render(<App />);
 });
+
 
 let getQuestions = () => app.getAllByTestId(/question-\d+/); 
 let getAnswers = (q) => within(q).getAllByTestId(/answer-\d+/); 
