@@ -1,10 +1,24 @@
-SHELL=/bin/sh
-SRC_BASE=./src
-ADMIN_DIR=$(SRC_BASE)/admin
-FRONTEND_DIR=$(SRC_BASE)/frontend
-PLUGIN_DIR=./plugin
-BUILD_REACT=npm run-script build
-TEST_REACT=npm run-script test
+SHELL = /bin/sh
+
+SRC_BASE = ./src
+ADMIN_DIR = $(SRC_BASE)/admin
+FRONTEND_DIR = $(SRC_BASE)/frontend
+PLUGIN_DIR = ./plugin
+BUILD_REACT = npm run-script build
+TEST_REACT = npm run-script test
+CONTAINER_DOTFILES = ./container/dotfiles
+DEV_CONTAINER_NAME = reactquiz/dev:1.0
+
+DOTFILES = ~/.vim
+DOTFILES += ~/.vimrc
+DOTFILES += ~/.tmux.conf
+
+container:
+	#rm -rf $(CONTAINER_DOTFILES)/.[a-zA-Z_-]*
+	#cp -r $(DOTFILES) $(CONTAINER_DOTFILES)
+	./scripts/rmgit.sh $(CONTAINER_DOTFILES)/.vim/bundle
+	docker build -t $(DEV_CONTAINER_NAME) container/
+	docker run -it $(DEV_CONTAINER_NAME)
 
 server:
 	docker-compose up
@@ -33,4 +47,4 @@ clean:
 	rm -rf $(FRONTEND_DIR)/build/
 	rm -rf $(PLUGIN_DIR)
 
-.PHONY: clean test-admin test-frontend frontend admin server
+.PHONY: container clean test-admin test-frontend frontend admin server
