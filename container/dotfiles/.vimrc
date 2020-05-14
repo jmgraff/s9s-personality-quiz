@@ -1,5 +1,17 @@
-call pathogen#infect()
-call pathogen#helptags() "If you like to get crazy :)
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'preservim/nerdtree'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'kien/ctrlp.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'vim-airline/vim-airline'
+Plugin 'altercation/vim-colors-solarized'
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 let mapleader=" "
 nnoremap <SPACE> <Nop>
@@ -7,14 +19,20 @@ nnoremap <SPACE> <Nop>
 "easymotion
 map <Leader> <Plug>(easymotion-prefix)
 
-"solarized
+"colors
 syntax enable
 set background=dark
 let g:solarized_termcolors=256
-colorscheme solarized
+silent! colorscheme solarized
+hi clear SignColumn
 
 "nerdtree
 map <C-n> :NERDTreeToggle<CR>
+"let g:NERDTreeDirArrows=0
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '~'
+let NERDTreeNodeDelimiter = "\t"
+let NERDTreeQuitOnOpen = 1
 
 "ctrlp
 let g:ctrlp_map = '<C-p>'

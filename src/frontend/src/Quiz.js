@@ -5,7 +5,6 @@ import {
   useParams
 } from 'react-router-dom';
 
-
 function Intro(props) {
   return (
     <div>

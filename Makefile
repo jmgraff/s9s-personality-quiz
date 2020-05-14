@@ -13,12 +13,12 @@ DOTFILES = ~/.vim
 DOTFILES += ~/.vimrc
 DOTFILES += ~/.tmux.conf
 
-container:
+dev:
 	#rm -rf $(CONTAINER_DOTFILES)/.[a-zA-Z_-]*
 	#cp -r $(DOTFILES) $(CONTAINER_DOTFILES)
 	#./scripts/rmgit.sh $(CONTAINER_DOTFILES)/.vim/bundle
 	docker build -t $(DEV_CONTAINER_NAME) container/
-	docker run -it -v $(shell pwd):/home/me/project:delegated $(DEV_CONTAINER_NAME) 
+	docker run -it -v $(shell pwd):/home/me/project:delegated $(DEV_CONTAINER_NAME) fish
 
 server:
 	docker-compose up

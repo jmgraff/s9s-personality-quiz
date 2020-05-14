@@ -11,17 +11,17 @@ RUN apt-get update && apt-get -y install \
   tmux \
   git \
   python3.7 \
-  python3-pip
+  python3-pip \
+  fish \
+  npm \
+  ncurses-term
+
 RUN pip3 install pytest
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-RUN	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" 
-RUN apt-get update
-RUN apt-get -y install docker-ce docker-ce-cli containerd.io
 
 # create user
-RUN useradd -ms /bin/bash me
+RUN useradd -ms /usr/bin/fish me
 USER me
 WORKDIR /home/me
 
 #copy dotfiles
-COPY ./dotfiles/ .
+COPY --chown=me ./dotfiles/ .
