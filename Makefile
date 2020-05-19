@@ -23,8 +23,8 @@ dev:
 	docker build -t $(DEV_CONTAINER_NAME) container/
 	docker run -it --rm \
 		-v $(shell pwd):/project \
+		-v /home/$(shell whoami)/.ssh:/root/.ssh \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v /etc/group:/etc/group:ro \
 		-e HOST_PWD=$(shell pwd) \
 		$(DEV_CONTAINER_NAME) fish
 PHONY+=dev
