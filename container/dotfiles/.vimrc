@@ -20,6 +20,7 @@ nnoremap <SPACE> <Nop>
 map <Leader> <Plug>(easymotion-prefix)
 
 "colors
+set t_Co=256
 syntax enable
 set background=dark
 let g:solarized_termcolors=256
@@ -57,6 +58,9 @@ set smarttab
 
 "nowrap
 set nowrap
+
+"no swap files
+set noswapfile
 
 "Makefile stuff
 autocmd FileType make set noexpandtab shiftwidth=2 softtabstop=0

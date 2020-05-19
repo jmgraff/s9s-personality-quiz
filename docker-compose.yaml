@@ -6,12 +6,19 @@ services:
     links:
       - mysql
     environment:
-      - WORDPRESS_DB_PASSWORD=password
-      - WORDPRESS_DEBUG=1
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_WEBSITE_TITLE: "My blog"
+      WORDPRESS_WEBSITE_URL: "http://localhost"
+      WORDPRESS_WEBSITE_URL_WITHOUT_HTTP: "localhost"
+      WORDPRESS_WEBSITE_POST_URL_STRUCTURE: "/%year%/%monthnum%/%day%/%postname%/"
+      WORDPRESS_ADMIN_USER: "admin_user"
+      WORDPRESS_ADMIN_PASSWORD: "admin_password"
+      WORDPRESS_ADMIN_EMAIL: "test@example.com"
     ports:
       - "3000:80"
     volumes:
-      - ./plugin/:/var/www/html/wp-content/plugins/react-quiz/
+      - ${HOST_PWD}/build:/var/www/html/wp-content/plugins/react-quiz/
   mysql:
     image: mysql:5.7
     environment:

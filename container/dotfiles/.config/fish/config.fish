@@ -5,6 +5,4 @@ if test -f ~/updatevim.sh
 	bash ~/updatevim.sh
 end
 
-cd project
-tmux
-clear
+~/dev-tmux.sh
