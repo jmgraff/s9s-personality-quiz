@@ -5,7 +5,6 @@ ADMIN_DIR = $(SRC_BASE)/admin
 FRONTEND_DIR = $(SRC_BASE)/frontend
 BUILD_REACT = npm run-script build
 TEST_REACT = npm run-script test
-CONTAINER_DOTFILES = ./container/dotfiles
 DEV_CONTAINER_NAME = reactquiz/dev:1.0
 
 DOTFILES = ~/.vim
@@ -20,7 +19,7 @@ build: $(ADMIN_DIR)/build $(FRONTEND_DIR)/build $(SRC_BASE)/ReactQuiz.php
 	touch $@
 
 dev:
-	docker build -t $(DEV_CONTAINER_NAME) container/
+	docker build -t $(DEV_CONTAINER_NAME) containers/dev/
 	docker run -it --rm \
 		-v $(shell pwd):/project \
 		-v /home/$(shell whoami)/.ssh:/root/.ssh \
@@ -57,10 +56,10 @@ test-frontend:
 	cd $(FRONTEND_DIR) && $(TEST_REACT)
 PHONY+=test-frontend
 
-PHONY+=clean
 clean:
 	rm -rf $(ADMIN_DIR)/build/
 	rm -rf $(FRONTEND_DIR)/build/
 	rm -rf build
+PHONY+=clean
 
 .PHONY: $(PHONY)
