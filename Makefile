@@ -6,6 +6,7 @@ FRONTEND_DIR = $(SRC_BASE)/frontend
 BUILD_REACT = npm run-script build
 TEST_REACT = npm run-script test
 DEV_CONTAINER_NAME = reactquiz/dev:1.0
+TEST_DIR = tests
 
 DOTFILES = ~/.vim
 DOTFILES += ~/.vimrc
@@ -25,12 +26,20 @@ dev:
 		-v /home/$(shell whoami)/.ssh:/root/.ssh \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-e HOST_PWD=$(shell pwd) \
+		-e HOST_IP=$(shell hostname -I | awk -F' ' '{print $$1}') \
 		$(DEV_CONTAINER_NAME) fish
 PHONY+=dev
 
+test:
+	pytest -s -vvx $(TEST_DIR)
+
 server:
-	docker-compose up -d
+	docker-compose up -d 
+	./scripts/setup_wordpress.sh	
 PHONY+=server
+
+server-down:
+	docker-compose down
 
 $(ADMIN_DIR)/node_modules: $(ADMIN_DIR)/package.json
 	cd $(ADMIN_DIR) && npm install

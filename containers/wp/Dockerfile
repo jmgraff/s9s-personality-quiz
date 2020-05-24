@@ -1,3 +1,3 @@
-FROM wordpress
+FROM tatemz/wp-cli
 
 

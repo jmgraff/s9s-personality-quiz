@@ -2,18 +2,20 @@ version: '2'
 
 services:
     web:
-        image: wordpress
+        image: tatemz/wp-cli
+        container_name: web
         links:
             - mysql
         environment:
             WORDPRESS_DB_PASSWORD: password
             WORDPRESS_DEBUG: 1
-            ports:
-                - "3000:80"
-            volumes:
-                - ${HOST_PWD}/build:/var/www/html/wp-content/plugins/react-quiz/
+        ports:
+            - "3000:80"
+        volumes:
+            - ${HOST_PWD}/build:/var/www/html/wp-content/plugins/react-quiz/
     mysql:
         image: mysql:5.7
+        container_name: db
         environment:
             - MYSQL_ROOT_PASSWORD=password
             - MYSQL_DATABASE=my-wpdb
