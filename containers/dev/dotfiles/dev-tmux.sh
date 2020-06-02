@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ -z "$TMUX" ]
 then
-	tmux new-session -d 'export TERM=xterm-256color && vim'
+	tmux new-session -d 
 	tmux split-window -h
 	tmux resize-pane -R 45
 	tmux last-pane

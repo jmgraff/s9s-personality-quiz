@@ -17,6 +17,8 @@ if (!class_exists('ReactQuiz')) {
         public function register() {
             //custom-post-type
             add_action('init', [$this, 'add_post_type']);
+            add_action('init', 'flush_rewrite_rules');
+
             //make post type show up on homepage
             add_action('pre_get_posts', [$this, 'show_post_type']);
             //render the post

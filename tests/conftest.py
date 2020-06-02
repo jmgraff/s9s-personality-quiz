@@ -6,7 +6,7 @@ import os
 @pytest.fixture(scope="session")
 def wordpress():
     os.system('docker-compose down')
-    os.system('docker-compose up -d')
+    os.system('docker-compose up -V -d')
     os.system('scripts/setup_wordpress.sh')
     yield
     os.system('docker-compose down')

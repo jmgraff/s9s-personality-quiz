@@ -2,20 +2,20 @@ FROM ubuntu:19.10
 
 # dev tools
 RUN apt-get update && apt-get -y install \
-  apt-transport-https \
-  ca-certificates \
-  curl \
-  gnupg-agent \
-  software-properties-common \
-  vim \
-  tmux \
-  git \
-  python3.7 \
-  python3-pip \
-  fish \
-  ncurses-term \
-  iproute2 \
-  unzip
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common \
+    vim \
+    tmux \
+    git \
+    python3.7 \
+    python3-pip \
+    fish \
+    ncurses-term \
+    iproute2 \
+    unzip
 
 # Docker
 RUN apt-get -y install apt-transport-https ca-certificates gnupg-agent software-properties-common
@@ -23,6 +23,7 @@ RUN curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 RUN apt-get update
 RUN apt-get -y install docker-ce-cli docker-compose
+
 
 # Chrome and webdriver
 RUN curl -s -o - "https://dl.google.com/linux/linux_signing_key.pub" | apt-key add -
