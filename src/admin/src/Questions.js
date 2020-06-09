@@ -99,7 +99,7 @@ function Questions(props) {
                     >
                         {props.data ? renderQuestions(questions): null}
                         {provided.placeholder}
-                        <button onClick={e => handleAdd(e)}>Add Question</button>
+                        <button onClick={e => handleAdd(e)}>Add Questionz</button>
                     </ul>
                 )}
             </Droppable>

@@ -21,12 +21,12 @@ function Intro(props) {
 function Answer(props) {
   return (
     <div className="row">
-      <button 
-		className="answer image-font" 
-		onClick={(e) => props.onAnswered(props.data.value, e)}
-	  >
-		{props.data.answer}
-	  </button>
+      <button
+            className="answer image-font" 
+            onClick={(e) => props.onAnswered(props.data.value, e)}
+        >
+            {props.data.answer}
+        </button>
     </div>
   );
 }

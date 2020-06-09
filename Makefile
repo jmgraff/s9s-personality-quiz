@@ -7,6 +7,7 @@ BUILD_REACT = npm run-script build
 TEST_REACT = npm run-script test
 SERVE_REACT = npm run-script start
 DEV_CONTAINER_NAME = reactquiz/dev:1.0
+WP_CONTAINER_NAME = reactquiz/wp:1.0
 TEST_DIR = tests
 
 DOTFILES = ~/.vim
@@ -19,6 +20,9 @@ build: $(ADMIN_DIR)/build $(FRONTEND_DIR)/build $(SRC_BASE)/ReactQuiz.php
 	cp -r $(FRONTEND_DIR)/build $@/frontend
 	cp $(SRC_BASE)/ReactQuiz.php $@
 	touch $@
+
+wp:
+	docker build -t $(WP_CONTAINER_NAME) containers/wp/
 
 dev:
 	docker build -t $(DEV_CONTAINER_NAME) containers/dev/
