@@ -63,6 +63,8 @@ function Answers(props) {
 
 
   function renderAnswers(answers) {
+    // TODO: make value a dropdown
+    // TODO: add answer background image
     return answers.map((a,i) => {
       return (
         <li key={a.id} data-testid={`answer-${i}`}>

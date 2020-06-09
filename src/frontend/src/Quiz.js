@@ -1,8 +1,8 @@
 import React from 'react';
+import "./App.css";
 import {
   Switch,
-  Route,
-  useParams
+  Route
 } from 'react-router-dom';
 
 function Intro(props) {
@@ -10,26 +10,34 @@ function Intro(props) {
     <div>
       <h1>{props.title}</h1>
       <h2>{props.description}</h2>
-      <button onClick={props.onStartQuiz}>Start Quiz</button>
+	  <img src="https://via.placeholder.com/150" />
+	  <div>
+		<button onClick={props.onStartQuiz}>Start Quiz</button>
+	  </div>
     </div>
   );
 }
 
 function Answer(props) {
   return (
-    <li>
-      <button onClick={(e) => props.onAnswered(props.data.value, e)}>{props.data.answer}</button>
-    </li>
+    <div className="row">
+      <button 
+		className="answer image-font" 
+		onClick={(e) => props.onAnswered(props.data.value, e)}
+	  >
+		{props.data.answer}
+	  </button>
+    </div>
   );
 }
 
 function Question(props) {
   return (
     <div>
-      <h3>{props.data.question}</h3>
-      <ul>
+      <div className="question image-font">{props.data.question}</div>
+      <div className="flex-grid">
         {props.data.answers.map((k,v)=><Answer data={k} onAnswered={props.onAnswered} />)}
-      </ul>
+      </div>
     </div>
   );
 }
@@ -88,7 +96,7 @@ class Quiz extends React.Component {
 
   render() {
     return (
-      <div className="quiz" id="reactquiz">
+      <div id="reactquiz">
 
         <Switch>
 

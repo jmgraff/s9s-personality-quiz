@@ -76,9 +76,14 @@ if (!class_exists('ReactQuiz')) {
 
         public function meta_box_cb() {
             add_meta_box('add_meta_box', 'Edit React Quiz', [$this, 'add_meta_box'], null, 'normal');
+
             chdir(plugin_dir_path(__FILE__).'admin/static/js/');
             foreach (glob('*.js') as $file) {
                 wp_enqueue_script($file, plugin_dir_url(__FILE__) . 'admin/static/js/' . $file, [], false, true);
+            }
+            chdir(plugin_dir_path(__FILE__).'admin/static/css/');
+            foreach (glob('*.css') as $file) {
+                wp_enqueue_style($file, plugin_dir_url(__FILE__) . 'admin/static/css/' . $file);
             }
         }
 
@@ -102,6 +107,10 @@ if (!class_exists('ReactQuiz')) {
                 foreach (glob('*.js') as $file) {
                     wp_enqueue_script($file, plugin_dir_url(__FILE__) . 'frontend/static/js/' . $file, [], false, true);
                 }
+				chdir(plugin_dir_path(__FILE__).'frontend/static/css/');
+				foreach (glob('*.css') as $file) {
+					wp_enqueue_style($file, plugin_dir_url(__FILE__) . 'frontend/static/css/' . $file);
+				}
             }
         }
     }

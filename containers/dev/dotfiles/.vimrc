@@ -1,3 +1,6 @@
+scriptencoding utf-8
+set encoding=utf-8
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -26,6 +29,19 @@ set background=dark
 let g:solarized_termcolors=256
 silent! colorscheme solarized
 hi clear SignColumn
+
+"tab to switch tabs
+:nnoremap <Tab> :tabn<CR>
+:nnoremap <S-Tab> :tabp<CR>
+
+"search
+set hlsearch
+set smartcase
+set ignorecase
+
+"whitespace
+set list
+set listchars=tab:»\ ,extends:›,precedes:‹,trail:•
 
 "nerdtree
 map <C-n> :NERDTreeToggle<CR>

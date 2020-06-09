@@ -1,38 +1,53 @@
-.App {
+#reactquiz {
+  width: 100%; 
+  max-width: 768px;
+  margin: auto;
+}
+
+.image-font {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-shadow:
+	-2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
+}
+
+#reactquiz button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  padding: 1em;
   text-align: center;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.question {
+  background-image: url("https://i.imgur.com/TM6Yov0.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 450px;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  padding: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.answer {
+  background-image: url("https://media.giphy.com/media/J2h8avPQHdtv0yjSX2/giphy.gif");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.flex-grid {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.row {
+  flex: 2;
+  padding: .2em 0 .2em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

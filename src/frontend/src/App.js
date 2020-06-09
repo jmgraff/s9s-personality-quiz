@@ -73,6 +73,7 @@ function App () {
 
   return (
     <Quiz history={history} quizData={JSON.parse(window.quizData).quizData} /> 
+    //<Quiz history={history} quizData={window.quizData} /> 
   );
 }
 
