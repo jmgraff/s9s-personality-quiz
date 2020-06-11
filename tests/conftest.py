@@ -1,6 +1,7 @@
 import pytest
 
 import os
+import re
 import time
 
 from selenium import webdriver
@@ -24,15 +25,20 @@ class ReactQuizBrowser(webdriver.Chrome):
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--headless")
         super().__init__(options=chrome_options)
+        self.set_window_size(1024, 768)
 
     def login(self):
         self.get('http://192.168.1.175:3000/wp-login.php')
         self.find_element_by_id("user_login").send_keys("admin")
         self.find_element_by_id("user_pass").send_keys("admin")
-        submitButton = self.find_element_by_id("wp-submit").click() 
+        submitButton = self.find_element_by_id("wp-submit").click()
 
-    def grab(self, xpath, timeout=10):
+    def grab(self, xpath, timeout=20):
         return WebDriverWait(self, timeout).until(EC.presence_of_element_located((By.XPATH, xpath)))
+
+    def find_in_source(self, regex_string):
+        plugin_css_regex = re.compile(regex_string);
+        return plugin_css_regex.findall(self.page_source)
 
     def go_create_quiz_page(self):
         self.get("http://192.168.1.175:3000/wp-admin/post-new.php?post_type=reactquiz_quiz")
@@ -61,6 +67,6 @@ class ReactQuizBrowser(webdriver.Chrome):
 @pytest.fixture(scope="function")
 def browser(stack):
     browser = ReactQuizBrowser()
-    yield browser 
+    yield browser
     browser.save_screenshot('screenshot.png')
     browser.quit()

@@ -38,15 +38,14 @@ dev:
 PHONY+=dev
 
 test:
-	pytest -s -vvx $(TEST_DIR)
+	pytest -s -vvx $(TEST_DIR) --sw
+PHONY+=test
 
 server:
-	docker-compose up -d 
-	./scripts/setup_wordpress.sh	
-PHONY+=server
-
-server-down:
 	docker-compose down
+	docker-compose up -d
+	./scripts/setup_wordpress.sh
+PHONY+=server
 
 $(ADMIN_DIR)/node_modules: $(ADMIN_DIR)/package.json
 	cd $(ADMIN_DIR) && npm install
@@ -56,11 +55,11 @@ $(ADMIN_DIR)/build: $(ADMIN_DIR)/node_modules $(ADMIN_DIR)/src/$(wildcard *.js) 
 	cd $(ADMIN_DIR) && $(BUILD_REACT)
 	touch $@
 
-$(FRONTEND_DIR)/node_modules: $(FRONTEND_DIR)/package.json 
+$(FRONTEND_DIR)/node_modules: $(FRONTEND_DIR)/package.json
 	cd $(FRONTEND_DIR) && npm install
 	touch $@
 
-$(FRONTEND_DIR)/build: $(FRONTEND_DIR)/node_modules $(FRONTEND_DIR)/src/$(wildcard *.js) $(FRONTEND_DIR)/src/$(wildcard *.js)
+$(FRONTEND_DIR)/build: $(FRONTEND_DIR)/node_modules $(FRONTEND_DIR)/src/$(wildcard *.js) $(FRONTEND_DIR)/src/$(wildcard *.css)
 	cd $(FRONTEND_DIR) && $(BUILD_REACT)
 	touch $@
 

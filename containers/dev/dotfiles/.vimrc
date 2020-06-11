@@ -66,11 +66,11 @@ set cursorline
 set cursorcolumn
 
 "indentation
-set autoindent
+set ai
 set expandtab
-set shiftwidth=4
 set tabstop=4
-set smarttab
+set shiftwidth=4
+set softtabstop=4
 
 "nowrap
 set nowrap

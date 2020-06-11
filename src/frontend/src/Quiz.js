@@ -34,7 +34,7 @@ function Answer(props) {
 function Question(props) {
   return (
     <div>
-      <div className="question image-font">{props.data.question}</div>
+      <div className="question image-font" style={{backgroundImage: `url(${props.data.image})`}}>{props.data.question}</div>
       <div className="flex-grid">
         {props.data.answers.map((k,v)=><Answer data={k} onAnswered={props.onAnswered} />)}
       </div>
@@ -109,8 +109,8 @@ class Quiz extends React.Component {
           </Route>
 
           <Route path="/question/:questionNumber">
-            <Question 
-              data={this.props.quizData.questions[this.state.questionNumber - 1]} 
+            <Question
+              data={this.props.quizData.questions[this.state.questionNumber - 1]}
               onAnswered={this.handleAnswered} 
             />
           </Route>

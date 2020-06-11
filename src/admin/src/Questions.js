@@ -1,4 +1,3 @@
-// TODO: add question image
 import React, {useState, useEffect} from 'react';
 import Answers from './Answers.js';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
@@ -8,7 +7,7 @@ function Questions(props) {
     let propQuestions = props.data ? props.data : [];
 
     const [questions, setQuestions] = useState(propQuestions.map(q => {
-        if (!q.id) { 
+        if (!q.id) {
             q.id = uuidv4();
         }
         return q;
@@ -26,6 +25,12 @@ function Questions(props) {
         setQuestions(currentState);
     }
 
+    function onImageChange(e, i) {
+        const currentState = [...questions];
+        currentState[i].image = e.target.value;
+        setQuestions(currentState);
+    }
+
     function onAnswerChange(data, i) {
         const currentState = [...questions];
         currentState[i].answers = data;
@@ -34,7 +39,7 @@ function Questions(props) {
 
     function handleAdd(e) {
         e.preventDefault();
-        const currentState = [...questions, {id: uuidv4(), question: '', answers: []}];
+        const currentState = [...questions, {id: uuidv4(), question: '', image: '', answers: []}];
         setQuestions(currentState);
     }
 
@@ -47,7 +52,7 @@ function Questions(props) {
         if (!r.destination) {
             return;
         }
-        const state = [...questions]; 
+        const state = [...questions];
         const [movedItem] = state.splice(r.source.index, 1);
         state.splice(r.destination.index, 0, movedItem);
         setQuestions(state);
@@ -59,18 +64,24 @@ function Questions(props) {
             return (
                 <Draggable key={q.id} draggableId={q.id} index={i}>
                     {(provided, snapshot) => (
-                        <li 
-                            key={q.id} 
+                        <li
+                            key={q.id}
                             data-testid={`question-${i}`}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                         >
-                            <input 
-                                type="text" 
-                                name="question" 
-                                value={q.question} 
+                            <input
+                                type="text"
+                                name="question"
+                                value={q.question}
                                 onChange={e => onQuestionChange(e, i)}
+                            />
+                            <input
+                                type="text"
+                                name="image"
+                                value={q.image}
+                                onChange={e => onImageChange(e, i)}
                             />
                             <button 
                                 data-testid="remove-question-button"
@@ -78,8 +89,8 @@ function Questions(props) {
                             >
                                 &times;
                             </button>
-                            <Answers 
-                                data={q.answers} 
+                            <Answers
+                                data={q.answers}
                                 onChange={data => onAnswerChange(data, i)}
                             />
                         </li>
@@ -99,7 +110,7 @@ function Questions(props) {
                     >
                         {props.data ? renderQuestions(questions): null}
                         {provided.placeholder}
-                        <button onClick={e => handleAdd(e)}>Add Questionz</button>
+                        <button onClick={e => handleAdd(e)}>Add Questionzzz</button>
                     </ul>
                 )}
             </Droppable>

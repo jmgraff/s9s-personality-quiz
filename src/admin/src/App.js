@@ -53,31 +53,34 @@ class App extends React.Component {
             <div className="App">
                 <div>
                     <label htmlFor="title">Title</label>
-                    <input 
-                        value={this.state.quizData.title} 
+                    <input
+                        value={this.state.quizData.title}
                         onChange={e => this.handleTitleChange(e)}
                     />
                 </div>
                 <div>
                     <label htmlFor="description">Description</label>
                     <input 
-                        value={this.state.quizData.description} 
-                        onChange={e => this.handleDescriptionChange(e)} 
+                        value={this.state.quizData.description}
+                        onChange={e => this.handleDescriptionChange(e)}
                     />
                 </div>
-                <Results 
-                    data={this.state.quizData.results} 
-                    onChange={data => this.handleResultsChange(data)} 
+                <Results
+                    data={this.state.quizData.results}
+                    onChange={data => this.handleResultsChange(data)}
                 />
-                <Questions 
-                    data={this.state.quizData.questions} 
-                    onChange={data => this.handleQuestionsChange(data)} 
+                <Questions
+                    data={this.state.quizData.questions}
+                    onChange={data => this.handleQuestionsChange(data)}
                 />
-                <input 
-                    type="hidden" 
-                    name="reactquiz_data" 
-                    value={JSON.stringify(this.state)} 
+                <input
+                    type="hidden"
+                    name="reactquiz_data"
+                    value={JSON.stringify(this.state)}
                 />
+                <textarea id="reactquiz-json" name="reactquiz_data">
+                    {JSON.stringify(this.state)}
+                </textarea>
             </div>
         );
     }
