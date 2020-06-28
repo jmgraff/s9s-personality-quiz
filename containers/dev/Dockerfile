@@ -15,6 +15,7 @@ RUN apt-get update && apt-get -y install \
     fish \
     ncurses-term \
     iproute2 \
+    zip \
     unzip
 
 # Docker

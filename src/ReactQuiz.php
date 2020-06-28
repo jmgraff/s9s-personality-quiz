@@ -3,7 +3,7 @@
 /**
  * Plugin Name: React Quiz
  * Plugin URI: https://reactquiz.com/wordpress
- * Description: Create viral React.js content for your WordPress website with BuzzFeed style quizzes! 
+ * Description: Create viral React.js content for your WordPress website with BuzzFeed style quizzes!
  * Version: 1.0.0
  * Author: Signal 9 Software
  * Author URI: https://signal9software.com
@@ -30,8 +30,12 @@ if (!class_exists('ReactQuiz')) {
         function the_content($content) {
             $post = get_post();
             if ($post->post_type == "reactquiz_quiz") {
-                $quizData = json_encode(get_post_meta($post->ID, 'reactquiz_data')[0]);
-                $myContent = "<script>window.quizData = $quizData;</script>";  
+                $quiz_meta = get_post_meta($post->ID, 'reactquiz_data')[0];
+                $quizData = "''";
+                if (isset($quiz_meta) && !empty($quiz_meta)) {
+                    $quizData = json_encode($quiz_meta);
+                }
+                $myContent = "<script>window.quizData = $quizData;</script>";
                 $myContent .= '<div id="root">Loading...</div>';
                 return $myContent;
             }
@@ -62,10 +66,10 @@ if (!class_exists('ReactQuiz')) {
         }
 
         public function save($post_id) {
-            if (isset($_POST['post_type']) 
-                    && $_POST['post_type'] == 'reactquiz_quiz' 
+            if (isset($_POST['post_type'])
+                    && $_POST['post_type'] == 'reactquiz_quiz'
                     && isset($_POST['reactquiz_data'])) {
-                    $post_meta = get_post_meta($post_id, 'reactquiz_data');
+                $post_meta = get_post_meta($post_id, 'reactquiz_data');
                 if ($post_meta) {
                     update_post_meta($post_id, 'reactquiz_data', $_POST['reactquiz_data']);
                 } else {
@@ -89,13 +93,13 @@ if (!class_exists('ReactQuiz')) {
 
         public function add_meta_box($post) {
             $quizData = get_post_meta($post->ID, 'reactquiz_data');
-            if (empty($quizData)) {
-                $quizData = "";
-            } else {
+            if (!empty($quizData)) {
                 $quizData = json_encode($quizData[0]);
+            } else {
+                $quizData = "''";
             }
             ?>
-                <script>window.quizData = <?php echo $quizData ?></script> 
+                <script>window.quizData = <?php echo $quizData ?></script>
                 <div id="root">ReactApp Root</div>
             <?php
         }
@@ -107,10 +111,10 @@ if (!class_exists('ReactQuiz')) {
                 foreach (glob('*.js') as $file) {
                     wp_enqueue_script($file, plugin_dir_url(__FILE__) . 'frontend/static/js/' . $file, [], false, true);
                 }
-				chdir(plugin_dir_path(__FILE__).'frontend/static/css/');
-				foreach (glob('*.css') as $file) {
-					wp_enqueue_style($file, plugin_dir_url(__FILE__) . 'frontend/static/css/' . $file);
-				}
+                chdir(plugin_dir_path(__FILE__).'frontend/static/css/');
+                foreach (glob('*.css') as $file) {
+                    wp_enqueue_style($file, plugin_dir_url(__FILE__) . 'frontend/static/css/' . $file);
+                }
             }
         }
     }

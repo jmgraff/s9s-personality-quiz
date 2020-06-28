@@ -38,6 +38,7 @@ hi clear SignColumn
 set hlsearch
 set smartcase
 set ignorecase
+set incsearch
 
 "whitespace
 set list
@@ -65,6 +66,11 @@ set number
 set cursorline
 set cursorcolumn
 
+"filetype
+filetype on
+filetype plugin on
+filetype indent on
+
 "indentation
 set ai
 set expandtab
@@ -79,4 +85,4 @@ set nowrap
 set noswapfile
 
 "Makefile stuff
-autocmd FileType make set noexpandtab shiftwidth=2 softtabstop=0
+autocmd FileType make setlocal noexpandtab shiftwidth=2 softtabstop=0

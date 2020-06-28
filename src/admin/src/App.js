@@ -7,6 +7,7 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = this.getQuizData();
+        console.log('test');
     };
 
     getQuizData() {
@@ -26,6 +27,7 @@ class App extends React.Component {
 
     handleTitleChange(e) {
         let newState = {...this.state};
+        console.log(newState);
         newState.quizData.title = e.target.value;
         this.setState(newState);
     }
@@ -54,13 +56,15 @@ class App extends React.Component {
                 <div>
                     <label htmlFor="title">Title</label>
                     <input
+                        id="reactquiz-title"
                         value={this.state.quizData.title}
                         onChange={e => this.handleTitleChange(e)}
                     />
                 </div>
                 <div>
                     <label htmlFor="description">Description</label>
-                    <input 
+                    <input
+                        id="reactquiz-description"
                         value={this.state.quizData.description}
                         onChange={e => this.handleDescriptionChange(e)}
                     />
@@ -73,13 +77,7 @@ class App extends React.Component {
                     data={this.state.quizData.questions}
                     onChange={data => this.handleQuestionsChange(data)}
                 />
-                <input
-                    type="hidden"
-                    name="reactquiz_data"
-                    value={JSON.stringify(this.state)}
-                />
-                <textarea id="reactquiz-json" name="reactquiz_data">
-                    {JSON.stringify(this.state)}
+                <textarea id="reactquiz-json" name="reactquiz_data" value={JSON.stringify(this.state)}>
                 </textarea>
             </div>
         );
