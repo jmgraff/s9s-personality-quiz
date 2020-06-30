@@ -35,23 +35,23 @@ function Results(props) {
             <ul>
                 {results.map((x,i) => (
                     <li key={x.id} data-testid={`answer-${i}`}>
-                        <input 
+                        <input
                             data-testid="result-input"
-                            type="text" 
-                            name="title" 
+                            type="text"
+                            name="title"
                             value={x.title}
                             onChange={e => onChange(e,i)}
                         />
                         <input 
                             data-testid="value-input"
-                            type="text" 
-                            name="value" 
-                            size="3" 
-                            value={x.value} 
+                            type="text"
+                            name="value"
+                            size="3"
+                            value={x.value}
                             onChange={e => onChange(e,i)}
                         />
                         <button 
-                            data-testid="remove-button" 
+                            data-testid="remove-button"
                             onClick={e => handleRemove(e,i)}
                         >
                             &times;

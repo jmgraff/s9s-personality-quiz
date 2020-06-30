@@ -35,7 +35,8 @@ dev:
 PHONY+=dev
 
 test:
-	pytest -s -vvx $(TEST_DIR) --sw
+	./scripts/setup_wordpress.sh
+	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
 PHONY+=test
 
 server:
