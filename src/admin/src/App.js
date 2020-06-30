@@ -75,6 +75,7 @@ class App extends React.Component {
                 />
                 <Questions
                     data={this.state.quizData.questions}
+                    results={this.state.quizData.results}
                     onChange={data => this.handleQuestionsChange(data)}
                 />
                 <textarea id="reactquiz-json" name="reactquiz_data" value={JSON.stringify(this.state)}>

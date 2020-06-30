@@ -61,42 +61,55 @@ function Answers(props) {
         setAnswers(state);
     }
 
+    const results = props.results.map((r) => {
+        return (
+            <option value={r.value}>
+                {r.title}
+            </option>
+        );
+    });
 
     function renderAnswers(answers) {
-        // TODO: make value a dropdown
         // TODO: add answer background image
         return answers.map((a,i) => {
             return (
                 <li key={a.id} data-testid={`answer-${i}`}>
-                <input
-                data-testid="answer-input"
-                type="text"
-                name='answer'
-                value={a.answer}
-                onChange={e => onChange(e,i)}
-                />
-                <input
-                data-testid="value-input"
-                type="text"
-                name='value'
-                size="3"
-                value={a.value}
-                onChange={e => onChange(e,i)}/>
-                <button 
-                data-testid="move-up-button"
-                onClick={e => handleMoveUp(e,i)}>
-                &#9650;
-                </button>
-                <button
-                data-testid="move-down-button"
-                onClick={e => handleMoveDown(e,i)}>
-                &#9660;
-                </button>
-                <button
-                data-testid="remove-button"
-                onClick={e => handleRemove(e,i)}>
-                &times;
-                </button>
+                    <input
+                        data-testid="answer-input"
+                        type="text"
+                        name='answer'
+                        value={a.answer}
+                        onChange={e => onChange(e,i)}
+                    />
+                    <select>
+                        {results}
+                    </select>
+                    <input
+                        data-testid="value-input"
+                        type="text"
+                        name='value'
+                        size="3"
+                        value={a.value}
+                        onChange={e => onChange(e,i)}
+                    />
+                    <button 
+                        data-testid="move-up-button"
+                        onClick={e => handleMoveUp(e,i)}
+                    >
+                        &#9650;
+                    </button>
+                    <button
+                        data-testid="move-down-button"
+                        onClick={e => handleMoveDown(e,i)}
+                    >
+                        &#9660;
+                    </button>
+                    <button
+                        data-testid="remove-button"
+                        onClick={e => handleRemove(e,i)}
+                    >
+                        &times;
+                    </button>
                 </li>
             )
         });

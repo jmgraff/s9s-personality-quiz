@@ -91,6 +91,7 @@ function Questions(props) {
                             </button>
                             <Answers
                                 data={q.answers}
+                                results={props.results}
                                 onChange={data => onAnswerChange(data, i)}
                             />
                         </li>
@@ -105,12 +106,17 @@ function Questions(props) {
             <Droppable type="questions" droppableId="questions">
                 {(provided, snapshot) => (
                     <ul
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
                     >
                         {props.data ? renderQuestions(questions): null}
                         {provided.placeholder}
-                        <button onClick={e => handleAdd(e)}>Add Questionzzz</button>
+                        <button
+                            id='reactquiz-add-question-button'
+                            onClick={e => handleAdd(e)}
+                        >
+                            Add Question
+                        </button>
                     </ul>
                 )}
             </Droppable>
