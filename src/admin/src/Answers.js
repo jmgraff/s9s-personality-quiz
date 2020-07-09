@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Form, List, Select, Button } from 'semantic-ui-react';
 import {v4 as uuidv4} from 'uuid';
 
 function Answers(props) {
@@ -14,6 +15,7 @@ function Answers(props) {
     }, [answers]);
 
     function onChange(e, i) {
+        console.log('onChange fired: ', e);
         const currentState = [...answers];
         currentState[i][e.target.name] = e.target.value;
         setAnswers(currentState);
@@ -62,64 +64,66 @@ function Answers(props) {
     }
 
     const results = props.results.map((r) => {
-        return (
-            <option value={r.value}>
-                {r.title}
-            </option>
-        );
+        return { key: r.id, text: r.title, value: r.value }
     });
 
     function renderAnswers(answers) {
         // TODO: add answer background image
         return answers.map((a,i) => {
             return (
-                <li key={a.id} data-testid={`answer-${i}`}>
-                    <input
+                <List.Item key={a.id} data-testid={`answer-${i}`}>
+
+                    <Form.Input
+                        placeholder="Answer..."
                         data-testid="answer-input"
                         type="text"
                         name='answer'
                         value={a.answer}
                         onChange={e => onChange(e,i)}
                     />
-                    <select>
-                        {results}
-                    </select>
-                    <input
-                        data-testid="value-input"
-                        type="text"
-                        name='value'
-                        size="3"
-                        value={a.value}
+
+                    <Form.Field
+                        control={Select}
+                        label='Result'
+                        options={results}
                         onChange={e => onChange(e,i)}
                     />
-                    <button 
-                        data-testid="move-up-button"
-                        onClick={e => handleMoveUp(e,i)}
-                    >
-                        &#9650;
-                    </button>
-                    <button
-                        data-testid="move-down-button"
-                        onClick={e => handleMoveDown(e,i)}
-                    >
-                        &#9660;
-                    </button>
-                    <button
-                        data-testid="remove-button"
-                        onClick={e => handleRemove(e,i)}
-                    >
-                        &times;
-                    </button>
-                </li>
+
+                    <Button.Group>
+
+                        <Button
+                            data-testid="move-up-button"
+                            onClick={e => handleMoveUp(e,i)}
+                        >
+                            &#9650;
+                        </Button>
+
+                        <Button
+                            data-testid="move-down-button"
+                            onClick={e => handleMoveDown(e,i)}
+                        >
+                            &#9660;
+                        </Button>
+
+                        <Button
+                            data-testid="remove-button"
+                            onClick={e => handleRemove(e,i)}
+                        >
+                            &times;
+                        </Button>
+
+                    </Button.Group>
+
+                </List.Item>
             )
         });
     }
 
     return (
-        <ul>
-        {renderAnswers(answers)}
-        <button onClick={e => handleAdd(e)}>Add Answer</button>
-        </ul>
+        <List>
+            {renderAnswers(answers)}
+            <Button onClick={e => handleAdd(e)}>Add Answer</Button>
+        </List>
     );
 }
 

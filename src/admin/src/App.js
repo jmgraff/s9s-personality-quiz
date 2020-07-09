@@ -2,13 +2,65 @@
 import React from 'react';
 import Questions from './Questions.js';
 import Results from './Results.js';
+import { Tab, Segment, Header, Form, TextArea, Input } from 'semantic-ui-react';
+
+import 'semantic-ui-css/semantic.min.css';
 
 class App extends React.Component {
     constructor() {
         super();
         this.state = this.getQuizData();
-        console.log('test');
-    };
+        this.tabs = [
+            {
+                menuItem: 'Form',
+                render: () => { return (
+                    <Tab.Pane>
+                        <Segment>
+                            <Header as='h3'>Intro</Header>
+                            <Form.Field
+                                control={Input}
+                                label="Title"
+                                id="reactquiz-title"
+                                value={this.state.quizData.title}
+                                onChange={e => this.handleTitleChange(e)}
+                            />
+                            <Form.Field
+                                control={Input}
+                                label="Description"
+                                id="reactquiz-description"
+                                value={this.state.quizData.description}
+                                onChange={e => this.handleDescriptionChange(e)}
+                            />
+                        </Segment>
+
+                        <Results
+                            data={this.state.quizData.results}
+                            onChange={data => this.handleResultsChange(data)}
+                        />
+
+                        <Questions
+                            data={this.state.quizData.questions}
+                            results={this.state.quizData.results}
+                            onChange={data => this.handleQuestionsChange(data)}
+                        />
+                    </Tab.Pane>
+                )}
+            },
+            {
+                menuItem: 'Raw JSON',
+                render: () => { return (
+                    <Form.Field
+                        control={TextArea}
+                        label='Raw JSON'
+                        id="reactquiz-json"
+                        name="reactquiz_data"
+                        value={JSON.stringify(this.state, null, 4)}
+                        rows={JSON.stringify(this.state, null, 4).split('\n').length}
+                    />
+                )}
+            }
+        ];
+    }
 
     getQuizData() {
         let blankQuizData = {
@@ -50,37 +102,12 @@ class App extends React.Component {
         this.setState(newState);
     }
 
+
     render() {
         return (
-            <div className="App">
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input
-                        id="reactquiz-title"
-                        value={this.state.quizData.title}
-                        onChange={e => this.handleTitleChange(e)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="description">Description</label>
-                    <input
-                        id="reactquiz-description"
-                        value={this.state.quizData.description}
-                        onChange={e => this.handleDescriptionChange(e)}
-                    />
-                </div>
-                <Results
-                    data={this.state.quizData.results}
-                    onChange={data => this.handleResultsChange(data)}
-                />
-                <Questions
-                    data={this.state.quizData.questions}
-                    results={this.state.quizData.results}
-                    onChange={data => this.handleQuestionsChange(data)}
-                />
-                <textarea id="reactquiz-json" name="reactquiz_data" value={JSON.stringify(this.state)}>
-                </textarea>
-            </div>
+            <Form as="div" className="App">
+                <Tab panes={this.tabs} />
+            </Form>
         );
     }
 }

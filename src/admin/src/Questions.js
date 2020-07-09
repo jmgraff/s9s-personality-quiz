@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
+
 import Answers from './Answers.js';
+
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import { Form, List, Input, Button } from 'semantic-ui-react';
 import {v4 as uuidv4} from 'uuid';
 
 function Questions(props) {
@@ -64,37 +67,37 @@ function Questions(props) {
             return (
                 <Draggable key={q.id} draggableId={q.id} index={i}>
                     {(provided, snapshot) => (
-                        <li
+                        <List.Item
                             key={q.id}
                             data-testid={`question-${i}`}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                         >
-                            <input
+                            <Form.Input
                                 type="text"
                                 name="question"
                                 value={q.question}
                                 onChange={e => onQuestionChange(e, i)}
                             />
-                            <input
+                            <Form.Input
                                 type="text"
                                 name="image"
                                 value={q.image}
                                 onChange={e => onImageChange(e, i)}
                             />
-                            <button 
+                            <Button
                                 data-testid="remove-question-button"
-                                onClick={e => handleRemove(e,i) }
+                                onClick={e => handleRemove(e,i)}
                             >
                                 &times;
-                            </button>
+                            </Button>
                             <Answers
                                 data={q.answers}
                                 results={props.results}
                                 onChange={data => onAnswerChange(data, i)}
                             />
-                        </li>
+                        </List.Item>
                     )}
                 </Draggable>
             );
@@ -105,19 +108,19 @@ function Questions(props) {
         <DragDropContext onDragEnd={r => handleDragEnd(r)}>
             <Droppable type="questions" droppableId="questions">
                 {(provided, snapshot) => (
-                    <ul
+                    <List
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
                         {props.data ? renderQuestions(questions): null}
                         {provided.placeholder}
-                        <button
+                        <Button
                             id='reactquiz-add-question-button'
                             onClick={e => handleAdd(e)}
                         >
                             Add Question
-                        </button>
-                    </ul>
+                        </Button>
+                    </List>
                 )}
             </Droppable>
         </DragDropContext>
