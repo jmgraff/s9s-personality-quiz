@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import Answers from './Answers.js';
 
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import { Form, List, Input, Button } from 'semantic-ui-react';
+import { Form, List, Input, Button, Segment, Header } from 'semantic-ui-react';
 import {v4 as uuidv4} from 'uuid';
 
 function Questions(props) {
@@ -74,29 +74,32 @@ function Questions(props) {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                         >
-                            <Form.Input
-                                type="text"
-                                name="question"
-                                value={q.question}
-                                onChange={e => onQuestionChange(e, i)}
-                            />
-                            <Form.Input
-                                type="text"
-                                name="image"
-                                value={q.image}
-                                onChange={e => onImageChange(e, i)}
-                            />
-                            <Button
-                                data-testid="remove-question-button"
-                                onClick={e => handleRemove(e,i)}
-                            >
-                                &times;
-                            </Button>
-                            <Answers
-                                data={q.answers}
-                                results={props.results}
-                                onChange={data => onAnswerChange(data, i)}
-                            />
+                            <Segment>
+                                <Header as='h3'>Question {i + 1}</Header>
+                                <Form.Input
+                                    type="text"
+                                    name="question"
+                                    value={q.question}
+                                    onChange={e => onQuestionChange(e, i)}
+                                />
+                                <Form.Input
+                                    type="text"
+                                    name="image"
+                                    value={q.image}
+                                    onChange={e => onImageChange(e, i)}
+                                />
+                                <Button
+                                    data-testid="remove-question-button"
+                                    onClick={e => handleRemove(e,i)}
+                                >
+                                    &times;
+                                </Button>
+                                <Answers
+                                    data={q.answers}
+                                    results={props.results}
+                                    onChange={data => onAnswerChange(data, i)}
+                                />
+                            </Segment>
                         </List.Item>
                     )}
                 </Draggable>
