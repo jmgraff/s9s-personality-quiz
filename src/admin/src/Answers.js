@@ -10,12 +10,13 @@ function Answers(props) {
         return a;
     }));
 
+    const onChange = props.onChange;
+
     useEffect(() => {
-        props.onChange(answers);
+        onChange(answers);
     }, [answers]);
 
-    function onChange(e, i) {
-        console.log('onChange fired: ', e);
+    function onLocalChange(e, i) {
         const currentState = [...answers];
         currentState[i][e.target.name] = e.target.value;
         setAnswers(currentState);
@@ -53,16 +54,6 @@ function Answers(props) {
         setAnswers(state);
     }
 
-    function handleDragEnd(r) {
-        if (!r.destination) {
-            return;
-        }
-        const state = [...answers];
-        const [movedItem] = state.splice(r.source.index, 1);
-        state.splice(r.destination.index, 0, movedItem);
-        setAnswers(state);
-    }
-
     const results = props.results.map((r) => {
         return { key: r.id, text: r.title, value: r.value }
     });
@@ -79,14 +70,14 @@ function Answers(props) {
                         type="text"
                         name='answer'
                         value={a.answer}
-                        onChange={e => onChange(e,i)}
+                        onChange={e => onLocalChange(e,i)}
                     />
 
                     <Form.Field
                         control={Select}
                         label='Result'
                         options={results}
-                        onChange={e => onChange(e,i)}
+                        onChange={e => onLocalChange(e,i)}
                     />
 
                     <Button.Group>

@@ -20,5 +20,12 @@ $WP core install \
   --admin_user="admin" \
   --admin_password="admin" \
   --admin_email="admin@email.com"
-$WP plugin install /tmp/react-quiz.zip --force --activate
 
+docker-compose exec web mkdir wp-content/temp
+docker-compose exec web chmod 755 wp-content/temp
+docker-compose exec web chown www-data wp-content/temp
+docker-compose exec web chgrp www-data wp-content/temp
+
+$WP config set WP_TEMP_DIR __DIR__\ .\ \'/wp-content/temp/\' --raw
+
+$WP plugin install /tmp/react-quiz.zip --force --activate

@@ -10,8 +10,10 @@ function Results(props) {
         return r;
     }));
 
+    const onChange = props.onChange;
+
     useEffect(() => {
-        props.onChange(results);
+        onChange(results);
     }, [results]);
 
     function handleAdd(e) {
@@ -24,7 +26,7 @@ function Results(props) {
         setResults(results.filter((a,i) => i !== index));
     }
 
-    function onChange(e, i) {
+    function onLocalChange(e, i) {
         const currentState = [...results];
         currentState[i][e.target.name] = e.target.value;
         setResults(currentState);
@@ -47,14 +49,14 @@ function Results(props) {
                                 data-testid="result-input"
                                 name="title"
                                 value={x.title}
-                                onChange={e => onChange(e,i)}
+                                onChange={e => onLocalChange(e,i)}
                             />
                             <Form.Field
                                 label='Description'
                                 control={TextArea}
                                 name="description"
                                 value={x.description}
-                                onChange={e => onChange(e,i)}
+                                onChange={e => onLocalChange(e,i)}
                             />
                         </Card.Content>
                         <Card.Content extra>

@@ -2,8 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import Answers from './Answers.js';
 
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import { Form, List, Input, Button, Segment, Header } from 'semantic-ui-react';
+import { Form, List, Button, Segment, Header } from 'semantic-ui-react';
 import {v4 as uuidv4} from 'uuid';
 
 function Questions(props) {
@@ -16,9 +15,11 @@ function Questions(props) {
         return q;
     }));
 
+    const onChange = props.onChange;
+
     useEffect(() => {
-        if (props.onChange) {
-            props.onChange(questions);
+        if (onChange) {
+            onChange(questions);
         }
     }, [questions]);
 
@@ -51,82 +52,55 @@ function Questions(props) {
         setQuestions(currentState);
     }
 
-    function handleDragEnd(r) {
-        if (!r.destination) {
-            return;
-        }
-        const state = [...questions];
-        const [movedItem] = state.splice(r.source.index, 1);
-        state.splice(r.destination.index, 0, movedItem);
-        setQuestions(state);
-    }
-
     function renderQuestions(data) {
-        if (data == undefined) return;
+        if (data === undefined) return;
         return data.map((q,i) => {
             return (
-                <Draggable key={q.id} draggableId={q.id} index={i}>
-                    {(provided, snapshot) => (
-                        <List.Item
-                            key={q.id}
-                            data-testid={`question-${i}`}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
+                <List.Item
+                    key={q.id}
+                    data-testid={`question-${i}`}
+                >
+                    <Segment>
+                        <Header as='h3'>Question {i + 1}</Header>
+                        <Form.Input
+                            type="text"
+                            name="question"
+                            value={q.question}
+                            onChange={e => onQuestionChange(e, i)}
+                        />
+                        <Form.Input
+                            type="text"
+                            name="image"
+                            value={q.image}
+                            onChange={e => onImageChange(e, i)}
+                        />
+                        <Button
+                            data-testid="remove-question-button"
+                            onClick={e => handleRemove(e,i)}
                         >
-                            <Segment>
-                                <Header as='h3'>Question {i + 1}</Header>
-                                <Form.Input
-                                    type="text"
-                                    name="question"
-                                    value={q.question}
-                                    onChange={e => onQuestionChange(e, i)}
-                                />
-                                <Form.Input
-                                    type="text"
-                                    name="image"
-                                    value={q.image}
-                                    onChange={e => onImageChange(e, i)}
-                                />
-                                <Button
-                                    data-testid="remove-question-button"
-                                    onClick={e => handleRemove(e,i)}
-                                >
-                                    &times;
-                                </Button>
-                                <Answers
-                                    data={q.answers}
-                                    results={props.results}
-                                    onChange={data => onAnswerChange(data, i)}
-                                />
-                            </Segment>
-                        </List.Item>
-                    )}
-                </Draggable>
+                            &times;
+                        </Button>
+                        <Answers
+                            data={q.answers}
+                            results={props.results}
+                            onChange={data => onAnswerChange(data, i)}
+                        />
+                    </Segment>
+                </List.Item>
             );
         });
     }
 
     return(
-        <DragDropContext onDragEnd={r => handleDragEnd(r)}>
-            <Droppable type="questions" droppableId="questions">
-                {(provided, snapshot) => (
-                    <List
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                    >
-                        {props.data ? renderQuestions(questions): null}
-                        {provided.placeholder}
-                        <Button
-                            id='reactquiz-add-question-button'
-                            onClick={e => handleAdd(e)}
-                        >
-                            Add Question
-                        </Button>
-                    </List>
-                )}
-            </Droppable>
-        </DragDropContext>
+        <List>
+            {props.data ? renderQuestions(questions): null}
+            <Button
+                id='reactquiz-add-question-button'
+                onClick={e => handleAdd(e)}
+            >
+                Add Question
+            </Button>
+        </List>
     );
 }
 

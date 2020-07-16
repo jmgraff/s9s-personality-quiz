@@ -30,10 +30,12 @@ if (!class_exists('ReactQuiz')) {
         function the_content($content) {
             $post = get_post();
             if ($post->post_type == "reactquiz_quiz") {
-                $quiz_meta = get_post_meta($post->ID, 'reactquiz_data')[0];
+                $quiz_meta = get_post_meta($post->ID, 'reactquiz_data');
                 $quizData = "''";
                 if (isset($quiz_meta) && !empty($quiz_meta)) {
-                    $quizData = json_encode($quiz_meta);
+                    $quizData = json_encode($quiz_meta[0]);
+                    echo'<h1>found quiz data</h1>';
+                    echo "<pre>$quizData</pre>";
                 }
                 $myContent = "<script>window.quizData = $quizData;</script>";
                 $myContent .= '<div id="root">Loading...</div>';
@@ -98,10 +100,12 @@ if (!class_exists('ReactQuiz')) {
             } else {
                 $quizData = "''";
             }
+
             ?>
                 <script>window.quizData = <?php echo $quizData ?></script>
                 <div id="root">ReactApp Root</div>
             <?php
+
         }
 
         public function add_scripts() {

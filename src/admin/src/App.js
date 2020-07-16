@@ -43,6 +43,11 @@ class App extends React.Component {
                             results={this.state.quizData.results}
                             onChange={data => this.handleQuestionsChange(data)}
                         />
+                        <input
+                            type="hidden"
+                            name="reactquiz_data"
+                            value={JSON.stringify(this.state)}
+                        />
                     </Tab.Pane>
                 )}
             },
@@ -53,7 +58,6 @@ class App extends React.Component {
                         control={TextArea}
                         label='Raw JSON'
                         id="reactquiz-json"
-                        name="reactquiz_data"
                         value={JSON.stringify(this.state, null, 4)}
                         rows={JSON.stringify(this.state, null, 4).split('\n').length}
                     />

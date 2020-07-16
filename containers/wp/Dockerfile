@@ -11,3 +11,5 @@ COPY wp-su.sh /bin/wp
 RUN chmod +x /bin/wp-cli.phar
 RUN chmod +x /bin/wp
 
+# Add PHP temp dir
+COPY tempdir.ini /usr/local/etc/php/conf.d/tempdir.ini
