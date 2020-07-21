@@ -34,8 +34,6 @@ if (!class_exists('ReactQuiz')) {
                 $quizData = "''";
                 if (isset($quiz_meta) && !empty($quiz_meta)) {
                     $quizData = json_encode($quiz_meta[0]);
-                    echo'<h1>found quiz data</h1>';
-                    echo "<pre>$quizData</pre>";
                 }
                 $myContent = "<script>window.quizData = $quizData;</script>";
                 $myContent .= '<div id="root">Loading...</div>';
