@@ -1,107 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Form, List, Button, Segment, Header } from 'semantic-ui-react';
 
 import Answers from './Answers.js';
 
-import { Form, List, Button, Segment, Header } from 'semantic-ui-react';
-import {v4 as uuidv4} from 'uuid';
+import { getQuestions, remove, add, setTitle, setImageURL } from './store/questions.js';
 
 function Questions(props) {
-    let propQuestions = props.data ? props.data : [];
+    console.log('Questions.props: ', props);
 
-    const [questions, setQuestions] = useState(propQuestions.map(q => {
-        if (!q.id) {
-            q.id = uuidv4();
-        }
-        return q;
-    }));
-
-    const onChange = props.onChange;
-
-    useEffect(() => {
-        if (onChange) {
-            onChange(questions);
-        }
-    }, [questions]);
-
-    function onQuestionChange(e, i) {
-        const currentState = [...questions];
-        currentState[i].question = e.target.value;
-        setQuestions(currentState);
-    }
-
-    function onImageChange(e, i) {
-        const currentState = [...questions];
-        currentState[i].image = e.target.value;
-        setQuestions(currentState);
-    }
-
-    function onAnswerChange(data, i) {
-        const currentState = [...questions];
-        currentState[i].answers = data;
-        setQuestions(currentState);
-    }
-
-    function handleAdd(e) {
-        e.preventDefault();
-        const currentState = [...questions, {id: uuidv4(), question: '', image: '', answers: []}];
-        setQuestions(currentState);
-    }
-
-    function handleRemove(e, index) {
-        const currentState = questions.filter((q,i) => i !== index);
-        setQuestions(currentState);
-    }
-
-    function renderQuestions(data) {
-        if (data === undefined) return;
-        return data.map((q,i) => {
-            return (
-                <List.Item
-                    key={q.id}
-                    data-testid={`question-${i}`}
-                >
+    return (
+        <List>
+            {props.questions.map((q,i) => (
+                <List.Item key={q.id}>
                     <Segment>
                         <Header as='h3'>Question {i + 1}</Header>
-                        <Form.Input
-                            type="text"
-                            name="question"
-                            value={q.question}
-                            onChange={e => onQuestionChange(e, i)}
-                        />
-                        <Form.Input
-                            type="text"
-                            name="image"
-                            value={q.image}
-                            onChange={e => onImageChange(e, i)}
-                        />
-                        <Button
-                            data-testid="remove-question-button"
-                            onClick={e => handleRemove(e,i)}
-                        >
-                            &times;
-                        </Button>
-                        <Answers
-                            data={q.answers}
-                            results={props.results}
-                            onChange={data => onAnswerChange(data, i)}
-                        />
+                        <Form.Input type="text" name='title' value={q.title} onChange={e => props.setTitle(q.id, e.target.value)} />
+                        <Form.Input type="text" name='image_url' value={q.image_url} onChange={e => props.setImageURL(q.id, e.target.value)} />
+                        <Button onClick={e => props.remove(q.id)}> &times; </Button>
                     </Segment>
                 </List.Item>
-            );
-        });
-    }
-
-    return(
-        <List>
-            {props.data ? renderQuestions(questions): null}
-            <Button
-                id='reactquiz-add-question-button'
-                onClick={e => handleAdd(e)}
-            >
-                Add Question
-            </Button>
+            ))}
+            <Button id='reactquiz-add-question-button' onClick={e => props.add()}> Add Question </Button>
         </List>
     );
 }
 
-export default Questions;
+const mapStateToProps = state => ({ questions: getQuestions(state) });
+export default connect(mapStateToProps, {remove, add, setTitle, setImageURL})(Questions);
