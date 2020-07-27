@@ -1,121 +1,46 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Form, List, Select, Button } from 'semantic-ui-react';
 import {v4 as uuidv4} from 'uuid';
 
+import { getAnswers, remove, add, setTitle, setImageURL, setResultID } from './store/answers.js';
+
 function Answers(props) {
-    const [answers, setAnswers] = useState(props.data.map(a => {
-        if (!a.id) {
-            a.id = uuidv4();
-        }
-        return a;
-    }));
+    const results = ['foo', 'bar', 'baz']; //FIXME
 
-    const onChange = props.onChange;
-
-    useEffect(() => {
-        onChange(answers);
-    }, [answers]);
-
-    function onLocalChange(e, i) {
-        const currentState = [...answers];
-        currentState[i][e.target.name] = e.target.value;
-        setAnswers(currentState);
-    }
-
-    function handleAdd(e) {
-        e.preventDefault();
-        setAnswers([...answers, {id: uuidv4(), answer: '', value: ''}]);
-    }
-
-    function handleRemove(e, index) {
-        e.preventDefault();
-        setAnswers(answers.filter((a,i) => i !== index));
-    }
-
-    function handleMoveUp(e, index) {
-        e.preventDefault();
-        if ((index - 1) < 0) {
-            return;
-        }
-        const state = [...answers];
-        const [movedItem] = state.splice(index, 1);
-        state.splice(index - 1, 0, movedItem);
-        setAnswers(state);
-    }
-
-    function handleMoveDown(e, index) {
-        e.preventDefault();
-        if ((index + 1) >= answers.length) {
-            return;
-        }
-        const state = [...answers];
-        const [movedItem] = state.splice(index, 1);
-        state.splice(index + 1, 0, movedItem);
-        setAnswers(state);
-    }
-
-    const results = props.results.map((r) => {
-        return { key: r.id, text: r.title, value: r.value }
-    });
-
-    function renderAnswers(answers) {
-        // TODO: add answer background image
-        return answers.map((a,i) => {
-            return (
-                <List.Item key={a.id} data-testid={`answer-${i}`}>
+    return (
+        <List>
+            {props.answers.map((a,i) => (
+                <List.Item key={a.id}>
 
                     <Form.Input
                         placeholder="Answer..."
-                        data-testid="answer-input"
                         type="text"
-                        name='answer'
-                        value={a.answer}
-                        onChange={e => onLocalChange(e,i)}
+                        name='title'
+                        value={a.title}
+                        onChange={e => props.setTitle(a.id, e.target.value)}
                     />
 
                     <Form.Field
                         control={Select}
                         label='Result'
                         options={results}
-                        onChange={e => onLocalChange(e,i)}
+                        onChange={e => props.setResultID(a.id, e.target.value)}
                     />
 
-                    <Button.Group>
-
-                        <Button
-                            data-testid="move-up-button"
-                            onClick={e => handleMoveUp(e,i)}
-                        >
-                            &#9650;
-                        </Button>
-
-                        <Button
-                            data-testid="move-down-button"
-                            onClick={e => handleMoveDown(e,i)}
-                        >
-                            &#9660;
-                        </Button>
-
-                        <Button
-                            data-testid="remove-button"
-                            onClick={e => handleRemove(e,i)}
-                        >
-                            &times;
-                        </Button>
-
-                    </Button.Group>
+                    <Button onClick={e => props.remove(a.id)} >
+                        &times;
+                    </Button>
 
                 </List.Item>
-            )
-        });
-    }
 
-    return (
-        <List>
-            {renderAnswers(answers)}
-            <Button onClick={e => handleAdd(e)}>Add Answer</Button>
+            ))}
+
+            <Button onClick={e => props.add(props.question_id)}>Add Answer</Button>
         </List>
     );
 }
 
-export default Answers;
+const mapStateToProps = (state, ownProps) => ({ answers: getAnswers(state, ownProps.question_id) });
+export default connect(mapStateToProps, {remove, add, setTitle, setImageURL, setResultID})(Answers);
+

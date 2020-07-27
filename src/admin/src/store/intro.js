@@ -1,17 +1,19 @@
+import produce from 'immer';
+
 const initialState = {
         title: '',
         description: '',
         image_url: '',
 }
 
-const SET_TITLE = 'SET_TITLE';
-const SET_DESCRIPTION = 'SET_DESCRIPTION';
-const SET_IMAGE_URL = 'SET_IMAGE_URL';
+const SET_INTRO_TITLE = 'SET_INTRO_TITLE';
+const SET_INTRO_DESCRIPTION = 'SET_INTRO_DESCRIPTION';
+const SET_INTRO_IMAGE_URL = 'SET_INTRO_IMAGE_URL';
 
 //actions
-export const setTitle = title => ({ type: SET_TITLE, payload: { title } });
-export const setDescription = description => ({ type: SET_DESCRIPTION, payload: { description } });
-export const setImageURL = imageURL => ({ type: SET_IMAGE_URL, payload: { imageURL } });
+export const setTitle = title => ({ type: SET_INTRO_TITLE, payload: { title } });
+export const setDescription = description => ({ type: SET_INTRO_DESCRIPTION, payload: { description } });
+export const setImageURL = imageURL => ({ type: SET_INTRO_IMAGE_URL, payload: { imageURL } });
 
 //selectors
 export const getIntro = ({intro}) => {
@@ -20,23 +22,18 @@ export const getIntro = ({intro}) => {
 }
 
 //reducer
-export function intro(state = initialState, action) {
-    console.log(`in reducer, action=${action.type}`);
+export const intro = produce((draft, action) => {
     switch (action.type) {
-        case SET_TITLE:
-            const { title } = action.payload;
-            console.log(`Setting title to ${title}`);
-            return {...state, title};
-        case SET_DESCRIPTION:
-            const { description } = action.payload;
-            console.log(`Setting description to ${description}`);
-            return {...state, description };
-        case SET_IMAGE_URL:
-            const { image_url } = action.payload;
-            console.log(`Setting image URL to ${image_url}`);
-            return { ...state, image_url };
+        case SET_INTRO_TITLE:
+            draft.title = action.payload.title;
+            break;
+        case SET_INTRO_DESCRIPTION:
+            draft.description = action.payload.description;
+            break;
+        case SET_INTRO_IMAGE_URL:
+            draft.image_url = action.payload.image_url;
+            break;
         default:
-            return state;
+            return initialState;
     }
-}
-
+});
