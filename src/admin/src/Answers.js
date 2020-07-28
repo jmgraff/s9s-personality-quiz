@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, List, Select, Button } from 'semantic-ui-react';
-import {v4 as uuidv4} from 'uuid';
+import { Form, List, Button } from 'semantic-ui-react';
 
 import { getAnswers, remove, add, setTitle, setImageURL, setResultID } from './store/answers.js';
 
 function Answers(props) {
-    const results = ['foo', 'bar', 'baz']; //FIXME
-
     return (
         <List>
             {props.answers.map((a,i) => (
@@ -28,7 +25,6 @@ function Answers(props) {
                 </List.Item>
 
             ))}
-
             <Button onClick={e => props.add(props.question_id)}>Add Answer</Button>
         </List>
     );

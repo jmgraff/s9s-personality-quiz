@@ -1,41 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import {v4 as uuidv4} from 'uuid';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Divider, Header, Form, Segment, Input, Button, TextArea, Card } from 'semantic-ui-react';
 
+import { getResults, remove, add, setTitle, setDescription, setImageURL } from './store/results.js';
+
 function Results(props) {
-    const [results, setResults] = useState(props.data.map(r => {
-        if (!r.id) {
-            r.id = uuidv4();
-        }
-        return r;
-    }));
-
-    const onChange = props.onChange;
-
-    useEffect(() => {
-        onChange(results);
-    }, [results]);
-
-    function handleAdd(e) {
-        e.preventDefault();
-        setResults([...results, {id: uuidv4(), title: '', value: uuidv4()}]);
-    }
-
-    function handleRemove(e, index) {
-        e.preventDefault();
-        setResults(results.filter((a,i) => i !== index));
-    }
-
-    function onLocalChange(e, i) {
-        const currentState = [...results];
-        currentState[i][e.target.name] = e.target.value;
-        setResults(currentState);
-    }
 
     function renderResults() {
         return (
             <Card.Group>
-                {results.map((x,i) => (
+                {props.results.map((x,i) => (
                     <Card>
                         <Card.Content>
                             <Card.Header>
@@ -49,20 +23,20 @@ function Results(props) {
                                 data-testid="result-input"
                                 name="title"
                                 value={x.title}
-                                onChange={e => onLocalChange(e,i)}
+                                onChange={e => props.setResultTitle(e.target.value)}
                             />
                             <Form.Field
                                 label='Description'
                                 control={TextArea}
                                 name="description"
                                 value={x.description}
-                                onChange={e => onLocalChange(e,i)}
+                                onChange={e => props.setResultDescription(e.target.value)}
                             />
                         </Card.Content>
                         <Card.Content extra>
                             <Button
                                 data-testid="remove-button"
-                                onClick={e => handleRemove(e,i)}
+                                onClick={e => props.remove(x.id)}
                                 basic color='red'
                             >
                                 Delete
@@ -77,11 +51,12 @@ function Results(props) {
     return (
         <Segment>
             <Header as='h3'>Results</Header>
-            { results.length > 0 ? renderResults() : 'No results. Click button below to add.' }
+            { props.results.length > 0 ? renderResults() : 'No results. Click button below to add.' }
             <Divider />
-            <Button onClick={e => handleAdd(e)}>Add Result</Button>
+            <Button onClick={e => props.add()}>Add Result</Button>
         </Segment>
     );
 }
 
-export default Results;
+const mapStateToProps = (state) => ({ results: getResults(state) });
+export default connect(mapStateToProps, { remove, add, setTitle, setDescription, setImageURL })(Results);

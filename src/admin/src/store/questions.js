@@ -32,5 +32,7 @@ export const questions = produce((draft, action) => {
         case SET_QUESTION_IMAGE_URL:
             draft.find(q => q.id === action.payload.id).image_url = action.payload.image_url;
             break;
+        default:
+            return;
     }
 }, initialState);

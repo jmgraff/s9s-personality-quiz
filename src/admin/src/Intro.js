@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import {getIntro, setTitle, setDescription} from './store/intro.js';
-import {Container, Menu, Form, Header, Input, TextArea} from 'semantic-ui-react';
+import { getIntro, setTitle, setDescription } from './store/intro.js';
+import { Container, Form, Header, Input } from 'semantic-ui-react';
 
 function Intro(props) {
     return (

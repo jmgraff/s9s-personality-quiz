@@ -1,21 +1,20 @@
 // TODO: add title image
 import React, { useState } from 'react';
-import Questions from './Questions.js';
-import Intro from './Intro.js';
-import Results from './Results.js';
-
-import {connect} from 'react-redux';
-import {getQuizDataJSON} from './store';
-
-import {Container, Menu, Form, Header, Input, TextArea} from 'semantic-ui-react';
-
 import 'semantic-ui-css/semantic.min.css';
+import { connect } from 'react-redux';
+import { getQuizDataJSON } from './store';
+
+import { Container, Menu } from 'semantic-ui-react';
+
+import Intro from './Intro.js';
+import Questions from './Questions.js';
+import Results from './Results.js';
 
 function AppMenu(props) {
     const [selected, setSelected] = useState('intro');
 
-    const Item = ({name, display}) => (
-        <Menu.Item name={name} active={selected === name} onClick={(e, {name}) => setSelected(name)}> {display} </Menu.Item>
+    const Item = ({ name, display }) => (
+        <Menu.Item name={ name } active={ selected === name } onClick={ (e, { name }) => setSelected(name) }> { display } </Menu.Item>
     );
 
     return (
@@ -29,13 +28,14 @@ function AppMenu(props) {
 }
 
 
-function App({quizDataJSON}) {
+function App({ quizDataJSON }) {
     return (
         <Container>
             <AppMenu />
             <Intro />
+            <Results />
             <Questions />
-            <input type="hidden" value={quizDataJSON} />
+            <input type="hidden" value={ quizDataJSON } />
         </Container>
     );
 }

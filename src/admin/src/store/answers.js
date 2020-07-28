@@ -20,6 +20,7 @@ export const setResultID = (id, resultID) => ({ type: SET_ANSWER_RESULT_ID, payl
 //selectors
 export const getAnswers = ({questions, answers}, question_id) => answers.filter(a => a.question_id === question_id);
 
+//reducer
 export const answers = produce((draft, action) => {
     switch (action.type) {
         case ADD_ANSWER:
@@ -36,5 +37,7 @@ export const answers = produce((draft, action) => {
         case SET_ANSWER_RESULT_ID:
             draft.find(a => a.id === action.payload.id).result_id = action.payload.result_id;
             break;
+        default:
+            return;
     }
 }, initialState);

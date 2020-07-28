@@ -30,5 +30,7 @@ export const intro = produce((draft, action) => {
         case SET_INTRO_IMAGE_URL:
             draft.image_url = action.payload.image_url;
             break;
+        default:
+            return;
     }
 }, initialState);
