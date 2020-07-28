@@ -21,13 +21,6 @@ function Answers(props) {
                         onChange={e => props.setTitle(a.id, e.target.value)}
                     />
 
-                    <Form.Field
-                        control={Select}
-                        label='Result'
-                        options={results}
-                        onChange={e => props.setResultID(a.id, e.target.value)}
-                    />
-
                     <Button onClick={e => props.remove(a.id)} >
                         &times;
                     </Button>

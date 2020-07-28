@@ -5,8 +5,6 @@ import {getIntro, setTitle, setDescription} from './store/intro.js';
 import {Container, Menu, Form, Header, Input, TextArea} from 'semantic-ui-react';
 
 function Intro(props) {
-    console.log("Intro props: ", props);
-
     return (
         <Container>
             <Header as='h3'>Intro</Header>

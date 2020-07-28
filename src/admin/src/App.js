@@ -14,10 +14,8 @@ import 'semantic-ui-css/semantic.min.css';
 function AppMenu(props) {
     const [selected, setSelected] = useState('intro');
 
-    const handleClick = (e, {name}) => setSelected(name);
-
     const Item = ({name, display}) => (
-        <Menu.Item name={name} active={selected === name} onClick={handleClick}> {display} </Menu.Item>
+        <Menu.Item name={name} active={selected === name} onClick={(e, {name}) => setSelected(name)}> {display} </Menu.Item>
     );
 
     return (

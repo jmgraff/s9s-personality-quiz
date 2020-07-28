@@ -16,10 +16,7 @@ export const setDescription = description => ({ type: SET_INTRO_DESCRIPTION, pay
 export const setImageURL = imageURL => ({ type: SET_INTRO_IMAGE_URL, payload: { imageURL } });
 
 //selectors
-export const getIntro = ({intro}) => {
-    console.log("Getting intro", intro);
-    return intro;
-}
+export const getIntro = ({intro}) => intro;
 
 //reducer
 export const intro = produce((draft, action) => {
@@ -33,7 +30,5 @@ export const intro = produce((draft, action) => {
         case SET_INTRO_IMAGE_URL:
             draft.image_url = action.payload.image_url;
             break;
-        default:
-            return initialState;
     }
-});
+}, initialState);

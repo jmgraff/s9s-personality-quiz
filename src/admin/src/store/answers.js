@@ -11,22 +11,20 @@ const SET_ANSWER_IMAGE_URL = 'SET_ANSWER_IMAGE_URL';
 const SET_ANSWER_RESULT_ID = 'SET_ANSWER_RESULT_ID';
 
 //actions
-export const add = (question_id) => ({ type: ADD_ANSWER, payload: { question_id } }) ;
+export const add = (question_id) => ({ type: ADD_ANSWER, payload: { question_id } });
 export const remove = id => ({ type: REMOVE_ANSWER, payload: { id } });
 export const setTitle = (id, title) => ({ type: SET_ANSWER_TITLE, payload: { id, title } });
 export const setImageURL = (id, imageURL) => ({ type: SET_ANSWER_IMAGE_URL, payload: { id, imageURL } });
 export const setResultID = (id, resultID) => ({ type: SET_ANSWER_RESULT_ID, payload: { id, resultID } });
 
 //selectors
-export const getAnswers = ({questions, answers}, question_id) => {
-    return answers.filter(a => a.question_id === question_id);
-}
+export const getAnswers = ({questions, answers}, question_id) => answers.filter(a => a.question_id === question_id);
 
 export const answers = produce((draft, action) => {
     switch (action.type) {
         case ADD_ANSWER:
-            draft.push(blank(action.question_id));
-            return draft;
+            draft.push(blank(action.payload.question_id));
+            break;
         case REMOVE_ANSWER:
             return draft.filter(a => a.id !== action.payload.id);
         case SET_ANSWER_TITLE:
@@ -38,7 +36,5 @@ export const answers = produce((draft, action) => {
         case SET_ANSWER_RESULT_ID:
             draft.find(a => a.id === action.payload.id).result_id = action.payload.result_id;
             break;
-        default:
-            return initialState;
     }
-});
+}, initialState);

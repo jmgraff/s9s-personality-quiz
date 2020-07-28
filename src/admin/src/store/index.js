@@ -1,9 +1,11 @@
 import {createStore, combineReducers} from 'redux';
-import {v4 as uuidv4} from 'uuid';
+import {devToolsEnhancer} from 'redux-devtools-extension';
+
 import {intro} from './intro.js';
 import {questions} from './questions.js';
 import {answers} from './answers.js';
 
+/*
 const initialState = window.quizData || { quizData: {
     intro: {
         title: '',
@@ -19,12 +21,13 @@ const initialState = window.quizData || { quizData: {
         }
     ],
 }};
+*/
 
 export const getQuizDataJSON = store => {
     return { quizDataJSON: JSON.stringify(store) };
 }
 
-export const store = createStore(combineReducers({intro, questions, answers}));
+export const store = createStore(combineReducers({intro, questions, answers}), devToolsEnhancer());
 
 
 
