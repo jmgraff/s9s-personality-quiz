@@ -25,7 +25,7 @@ function Answers(props) {
                 </List.Item>
 
             ))}
-            <Button onClick={e => props.add(props.question_id)}>Add Answer</Button>
+            <Button as='a' onClick={e => props.add(props.question_id)}>Add Answer</Button>
         </List>
     );
 }

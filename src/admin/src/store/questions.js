@@ -11,7 +11,7 @@ const SET_QUESTION_IMAGE_URL = 'SET_QUESTION_IMAGE_URL';
 
 //actions
 export const setTitle = (id, title) => ({ type: SET_QUESTION_TITLE, payload: { id, title } });
-export const setImageURL = (id, imageURL) => ({ type: SET_QUESTION_IMAGE_URL, payload: { id, imageURL } });
+export const setImageURL = (id, image_url) => ({ type: SET_QUESTION_IMAGE_URL, payload: { id, image_url } });
 export const add = () => ({ type: ADD_QUESTION }) ;
 export const remove = id => ({ type: REMOVE_QUESTION, payload: { id } });
 

@@ -15,11 +15,11 @@ const Questions = (props) => (
                         <Form.Input type="text" name='title' value={q.title} onChange={e => props.setTitle(q.id, e.target.value)} />
                         <Form.Input type="text" name='image_url' value={q.image_url} onChange={e => props.setImageURL(q.id, e.target.value)} />
                         <Answers question_id={q.id} />
-                        <Button onClick={e => props.remove(q.id)}> &times; </Button>
+                        <Button as='a' onClick={e => props.remove(q.id)}> &times; </Button>
                     </Segment>
                 </List.Item>
             ))}
-            <Button id='reactquiz-add-question-button' onClick={e => props.add()}> Add Question </Button>
+            <Button as='a' id='reactquiz-add-question-button' onClick={e => props.add()}> Add Question </Button>
         </List>
 );
 

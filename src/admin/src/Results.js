@@ -23,18 +23,19 @@ function Results(props) {
                                 data-testid="result-input"
                                 name="title"
                                 value={x.title}
-                                onChange={e => props.setResultTitle(e.target.value)}
+                                onChange={e => props.setTitle(x.id, e.target.value)}
                             />
                             <Form.Field
                                 label='Description'
                                 control={TextArea}
                                 name="description"
                                 value={x.description}
-                                onChange={e => props.setResultDescription(e.target.value)}
+                                onChange={e => props.setDescription(x.id, e.target.value)}
                             />
                         </Card.Content>
                         <Card.Content extra>
                             <Button
+                                as='a'
                                 data-testid="remove-button"
                                 onClick={e => props.remove(x.id)}
                                 basic color='red'
@@ -53,7 +54,7 @@ function Results(props) {
             <Header as='h3'>Results</Header>
             { props.results.length > 0 ? renderResults() : 'No results. Click button below to add.' }
             <Divider />
-            <Button onClick={e => props.add()}>Add Result</Button>
+            <Button as='a' onClick={e => props.add()}>Add Result</Button>
         </Segment>
     );
 }

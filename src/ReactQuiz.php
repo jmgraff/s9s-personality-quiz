@@ -58,7 +58,7 @@ if (!class_exists('ReactQuiz')) {
                     'has_archive' => true,
                     'show_ui' => true,
                     'register_meta_box_cb' => [$this, 'meta_box_cb']
-                    );
+            );
 
             register_post_type('reactquiz_quiz', $args);
             add_action('save_post', [$this, 'save']);
