@@ -1,61 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Divider, Header, Form, Segment, Input, Button, TextArea, Card } from 'semantic-ui-react';
+import { Grid, Accordion, Divider, Header, Form, Segment, Input, Button, TextArea, Card } from 'semantic-ui-react';
 
 import { getResults, remove, add, setTitle, setDescription, setImageURL } from './store/results.js';
 
 function Results(props) {
+    const [activeIndex, setActiveIndex] = useState(0);
 
-    function renderResults() {
-        return (
-            <Card.Group>
-                {props.results.map((x,i) => (
-                    <Card>
-                        <Card.Content>
-                            <Card.Header>
-                                Result {i + 1}
-                            </Card.Header>
-                        </Card.Content>
-                        <Card.Content>
+    return (
+        <>
+            <Accordion styled fluid>
+                {props.results.map((r, i) => (
+                    <>
+                        <Accordion.Title index={i} active={activeIndex === i} onClick={ () => setActiveIndex(i) }>
+                            <Grid columns={2}>
+                                <Grid.Column>
+                                    <Header as='h3'>Result {i + 1}: {r.title}</Header>
+                                </Grid.Column>
+                                <Grid.Column textAlign='right'>
+                                    <Button.Group  size='mini'>
+                                        <Button as='a'>&#9650; Move Up</Button>
+                                        <Button as='a'>&#9660; Move Down</Button>
+                                        <Button as='a' onClick={e => props.remove(r.id)} color='red'>&times; Delete</Button>
+                                    </Button.Group>
+                                </Grid.Column>
+                            </Grid>
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === i}>
                             <Form.Field
-                                label='Title'
+                                placeholder='Title text'
                                 control={Input}
                                 data-testid="result-input"
                                 name="title"
-                                value={x.title}
-                                onChange={e => props.setTitle(x.id, e.target.value)}
+                                value={r.title}
+                                onChange={e => props.setTitle(r.id, e.target.value)}
                             />
                             <Form.Field
-                                label='Description'
+                                placeholder='Description'
                                 control={TextArea}
                                 name="description"
-                                value={x.description}
-                                onChange={e => props.setDescription(x.id, e.target.value)}
+                                value={r.description}
+                                onChange={e => props.setDescription(r.id, e.target.value)}
                             />
-                        </Card.Content>
-                        <Card.Content extra>
-                            <Button
-                                as='a'
-                                data-testid="remove-button"
-                                onClick={e => props.remove(x.id)}
-                                basic color='red'
-                            >
-                                Delete
-                            </Button>
-                        </Card.Content>
-                    </Card>
+                        </Accordion.Content>
+                    </>
                 ))}
-            </Card.Group>
-        );
-    }
-
-    return (
-        <Segment>
-            <Header as='h3'>Results</Header>
-            { props.results.length > 0 ? renderResults() : 'No results. Click button below to add.' }
-            <Divider />
-            <Button as='a' onClick={e => props.add()}>Add Result</Button>
-        </Segment>
+            </Accordion>
+            <Button as='a' onClick={e => props.add()}>&#43; Add Result</Button>
+        </>
     );
 }
 

@@ -1,10 +1,10 @@
 // TODO: add title image
-import React, { useState } from 'react';
+import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { connect } from 'react-redux';
 import { getQuizDataJSON } from './store';
 
-import { Container, Menu, Tab } from 'semantic-ui-react';
+import { Form, Container, Menu, Tab } from 'semantic-ui-react';
 
 import Intro from './Intro.js';
 import Questions from './Questions.js';
@@ -30,10 +30,10 @@ function App({ quizDataJSON }) {
         },
     ];
     return (
-        <div>
+        <Form as='div'>
             <Tab menu={{pointing: true}} panes={panes} />
             <input type='hidden' name='reactquiz_data' value={ quizDataJSON } />
-        </div>
+        </Form>
     );
 }
 
