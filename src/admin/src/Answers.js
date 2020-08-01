@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Header, Grid, Accordion, Segment, Form, List, Button } from 'semantic-ui-react';
 
-import { getAnswers, remove, add, setTitle, setImageURL, setResultID } from './store/answers.js';
+import { getAnswers, remove, add, setTitle, up, down, setImageURL, setResultID } from './store/answers.js';
 
 function Answers(props) {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -19,8 +19,8 @@ function Answers(props) {
                                     </Grid.Column>
                                     <Grid.Column textAlign='right'>
                                         <Button.Group  size='mini' basic>
-                                            <Button as='a'>&#9650; Move Up</Button>
-                                            <Button as='a'>&#9660; Move Down</Button>
+                                            <Button as='a' onClick={e => props.up(i)}>&#9650; Move Up</Button>
+                                            <Button as='a' onClick={e => props.down(i)}>&#9660; Move Down</Button>
                                             <Button as='a' onClick={e => props.remove(a.id)}>&times; Delete</Button>
                                         </Button.Group>
                                     </Grid.Column>
@@ -45,5 +45,5 @@ function Answers(props) {
 }
 
 const mapStateToProps = (state, ownProps) => ({ answers: getAnswers(state, ownProps.question_id) });
-export default connect(mapStateToProps, {remove, add, setTitle, setImageURL, setResultID})(Answers);
+export default connect(mapStateToProps, {remove, add, setTitle, up, down, setImageURL, setResultID})(Answers);
 

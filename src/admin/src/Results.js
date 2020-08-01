@@ -19,8 +19,6 @@ function Results(props) {
                                 </Grid.Column>
                                 <Grid.Column textAlign='right'>
                                     <Button.Group  size='mini'>
-                                        <Button as='a'>&#9650; Move Up</Button>
-                                        <Button as='a'>&#9660; Move Down</Button>
                                         <Button as='a' onClick={e => props.remove(r.id)} color='red'>&times; Delete</Button>
                                     </Button.Group>
                                 </Grid.Column>

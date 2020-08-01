@@ -4,7 +4,7 @@ import { Grid, Accordion, Form, List, Button, Segment, Header } from 'semantic-u
 
 import Answers from './Answers.js';
 
-import { getQuestions, remove, add, setTitle, setImageURL } from './store/questions.js';
+import { getQuestions, remove, add, up, down, setTitle, setImageURL } from './store/questions.js';
 
 function Questions(props) {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -21,8 +21,8 @@ function Questions(props) {
                                 </Grid.Column>
                                 <Grid.Column textAlign='right'>
                                     <Button.Group  size='mini'>
-                                        <Button as='a'>&#9650; Move Up</Button>
-                                        <Button as='a'>&#9660; Move Down</Button>
+                                        <Button as='a' onClick={e => props.up(i)}>&#9650; Move Up</Button>
+                                        <Button as='a' onClick={e => props.down(i)}>&#9660; Move Down</Button>
                                         <Button as='a' onClick={e => props.remove(q.id)} color='red'>&times; Delete</Button>
                                     </Button.Group>
                                 </Grid.Column>
@@ -52,4 +52,4 @@ function Questions(props) {
 }
 
 const mapStateToProps = state => ({ questions: getQuestions(state) });
-export default connect(mapStateToProps, {remove, add, setTitle, setImageURL})(Questions);
+export default connect(mapStateToProps, {remove, add, up, down, setTitle, setImageURL})(Questions);
