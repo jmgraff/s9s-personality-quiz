@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Accordion, Form, Button } from 'semantic-ui-react';
+import { Accordion, Form, Button, List } from 'semantic-ui-react';
 
 import Answers from './Answers.js';
 
@@ -11,10 +11,10 @@ function Questions(props) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <>
+        <List>
             <Accordion styled fluid>
                 {props.questions.map((q,i) => (
-                    <>
+                    <List.Item key={q.id}>
                         <Accordion.Title index={i} active={activeIndex === i} onClick={() => setActiveIndex(i)}>
                             <AccordionHeader
                                 index={i}
@@ -40,11 +40,11 @@ function Questions(props) {
                                 onChange={e => props.setImageURL(q.id, e.target.value)} />
                             <Answers question_id={q.id} />
                         </Accordion.Content>
-                    </>
+                    </List.Item>
                 ))}
                 <Button as='a' id='reactquiz-add-question-button' onClick={e => props.add()}>&#43; Add Question </Button>
             </Accordion>
-        </>
+        </List>
     );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Accordion, Form, Input, Button, TextArea } from 'semantic-ui-react';
+import { Accordion, Form, Input, Button, TextArea, List } from 'semantic-ui-react';
 
 import { getResults, remove, add, setTitle, setDescription, setImageURL } from './store/results.js';
 
@@ -10,10 +10,10 @@ function Results(props) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <>
+        <List>
             <Accordion styled fluid>
                 {props.results.map((r, i) => (
-                    <>
+                    <List.Item key={r.id}>
                         <Accordion.Title index={i} active={activeIndex === i} onClick={ () => setActiveIndex(i) }>
                             <AccordionHeader
                                 index={i}
@@ -39,11 +39,11 @@ function Results(props) {
                                 onChange={e => props.setDescription(r.id, e.target.value)}
                             />
                         </Accordion.Content>
-                    </>
+                    </List.Item>
                 ))}
             </Accordion>
             <Button as='a' onClick={e => props.add()}>&#43; Add Result</Button>
-        </>
+        </List>
     );
 }
 
