@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { getIntro, setTitle, setDescription } from './store/intro.js';
-import { TextArea, Container, Form, Header, Input } from 'semantic-ui-react';
+import { TextArea, Form, Header, Input } from 'semantic-ui-react';
 
 function Intro(props) {
     return (

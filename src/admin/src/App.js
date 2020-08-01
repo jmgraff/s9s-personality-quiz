@@ -4,7 +4,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { connect } from 'react-redux';
 import { getQuizDataJSON } from './store';
 
-import { Form, Container, Menu, Tab } from 'semantic-ui-react';
+import { Form, Tab } from 'semantic-ui-react';
 
 import Intro from './Intro.js';
 import Questions from './Questions.js';

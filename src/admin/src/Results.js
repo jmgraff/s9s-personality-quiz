@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Accordion, Divider, Header, Form, Segment, Input, Button, TextArea, Card } from 'semantic-ui-react';
+import { Accordion, Form, Input, Button, TextArea } from 'semantic-ui-react';
 
 import { getResults, remove, add, setTitle, setDescription, setImageURL } from './store/results.js';
+
+import AccordionHeader from './AccordionHeader.js';
 
 function Results(props) {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -13,16 +15,12 @@ function Results(props) {
                 {props.results.map((r, i) => (
                     <>
                         <Accordion.Title index={i} active={activeIndex === i} onClick={ () => setActiveIndex(i) }>
-                            <Grid columns={2}>
-                                <Grid.Column>
-                                    <Header as='h3'>Result {i + 1}: {r.title}</Header>
-                                </Grid.Column>
-                                <Grid.Column textAlign='right'>
-                                    <Button.Group  size='mini'>
-                                        <Button as='a' onClick={e => props.remove(r.id)} color='red'>&times; Delete</Button>
-                                    </Button.Group>
-                                </Grid.Column>
-                            </Grid>
+                            <AccordionHeader
+                                index={i}
+                                name='Result'
+                                title={r.title}
+                                id={r.id}
+                                remove={props.remove} />
                         </Accordion.Title>
                         <Accordion.Content active={activeIndex === i}>
                             <Form.Field

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Accordion, Form, List, Button, Segment, Header } from 'semantic-ui-react';
+import { Accordion, Form, Button } from 'semantic-ui-react';
 
 import Answers from './Answers.js';
 
 import { getQuestions, remove, add, up, down, setTitle, setImageURL } from './store/questions.js';
+import AccordionHeader from './AccordionHeader.js';
 
 function Questions(props) {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -15,18 +16,14 @@ function Questions(props) {
                 {props.questions.map((q,i) => (
                     <>
                         <Accordion.Title index={i} active={activeIndex === i} onClick={() => setActiveIndex(i)}>
-                            <Grid columns={2}>
-                                <Grid.Column>
-                                    <Header as='h3'>Question {i + 1}: {q.title}</Header>
-                                </Grid.Column>
-                                <Grid.Column textAlign='right'>
-                                    <Button.Group  size='mini'>
-                                        <Button as='a' onClick={e => props.up(i)}>&#9650; Move Up</Button>
-                                        <Button as='a' onClick={e => props.down(i)}>&#9660; Move Down</Button>
-                                        <Button as='a' onClick={e => props.remove(q.id)} color='red'>&times; Delete</Button>
-                                    </Button.Group>
-                                </Grid.Column>
-                            </Grid>
+                            <AccordionHeader
+                                index={i}
+                                name='Question'
+                                title={q.title}
+                                id={q.id}
+                                remove={props.remove}
+                                up={props.up}
+                                down={props.down} />
                         </Accordion.Title>
                         <Accordion.Content active={activeIndex === i}>
                             <Form.Input
