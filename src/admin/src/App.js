@@ -9,8 +9,12 @@ import { Form, Tab } from 'semantic-ui-react';
 import Intro from './Intro.js';
 import Questions from './Questions.js';
 import Results from './Results.js';
+import {PanelBody, PanelRow, ToggleControl, FormFileUpload, Button} from '@wordpress/components';
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+
 
 function App({ quizDataJSON }) {
+
     const panes = [
         {
             menuItem: 'Intro',
@@ -29,6 +33,7 @@ function App({ quizDataJSON }) {
             render: () => <Tab.Pane attached={false}><h1>Coming Soon</h1></Tab.Pane>
         },
     ];
+
     return (
         <Form as='div'>
             <Tab menu={{pointing: true}} panes={panes} />

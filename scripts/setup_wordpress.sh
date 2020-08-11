@@ -28,4 +28,7 @@ docker-compose exec web chgrp www-data wp-content/temp
 
 $WP config set WP_TEMP_DIR __DIR__\ .\ \'/wp-content/temp/\' --raw
 
+$WP config set WP_DEBUG true --raw
+$WP config set WP_DEBUG_DISPLAY true --raw
+
 $WP plugin install /tmp/react-quiz.zip --force --activate

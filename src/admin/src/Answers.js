@@ -22,7 +22,8 @@ function Answers(props) {
                                     remove={props.remove}
                                     up={props.up}
                                     down={props.down}
-                                    as='h4' />
+                                    as='h4'
+                                    size='mini'/>
                             </Accordion.Title>
                             <Accordion.Content active={activeIndex === i}>
                                 <Form.Input

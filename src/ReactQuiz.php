@@ -25,6 +25,8 @@ if (!class_exists('ReactQuiz')) {
             add_filter('the_content', [$this, 'the_content']);
             //quiz post scripts
             add_action('wp_enqueue_scripts', [$this, 'add_scripts']);
+            //admin scripts
+            add_action('admin_enqueue_scripts', [$this, 'add_media_scripts']);
         }
 
         function the_content($content) {
@@ -39,6 +41,7 @@ if (!class_exists('ReactQuiz')) {
                 $myContent .= '<div id="root">Loading...</div>';
                 return $myContent;
             }
+            return $content;
         }
 
         function show_post_type($query) {
@@ -82,13 +85,20 @@ if (!class_exists('ReactQuiz')) {
             add_meta_box('add_meta_box', 'Edit React Quiz', [$this, 'add_meta_box'], null, 'normal');
 
             chdir(plugin_dir_path(__FILE__).'admin/static/js/');
+
+            wp_enqueue_script('lodash');
+
             foreach (glob('*.js') as $file) {
-                wp_enqueue_script($file, plugin_dir_url(__FILE__) . 'admin/static/js/' . $file, [], false, true);
+                wp_enqueue_script($file, plugin_dir_url(__FILE__) . 'admin/static/js/' . $file, ['wp-editor', 'lodash'], false, true);
             }
             chdir(plugin_dir_path(__FILE__).'admin/static/css/');
             foreach (glob('*.css') as $file) {
-                wp_enqueue_style($file, plugin_dir_url(__FILE__) . 'admin/static/css/' . $file);
+                wp_enqueue_style($file, plugin_dir_url(__FILE__) . 'admin/static/css/' . $file, ['wp-components']);
             }
+        }
+
+        public function add_media_scripts() {
+            wp_enqueue_media();
         }
 
         public function add_meta_box($post) {

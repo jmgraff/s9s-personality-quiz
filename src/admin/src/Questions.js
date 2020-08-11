@@ -10,6 +10,12 @@ import AccordionHeader from './AccordionHeader.js';
 function Questions(props) {
     const [activeIndex, setActiveIndex] = useState(0);
 
+    const MyFormFileUpload = () => (
+        <FormFileUpload accept='image/*' onChange={() => console.log('new image')}>
+            Image
+        </FormFileUpload>
+    );
+
     return (
         <List>
             <Accordion styled fluid>
@@ -32,6 +38,7 @@ function Questions(props) {
                                 value={q.title}
                                 fluid
                                 onChange={e => props.setTitle(q.id, e.target.value)} />
+                            <MyFormFileUpload />
                             <Form.Input
                                 type="text"
                                 name='image_url'
