@@ -22,7 +22,7 @@ function Answer(props) {
   return (
     <div className="row">
       <button
-            className="answer image-font" 
+            className="answer image-font"
             onClick={(e) => props.onAnswered(props.data.value, e)}
         >
             {props.data.answer}
@@ -94,16 +94,18 @@ class Quiz extends React.Component {
     this.history.push(`/question/${this.state.questionNumber}`);
   }
 
+
   render() {
+    console.log(this.props);
     return (
       <div id="reactquiz">
 
         <Switch>
 
           <Route exact path="/">
-            <Intro 
-              title={this.props.quizData.title} 
-              description={this.props.quizData.description} 
+            <Intro
+              title={this.props.quizData.title}
+              description={this.props.quizData.description}
               onStartQuiz={this.handleStartQuiz}
             />
           </Route>
@@ -116,9 +118,9 @@ class Quiz extends React.Component {
           </Route>
 
           <Route path="/results">
-            <Result 
-              answers={this.state.answers} 
-              results={this.props.quizData.results} 
+            <Result
+              answers={this.state.answers}
+              results={this.props.quizData.results}
             />
           </Route>
 

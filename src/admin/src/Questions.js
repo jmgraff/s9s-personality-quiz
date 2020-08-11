@@ -1,127 +1,59 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { Accordion, Form, Button, List } from 'semantic-ui-react';
+
 import Answers from './Answers.js';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import {v4 as uuidv4} from 'uuid';
+
+import { getQuestions, remove, add, up, down, setTitle, setImageURL } from './store/questions.js';
+import AccordionHeader from './AccordionHeader.js';
 
 function Questions(props) {
-    let propQuestions = props.data ? props.data : [];
+    const [activeIndex, setActiveIndex] = useState(0);
 
-    const [questions, setQuestions] = useState(propQuestions.map(q => {
-        if (!q.id) {
-            q.id = uuidv4();
-        }
-        return q;
-    }));
+    const MyFormFileUpload = () => (
+        <FormFileUpload accept='image/*' onChange={() => console.log('new image')}>
+            Image
+        </FormFileUpload>
+    );
 
-    useEffect(() => {
-        if (props.onChange) {
-            props.onChange(questions);
-        }
-    }, [questions]);
-
-    function onQuestionChange(e, i) {
-        const currentState = [...questions];
-        currentState[i].question = e.target.value;
-        setQuestions(currentState);
-    }
-
-    function onImageChange(e, i) {
-        const currentState = [...questions];
-        currentState[i].image = e.target.value;
-        setQuestions(currentState);
-    }
-
-    function onAnswerChange(data, i) {
-        const currentState = [...questions];
-        currentState[i].answers = data;
-        setQuestions(currentState);
-    }
-
-    function handleAdd(e) {
-        e.preventDefault();
-        const currentState = [...questions, {id: uuidv4(), question: '', image: '', answers: []}];
-        setQuestions(currentState);
-    }
-
-    function handleRemove(e, index) {
-        const currentState = questions.filter((q,i) => i !== index);
-        setQuestions(currentState);
-    }
-
-    function handleDragEnd(r) {
-        if (!r.destination) {
-            return;
-        }
-        const state = [...questions];
-        const [movedItem] = state.splice(r.source.index, 1);
-        state.splice(r.destination.index, 0, movedItem);
-        setQuestions(state);
-    }
-
-    function renderQuestions(data) {
-        if (data == undefined) return;
-        return data.map((q,i) => {
-            return (
-                <Draggable key={q.id} draggableId={q.id} index={i}>
-                    {(provided, snapshot) => (
-                        <li
-                            key={q.id}
-                            data-testid={`question-${i}`}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                        >
-                            <input
+    return (
+        <List>
+            <Accordion styled fluid>
+                {props.questions.map((q,i) => (
+                    <List.Item key={q.id}>
+                        <Accordion.Title index={i} active={activeIndex === i} onClick={() => setActiveIndex(i)}>
+                            <AccordionHeader
+                                index={i}
+                                name='Question'
+                                title={q.title}
+                                id={q.id}
+                                remove={props.remove}
+                                up={props.up}
+                                down={props.down} />
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === i}>
+                            <Form.Input
                                 type="text"
-                                name="question"
-                                value={q.question}
-                                onChange={e => onQuestionChange(e, i)}
-                            />
-                            <input
+                                name='title' placeholder='Question text'
+                                value={q.title}
+                                fluid
+                                onChange={e => props.setTitle(q.id, e.target.value)} />
+                            <MyFormFileUpload />
+                            <Form.Input
                                 type="text"
-                                name="image"
-                                value={q.image}
-                                onChange={e => onImageChange(e, i)}
-                            />
-                            <button 
-                                data-testid="remove-question-button"
-                                onClick={e => handleRemove(e,i) }
-                            >
-                                &times;
-                            </button>
-                            <Answers
-                                data={q.answers}
-                                results={props.results}
-                                onChange={data => onAnswerChange(data, i)}
-                            />
-                        </li>
-                    )}
-                </Draggable>
-            );
-        });
-    }
-
-    return(
-        <DragDropContext onDragEnd={r => handleDragEnd(r)}>
-            <Droppable type="questions" droppableId="questions">
-                {(provided, snapshot) => (
-                    <ul
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                    >
-                        {props.data ? renderQuestions(questions): null}
-                        {provided.placeholder}
-                        <button
-                            id='reactquiz-add-question-button'
-                            onClick={e => handleAdd(e)}
-                        >
-                            Add Question
-                        </button>
-                    </ul>
-                )}
-            </Droppable>
-        </DragDropContext>
+                                name='image_url'
+                                value={q.image_url}
+                                fluid
+                                onChange={e => props.setImageURL(q.id, e.target.value)} />
+                            <Answers question_id={q.id} />
+                        </Accordion.Content>
+                    </List.Item>
+                ))}
+                <Button as='a' id='reactquiz-add-question-button' onClick={e => props.add()}>&#43; Add Question </Button>
+            </Accordion>
+        </List>
     );
 }
 
-export default Questions;
+const mapStateToProps = state => ({ questions: getQuestions(state) });
+export default connect(mapStateToProps, {remove, add, up, down, setTitle, setImageURL})(Questions);

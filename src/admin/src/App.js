@@ -1,88 +1,45 @@
 // TODO: add title image
 import React from 'react';
+import 'semantic-ui-css/semantic.min.css';
+import { connect } from 'react-redux';
+import { getQuizDataJSON } from './store';
+
+import { Form, Tab } from 'semantic-ui-react';
+
+import Intro from './Intro.js';
 import Questions from './Questions.js';
 import Results from './Results.js';
+import {PanelBody, PanelRow, ToggleControl, FormFileUpload, Button} from '@wordpress/components';
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 
-class App extends React.Component {
-    constructor() {
-        super();
-        this.state = this.getQuizData();
-        console.log('test');
-    };
 
-    getQuizData() {
-        let blankQuizData = {
-            title: '',
-            description: '',
-            questions: [],
-            results: []
-        };
+function App({ quizDataJSON }) {
 
-        if (!!!window.quizData) {
-            return {quizData: blankQuizData};
-        } else {
-            return JSON.parse(window.quizData);
-        }
-    }
+    const panes = [
+        {
+            menuItem: 'Intro',
+            render: () => <Tab.Pane attached={false}><Intro /></Tab.Pane>
+        },
+        {
+            menuItem: 'Results',
+            render: () => <Tab.Pane attached={false}><Results /></Tab.Pane>
+        },
+        {
+            menuItem: 'Questions',
+            render: () => <Tab.Pane attached={false}><Questions /></Tab.Pane>
+        },
+        {
+            menuItem: 'Results Page',
+            render: () => <Tab.Pane attached={false}><h1>Coming Soon</h1></Tab.Pane>
+        },
+    ];
 
-    handleTitleChange(e) {
-        let newState = {...this.state};
-        console.log(newState);
-        newState.quizData.title = e.target.value;
-        this.setState(newState);
-    }
-
-    handleDescriptionChange(e) {
-        let newState = {...this.state};
-        newState.quizData.description = e.target.value;
-        this.setState(newState);
-    }
-
-    handleQuestionsChange(data) {
-        let newState = {...this.state};
-        newState.quizData.questions = data;
-        this.setState(newState);
-    }
-
-    handleResultsChange(data) {
-        let newState = {...this.state};
-        newState.quizData.results = data;
-        this.setState(newState);
-    }
-
-    render() {
-        return (
-            <div className="App">
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input
-                        id="reactquiz-title"
-                        value={this.state.quizData.title}
-                        onChange={e => this.handleTitleChange(e)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="description">Description</label>
-                    <input
-                        id="reactquiz-description"
-                        value={this.state.quizData.description}
-                        onChange={e => this.handleDescriptionChange(e)}
-                    />
-                </div>
-                <Results
-                    data={this.state.quizData.results}
-                    onChange={data => this.handleResultsChange(data)}
-                />
-                <Questions
-                    data={this.state.quizData.questions}
-                    results={this.state.quizData.results}
-                    onChange={data => this.handleQuestionsChange(data)}
-                />
-                <textarea id="reactquiz-json" name="reactquiz_data" value={JSON.stringify(this.state)}>
-                </textarea>
-            </div>
-        );
-    }
+    return (
+        <Form as='div'>
+            <Tab menu={{pointing: true}} panes={panes} />
+            <input type='hidden' name='reactquiz_data' value={ quizDataJSON } />
+        </Form>
+    );
 }
 
-export default App;
+export default connect(state => getQuizDataJSON(state))(App);

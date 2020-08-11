@@ -1,67 +1,51 @@
-import React, {useState, useEffect} from 'react';
-import {v4 as uuidv4} from 'uuid';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { Accordion, Form, Input, Button, TextArea, List } from 'semantic-ui-react';
+
+import { getResults, remove, add, setTitle, setDescription, setImageURL } from './store/results.js';
+
+import AccordionHeader from './AccordionHeader.js';
 
 function Results(props) {
-    const [results, setResults] = useState(props.data.map(r => {
-        if (!r.id) { 
-            r.id = uuidv4();
-        }
-        return r;
-    }));
-
-    useEffect(() => {
-        props.onChange(results);
-    }, [results]);
-
-    function handleAdd(e) {
-        e.preventDefault();
-        setResults([...results, {id: uuidv4(), title: '', value: ''}]);
-    }
-
-    function handleRemove(e, index) {
-        e.preventDefault();
-        setResults(results.filter((a,i) => i !== index));
-    }
-
-    function onChange(e, i) {
-        const currentState = [...results];
-        currentState[i][e.target.name] = e.target.value;
-        setResults(currentState);
-    }
+    const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <div>
-            <h3>Results</h3>
-            <ul>
-                {results.map((x,i) => (
-                    <li key={x.id} data-testid={`answer-${i}`}>
-                        <input
-                            data-testid="result-input"
-                            type="text"
-                            name="title"
-                            value={x.title}
-                            onChange={e => onChange(e,i)}
-                        />
-                        <input 
-                            data-testid="value-input"
-                            type="text"
-                            name="value"
-                            size="3"
-                            value={x.value}
-                            onChange={e => onChange(e,i)}
-                        />
-                        <button 
-                            data-testid="remove-button"
-                            onClick={e => handleRemove(e,i)}
-                        >
-                            &times;
-                        </button>
-                    </li>
+        <List>
+            <Accordion styled fluid>
+                {props.results.map((r, i) => (
+                    <List.Item key={r.id}>
+                        <Accordion.Title index={i} active={activeIndex === i} onClick={ () => setActiveIndex(i) }>
+                            <AccordionHeader
+                                index={i}
+                                name='Result'
+                                title={r.title}
+                                id={r.id}
+                                remove={props.remove} />
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === i}>
+                            <Form.Field
+                                placeholder='Title text'
+                                control={Input}
+                                data-testid="result-input"
+                                name="title"
+                                value={r.title}
+                                onChange={e => props.setTitle(r.id, e.target.value)}
+                            />
+                            <Form.Field
+                                placeholder='Description'
+                                control={TextArea}
+                                name="description"
+                                value={r.description}
+                                onChange={e => props.setDescription(r.id, e.target.value)}
+                            />
+                        </Accordion.Content>
+                    </List.Item>
                 ))}
-                <button onClick={e => handleAdd(e)}>Add Result</button>
-            </ul>
-        </div>
+            </Accordion>
+            <Button as='a' onClick={e => props.add()}>&#43; Add Result</Button>
+        </List>
     );
 }
 
-export default Results;
+const mapStateToProps = (state) => ({ results: getResults(state) });
+export default connect(mapStateToProps, { remove, add, setTitle, setDescription, setImageURL })(Results);

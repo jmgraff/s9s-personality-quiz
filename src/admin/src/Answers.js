@@ -1,126 +1,48 @@
-import React, {useState, useEffect} from 'react';
-import {v4 as uuidv4} from 'uuid';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { Accordion, Form, Button, List } from 'semantic-ui-react';
+
+import AccordionHeader from './AccordionHeader.js';
+import { getAnswers, remove, add, setTitle, up, down, setImageURL, setResultID } from './store/answers.js';
 
 function Answers(props) {
-    const [answers, setAnswers] = useState(props.data.map(a => {
-        if (!a.id) {
-            a.id = uuidv4();
-        }
-        return a;
-    }));
-
-    useEffect(() => {
-        props.onChange(answers);
-    }, [answers]);
-
-    function onChange(e, i) {
-        const currentState = [...answers];
-        currentState[i][e.target.name] = e.target.value;
-        setAnswers(currentState);
-    }
-
-    function handleAdd(e) {
-        e.preventDefault();
-        setAnswers([...answers, {id: uuidv4(), answer: '', value: ''}]);
-    }
-
-    function handleRemove(e, index) {
-        e.preventDefault();
-        setAnswers(answers.filter((a,i) => i !== index));
-    }
-
-    function handleMoveUp(e, index) {
-        e.preventDefault();
-        if ((index - 1) < 0) {
-            return;
-        }
-        const state = [...answers];
-        const [movedItem] = state.splice(index, 1);
-        state.splice(index - 1, 0, movedItem);
-        setAnswers(state);
-    }
-
-    function handleMoveDown(e, index) {
-        e.preventDefault();
-        if ((index + 1) >= answers.length) {
-            return;
-        }
-        const state = [...answers];
-        const [movedItem] = state.splice(index, 1);
-        state.splice(index + 1, 0, movedItem);
-        setAnswers(state);
-    }
-
-    function handleDragEnd(r) {
-        if (!r.destination) {
-            return;
-        }
-        const state = [...answers];
-        const [movedItem] = state.splice(r.source.index, 1);
-        state.splice(r.destination.index, 0, movedItem);
-        setAnswers(state);
-    }
-
-    const results = props.results.map((r) => {
-        return (
-            <option value={r.value}>
-                {r.title}
-            </option>
-        );
-    });
-
-    function renderAnswers(answers) {
-        // TODO: add answer background image
-        return answers.map((a,i) => {
-            return (
-                <li key={a.id} data-testid={`answer-${i}`}>
-                    <input
-                        data-testid="answer-input"
-                        type="text"
-                        name='answer'
-                        value={a.answer}
-                        onChange={e => onChange(e,i)}
-                    />
-                    <select>
-                        {results}
-                    </select>
-                    <input
-                        data-testid="value-input"
-                        type="text"
-                        name='value'
-                        size="3"
-                        value={a.value}
-                        onChange={e => onChange(e,i)}
-                    />
-                    <button 
-                        data-testid="move-up-button"
-                        onClick={e => handleMoveUp(e,i)}
-                    >
-                        &#9650;
-                    </button>
-                    <button
-                        data-testid="move-down-button"
-                        onClick={e => handleMoveDown(e,i)}
-                    >
-                        &#9660;
-                    </button>
-                    <button
-                        data-testid="remove-button"
-                        onClick={e => handleRemove(e,i)}
-                    >
-                        &times;
-                    </button>
-                </li>
-            )
-        });
-    }
+    const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <ul>
-        {renderAnswers(answers)}
-        <button onClick={e => handleAdd(e)}>Add Answer</button>
-        </ul>
+            <List>
+                <Accordion styled fluid>
+                    {props.answers.map((a,i) => (
+                        <List.Item key={a.id}>
+                            <Accordion.Title index={i} active={activeIndex === i} onClick={() => setActiveIndex(i)}>
+                                <AccordionHeader
+                                    index={i}
+                                    name='Answer'
+                                    title={a.title}
+                                    id={a.id}
+                                    remove={props.remove}
+                                    up={props.up}
+                                    down={props.down}
+                                    as='h4'
+                                    size='mini'/>
+                            </Accordion.Title>
+                            <Accordion.Content active={activeIndex === i}>
+                                <Form.Input
+                                    placeholder="Answer text"
+                                    type="text"
+                                    name='title'
+                                    value={a.title}
+                                    onChange={e => props.setTitle(a.id, e.target.value)}
+                                    fluid
+                                />
+                            </Accordion.Content>
+                        </List.Item>
+                    ))}
+                </Accordion>
+                <Button as='a' onClick={e => props.add(props.question_id)}>&#43; Add Answer</Button>
+            </List>
     );
 }
 
-export default Answers;
+const mapStateToProps = (state, ownProps) => ({ answers: getAnswers(state, ownProps.question_id) });
+export default connect(mapStateToProps, {remove, add, setTitle, up, down, setImageURL, setResultID})(Answers);
+

@@ -34,16 +34,18 @@ dev:
 	./scripts/run_dev_container.sh $(DEV_IMAGE_NAME)
 PHONY+=dev
 
-test:
+test: build
 	./scripts/setup_wordpress.sh
 	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
 PHONY+=test
 
 server:
-	docker-compose down -v
-	docker-compose up -d
 	./scripts/setup_wordpress.sh
 PHONY+=server
+
+server-down:
+	docker-compose down
+PHONY+=server-down
 
 $(ADMIN_DIR)/node_modules: $(ADMIN_DIR)/package.json
 	cd $(ADMIN_DIR) && npm install
