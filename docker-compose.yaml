@@ -2,7 +2,7 @@ version: '2'
 
 services:
     web:
-        image: reactquiz/wp:1.0
+        image: s9s/wp-plugin-web:1.0
         container_name: web
         links:
             - mysql

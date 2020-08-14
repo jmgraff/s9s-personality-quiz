@@ -16,7 +16,7 @@ done
 
 $WP core install \
   --url="$URL" \
-  --title="Test Site" \
+  --title="S9S Wordpress Test Site" \
   --admin_user="admin" \
   --admin_password="admin" \
   --admin_email="admin@email.com"
@@ -31,4 +31,4 @@ $WP config set WP_TEMP_DIR __DIR__\ .\ \'/wp-content/temp/\' --raw
 $WP config set WP_DEBUG true --raw
 $WP config set WP_DEBUG_DISPLAY true --raw
 
-$WP plugin install /tmp/react-quiz.zip --force --activate
+$WP plugin install /tmp/$(slugify $PROJECT_NAME).zip --force --activate

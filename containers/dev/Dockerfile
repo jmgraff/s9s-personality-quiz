@@ -18,6 +18,9 @@ RUN apt-get update && apt-get -y install \
     zip \
     unzip
 
+# Python packages
+RUN pip3 install python-slugify
+
 # Docker
 RUN apt-get -y install apt-transport-https ca-certificates gnupg-agent software-properties-common
 RUN curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -
@@ -39,4 +42,5 @@ RUN npm install -g cypress --unsafe-perm --silent
 
 # home
 WORKDIR /project
+RUN git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 COPY ./dotfiles/ /root
