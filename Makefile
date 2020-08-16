@@ -1,6 +1,7 @@
 PROJECT_NAME=S9S\ Personality\ Quiz
 
 DEV_IMAGE_NAME = s9s/wp-plugin-dev:1.0
+WP_IMAGE_NAME = s9s/wp-plugin-web:1.0
 SHELL = /bin/sh
 
 dev:
@@ -12,46 +13,54 @@ PHONY+=dev
 # *********************************************************************
 
 ifeq ($(shell pwd), /project)
-  PROJECT_NAME_SLUG=$(shell slugify $(PROJECT_NAME))
-  SRC_BASE = /project/src
-  WP_IMAGE_NAME = s9s/wp-plugin-web:1.0
-  TEST_DIR = tests
-  TEMP_DIR = /tmp/$(PROJECT_NAME_SLUG)
-  BUILD_DIR = /project/build
 
-  DOTFILES = ~/.vim
-  DOTFILES += ~/.vimrc
-  DOTFILES += ~/.tmux.conf
+PROJECT_NAME_SLUG = $(shell slugify $(PROJECT_NAME))
 
-  web:
-	  docker build -t $(WP_IMAGE_NAME) containers/wp/
-  PHONY+=web
+# *** Phony Targets ***
 
-  test: build
-	  ./scripts/setup_wordpress.sh
-	  (CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
-  PHONY+=test
+web:
+	docker build -t $(WP_IMAGE_NAME) containers/wp/
+PHONY+=web
 
-  serve: build
-	  ./scripts/setup_wordpress.sh
-  PHONY+=serve
+test: build
+	./scripts/setup_wordpress.sh
+	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
+PHONY+=test
 
-  server-down:
-	  docker-compose down
-  PHONY+=server-down
+serve: build
+	./scripts/setup_wordpress.sh
+PHONY+=serve
 
-  build: $(SRC_BASE)/index.php $(SRC_BASE)/admin.js
-	  rm -rf $@
-	  mkdir -p $@
-	  rm -rf $(TEMP_DIR) && mkdir -p $(TEMP_DIR)
-	  cp -r $(SRC_BASE)/$(PROJECT_NAME_SLUG).php $(SRC_BASE)/*.js $(TEMP_DIR)
-	  cd $(TEMP_DIR) && zip -r $(BUILD_DIR)/$(PROJECT_NAME_SLUG).zip *
-	  touch $@
+server-down:
+	docker-compose down
+PHONY+=server-down
 
-  clean:
-	  docker-compose down
-	  rm -rf build
-  PHONY+=clean
-endif
+dist: $(PROJECT_NAME_SLUG).zip
+PHONY+=dist
+
+clean: server-down
+	rm -rf build/*
+	rm $(PROJECT_NAME_SLUG).zip
+PHONY+=clean
+
+
+# *** Build Targets ***
+
+build/admin.bundle.js: src/admin.js
+	npm run-script build
+
+build/style.css: src/style.css
+	cp src/style.css $@
+
+build/index.php: src/index.php
+	cp src/index.php $@
+
+build: build/index.php build/admin.bundle.js build/style.css
+	touch $@
+
+$(PROJECT_NAME_SLUG).zip: build
+	zip -j $@ build/*
+
+endif # Docker container
 
 .PHONY: $(PHONY)
