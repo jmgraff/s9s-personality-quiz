@@ -27,7 +27,7 @@ test: build
 	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
 PHONY+=test
 
-serve: build
+serve: dist
 	./scripts/setup_wordpress.sh
 PHONY+=serve
 
@@ -35,12 +35,9 @@ server-down:
 	docker-compose down
 PHONY+=server-down
 
-dist: $(PROJECT_NAME_SLUG).zip
-PHONY+=dist
-
 clean: server-down
 	rm -rf build/*
-	rm $(PROJECT_NAME_SLUG).zip
+	rm -f dist/$(PROJECT_NAME_SLUG).zip
 PHONY+=clean
 
 
@@ -58,8 +55,11 @@ build/index.php: src/index.php
 build: build/index.php build/admin.bundle.js build/style.css
 	touch $@
 
-$(PROJECT_NAME_SLUG).zip: build
+dist/$(PROJECT_NAME_SLUG).zip: build
 	zip -j $@ build/*
+
+dist: dist/$(PROJECT_NAME_SLUG).zip
+	touch $@
 
 endif # Docker container
 

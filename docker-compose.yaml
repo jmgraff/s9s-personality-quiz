@@ -12,7 +12,7 @@ services:
         ports:
             - "3000:80"
         volumes:
-            - ${HOST_PWD}/build:/tmp
+            - ${HOST_PWD}/dist/${PROJECT_NAME_SLUG}.zip:/tmp/${PROJECT_NAME_SLUG}.zip
     mysql:
         image: mysql:5.7
         container_name: db

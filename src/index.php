@@ -32,7 +32,7 @@
     function gwg_editor_assets() {
         wp_enqueue_script(
             'gwg-block-js',
-            GWG_ESNEXT_PLUGIN_URL . 'admin.build.js',
+            GWG_ESNEXT_PLUGIN_URL . 'admin.bundle.js',
             [],
             GWG_ESNEXT_VERSION,
             true // Enqueue script in the footer.
@@ -40,7 +40,7 @@
 
         wp_enqueue_style(
             'gwg-editor-css',
-            GWG_ESNEXT_PLUGIN_URL . 'editor.css',
+            GWG_ESNEXT_PLUGIN_URL . 'style.css',
             [],
             GWG_ESNEXT_VERSION
         );
