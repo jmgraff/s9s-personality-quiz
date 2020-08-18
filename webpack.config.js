@@ -4,10 +4,13 @@ module.exports = {
         react: 'React',
         'react-dom': 'ReactDOM',
     },
-    entry: './src/admin.js',
+    entry: {
+        admin: './src/admin.js',
+        frontend: './src/frontend.js'
+    },
     output: {
         path: __dirname,
-        filename: 'build/admin.bundle.js',
+        filename: 'build/[name].[contenthash].js',
     },
     module: {
         rules: [

@@ -6,44 +6,39 @@
  * Version: 1.0.0
  * Author: Signal 9 Software
  * Author URI: https://signal9software.com
- * Text Domain: gwg
+ * Text Domain: s9spq
  * Domain Path: languages
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 
-    defined( 'ABSPATH' ) || exit;
+    defined('ABSPATH') || exit;
 
-    define( 'GWG_ESNEXT_VERSION', '1.0.0' );
-    define( 'GWG_ESNEXT_PLUGIN_DIR', dirname( __FILE__ ) );
-    define( 'GWG_ESNEXT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+    define('S9SPQ_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
+    define('S9SPQ_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 
-    function gwg_block_assets() {
-        wp_enqueue_style(
-            'gwg-style-css',
-            GWG_ESNEXT_PLUGIN_URL . 'style.css',
-            [],
-            GWG_ESNEXT_VERSION
-        );
+    function s9spq_get_script_url($name) {
+        #FIXME better handle error state when js file not found
+        $files = glob(S9SPQ_PLUGIN_PATH . $name . '.*.js');
+        if (count($files) != 1) {
+            die("$name must correlate to exactly 1 file; " . count($files) . ' found.');
+        }
+        return S9SPQ_PLUGIN_URL . basename($files[0]);
     }
-    add_action( 'enqueue_block_assets', 'gwg_block_assets' );
 
-    function gwg_editor_assets() {
-        wp_enqueue_script(
-            'gwg-block-js',
-            GWG_ESNEXT_PLUGIN_URL . 'admin.bundle.js',
-            [],
-            GWG_ESNEXT_VERSION,
-            true // Enqueue script in the footer.
-        );
-
-        wp_enqueue_style(
-            'gwg-editor-css',
-            GWG_ESNEXT_PLUGIN_URL . 'style.css',
-            [],
-            GWG_ESNEXT_VERSION
-        );
+    function s9spq_frontend_assets() {
+        wp_enqueue_style('s9spq_frontend_css', S9SPQ_PLUGIN_URL . 'style.css', [], null);
+        if (!is_admin()) {
+            wp_enqueue_script('s9spq_frontend_script', s9spq_get_script_url('frontend'), ['wp-element'], null, true);
+        }
     }
-    add_action( 'enqueue_block_editor_assets', 'gwg_editor_assets' );
+    add_action( 'enqueue_block_assets', 's9spq_frontend_assets' );
+
+    function s9spq_admin_assets() {
+        wp_enqueue_media();
+        wp_enqueue_style('s9spq_admin_css', S9SPQ_PLUGIN_URL . 'style.css', [], null);
+        wp_enqueue_script('s9spq_admin_script', s9spq_get_script_url('admin'), ['wp-element', 'wp-data'], null, true);
+    }
+    add_action( 'enqueue_block_editor_assets', 's9spq_admin_assets' );
 ?>

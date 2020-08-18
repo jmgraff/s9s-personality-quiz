@@ -15,9 +15,10 @@ PHONY+=dev
 ifeq ($(shell pwd), /project)
 
 PROJECT_NAME_SLUG = $(shell slugify $(PROJECT_NAME))
+JS_FILES = $(wildcard src/*.js)
+CSS_FILES = $(wildcard src/*.css)
 
 # *** Phony Targets ***
-
 web:
 	docker build -t $(WP_IMAGE_NAME) containers/wp/
 PHONY+=web
@@ -38,25 +39,28 @@ PHONY+=server-down
 clean: server-down
 	rm -rf build/*
 	rm -f dist/$(PROJECT_NAME_SLUG).zip
+	rm *.empty
 PHONY+=clean
 
 
 # *** Build Targets ***
-
-build/admin.bundle.js: src/admin.js
+webpack.empty: $(JS_FILES)
+	rm -f build/*.js
 	npm run-script build
+	touch $@
 
 build/style.css: src/style.css
-	cp src/style.css $@
+	cp $^ $@
 
 build/index.php: src/index.php
-	cp src/index.php $@
+	cp $^ $@
 
-build: build/index.php build/admin.bundle.js build/style.css
+build: build/index.php build/style.css webpack.empty
 	touch $@
 
 dist/$(PROJECT_NAME_SLUG).zip: build
-	zip -j $@ build/*
+	rm -f $@
+	zip -rj $@ build/*
 
 dist: dist/$(PROJECT_NAME_SLUG).zip
 	touch $@
