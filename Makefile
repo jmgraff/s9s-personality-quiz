@@ -39,7 +39,7 @@ PHONY+=server-down
 clean: server-down
 	rm -rf build/*
 	rm -f dist/$(PROJECT_NAME_SLUG).zip
-	rm *.empty
+	rm -f *.empty
 PHONY+=clean
 
 

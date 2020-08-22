@@ -1,8 +1,39 @@
 const { registerBlockType } = wp.blocks;
 const { useState, RawHTML } = wp.element;
 const { Button } = wp.components;
-const { registerStore } = wp.data;
+const { registerStore, withSelect, withDispatch } = wp.data;
 const { MediaUpload, MediaUploadCheck } = wp.blockEditor;
+const { compose } = wp.compose;
+
+const applyWithSelect = withSelect(select => {
+    const {getTodos} = select('my-todos-plugin');
+    return { todos: getTodos() };
+});
+const applyWithDispatch = withDispatch(dispatch => ({ addTodo } = dispatch('my-todos-plugin')));
+
+const Todos = compose(applyWithSelect)(({todos}) => {
+    return (
+        <ul>
+            { todos.map(todo => <li>{todo.text}</li>) }
+        </ul>
+    );
+});
+
+const TodoAdder = compose(applyWithDispatch, applyWithSelect)(({addTodo, setData, todos}) => {
+    [currentTodo, setCurrentTodo] = useState('');
+
+    setData(JSON.stringify(todos));
+
+    return (
+        <div>
+            <Todos />
+            <div>
+                <input type="text" value={currentTodo} onChange={(e) => setCurrentTodo(e.target.value)} />
+                <button onClick={() => addTodo(currentTodo)}>Add Todo</button>
+            </div>
+        </div>
+    );
+});
 
 //import produce from 'immer';
 // This is the reducer
@@ -15,7 +46,7 @@ function reducer( state = [], action ) {
 }
 
 // These are some selectors
-function getTodos(stat ) {
+function getTodos(state) {
     return state;
 }
 
@@ -35,14 +66,13 @@ function addTodo(text, done = false) {
 wp.data.registerStore( 'my-todos-plugin', {
     reducer: reducer,
     selectors: { getTodos, countTodos },
-    actions: { addTodo }
+    actions: { addTodo },
+    initialState: []
 });
 
 registerBlockType('s9s/personality-quiz', {
     title: 'S9S Personality Quiz - Free Edition',
-
     category: 'common',
-
     attributes: {
         data: {
             type: 'string'
@@ -50,33 +80,13 @@ registerBlockType('s9s/personality-quiz', {
     },
 
     edit(props) {
-        let mediaId = '';
-        const [imageUrl, setImageUrl] = useState(props.attributes.data);
-
+        console.log(props.attributes);
         return (
-            <>
-                <img src={imageUrl} />
-                <MediaUploadCheck>
-                    <MediaUpload
-                        onSelect={ (media) => {
-                            console.log(media);
-                            setImageUrl(media.url);
-                            props.setAttributes({data: media.url});
-                        } }
-                        allowedTypes={['image']}
-                        value={mediaId}
-                        render={({open}) => (
-                            <Button onClick={open}>
-                                Select Image
-                            </Button>
-                        )}
-                    />
-                </MediaUploadCheck>
-            </>
+            <TodoAdder setData={(data) => props.setAttributes({data})} />
         );
     },
 
     save(props) {
-        return <div data-quiz={props.attributes.data}></div>;
+        return <div data-quiz={JSON.stringify(props.attributes.data)}></div>;
     },
 });
