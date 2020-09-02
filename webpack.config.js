@@ -5,6 +5,7 @@ module.exports = {
         wp: 'wp',
         react: 'React',
         'react-dom': 'ReactDOM',
+        lodash: 'lodash'
     },
     entry: {
         admin: './src/admin.js',
@@ -12,7 +13,7 @@ module.exports = {
     },
     output: {
         path: __dirname,
-        filename: 'build/[name].[contenthash].js',
+        filename: 'build/[name].[contenthash].js'
     },
     module: {
         rules: [

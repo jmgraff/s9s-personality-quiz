@@ -38,7 +38,7 @@
     function s9spq_admin_assets() {
         wp_enqueue_media();
         wp_enqueue_style('s9spq_admin_css', S9SPQ_PLUGIN_URL . 'style.css', [], null);
-        wp_enqueue_script('s9spq_admin_script', s9spq_get_script_url('admin'), ['wp-element', 'wp-data'], null, true);
+        wp_enqueue_script('s9spq_admin_script', s9spq_get_script_url('admin'), ['wp-element', 'wp-data', 'lodash'], null, true);
     }
     add_action( 'enqueue_block_editor_assets', 's9spq_admin_assets' );
 ?>

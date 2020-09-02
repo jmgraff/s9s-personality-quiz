@@ -1,8 +1,10 @@
 import { Provider } from 'react-redux';
+
+const { registerBlockType } = wp.blocks;
+
 import Thing from './Thing.js';
 import { getNewStore } from './store.js';
 
-const { registerBlockType } = wp.blocks;
 
 registerBlockType('s9s/personality-quiz', {
     title: 'S9S Personality Quiz - Free Edition',
@@ -14,20 +16,20 @@ registerBlockType('s9s/personality-quiz', {
     },
 
     edit({ attributes: { data }, setAttributes }) {
-        console.log('data: ', data);
-        const store = getNewStore(data);
-        console.log('state: ', store.getState());
+
+        const store = getNewStore(data, () => {
+            console.log("Saving attributes: ", store.getState());
+            setAttributes({data: JSON.stringify(store.getState())})
+        });
+
         return (
             <Provider store={store}>
-                <Thing
-                    setData={ () => setAttributes({ data: JSON.stringify(store.getState()) }) }
-                />
+                <Thing />
             </Provider>
         );
     },
 
     save(props) {
-        console.log('save data: ', props.attributes.data);
         return <div data-quiz={ props.attributes.data }></div>;
     },
 });
