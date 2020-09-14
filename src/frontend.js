@@ -6,14 +6,16 @@ const S9SPersonalityQuiz = (props) => {
     const [titleChecked, setTitleChecked] = useState(false);
     const [textChecked, setTextChecked] = useState(false);
 
+    console.log(text);
+
     return (
-        <div style={{color: 'blue', border: '1px dotted black' }}>
+        <div style={{ border: '1px dotted black' }}>
             <div>
                 <p>{ title }</p>
                 <input type="checkbox" checked={titleChecked} onChange={() => setTitleChecked(!titleChecked)} />
             </div>
             <div>
-                <p>{ text }</p>
+                <div dangerouslySetInnerHTML={{ __html: text }} />
                 <input type="checkbox" checked={textChecked} onChange={() => setTextChecked(!textChecked)} />
             </div>
         </div>

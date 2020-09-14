@@ -16,6 +16,7 @@ registerBlockType('s9s/personality-quiz', {
     },
 
     edit({ attributes: { data }, setAttributes }) {
+        console.log("Calling the edit function all over again");
 
         const store = getNewStore(data, () => {
             console.log("Saving attributes: ", store.getState());

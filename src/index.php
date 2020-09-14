@@ -41,4 +41,5 @@
         wp_enqueue_script('s9spq_admin_script', s9spq_get_script_url('admin'), ['wp-element', 'wp-data', 'lodash'], null, true);
     }
     add_action( 'enqueue_block_editor_assets', 's9spq_admin_assets' );
+
 ?>
