@@ -28,9 +28,21 @@ test: build
 	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
 PHONY+=test
 
-serve: dist
-	./scripts/setup_wordpress.sh
-PHONY+=serve
+serve-free: dist
+	./scripts/setup_wordpress.sh free
+PHONY+=serve-free
+
+serve-free-debug: dist
+	./scripts/setup_wordpress.sh free-debug
+PHONY+=serve-free-debug
+
+serve-premium: dist
+	./scripts/setup_wordpress.sh premium
+PHONY+=serve-premium
+
+serve-premium-debug: dist
+	./scripts/setup_wordpress.sh premium-debug
+PHONY+=serve-premium-debug
 
 server-down:
 	docker-compose down
@@ -38,7 +50,7 @@ PHONY+=server-down
 
 clean: server-down
 	rm -rf build/*
-	rm -f dist/$(PROJECT_NAME_SLUG).zip
+	rm -f dist/*
 	rm -f *.empty
 PHONY+=clean
 
@@ -46,23 +58,41 @@ PHONY+=clean
 # *** Build Targets ***
 webpack.empty: $(JS_FILES)
 	rm -f build/*.js
-	npm run-script build
+	npm run-script build-all
 	touch $@
 
 build/style.css: src/style.css
 	cp $^ $@
 
-build/index.php: src/index.php
-	cp $^ $@
+build/index.free.php: src/index.php
+	#cp $^ $@
+	sed 's/__FEATURE_SET__/Free/g' $^ > $@
 
-build: build/index.php build/style.css webpack.empty
+build/index.premium.php: src/index.php
+	#cp $^ $@
+	sed 's/__FEATURE_SET__/Premium/g' $^ > $@
+
+build: build/index.free.php build/index.premium.php build/style.css webpack.empty
 	touch $@
 
-dist/$(PROJECT_NAME_SLUG).zip: build
+dist/$(PROJECT_NAME_SLUG)-free.zip: build
 	rm -f $@
-	zip -rj $@ build/*
+	zip -rj $@ build/free/* build/index.free.php build/style.css
 
-dist: dist/$(PROJECT_NAME_SLUG).zip
+dist/$(PROJECT_NAME_SLUG)-free-debug.zip: build
+	rm -f $@
+	zip -rj $@ build/free-debug/* build/index.free.php build/style.css
+
+dist/$(PROJECT_NAME_SLUG)-premium.zip: build
+	rm -f $@
+	zip -rj $@ build/premium/* build/index.premium.php build/style.css
+
+dist/$(PROJECT_NAME_SLUG)-premium-debug.zip: build
+	rm -f $@
+	zip -rj $@ build/premium-debug/* build/index.premium.php build/style.css
+
+dist: dist/$(PROJECT_NAME_SLUG)-free.zip dist/$(PROJECT_NAME_SLUG)-premium.zip \
+dist/$(PROJECT_NAME_SLUG)-free-debug.zip dist/$(PROJECT_NAME_SLUG)-premium-debug.zip
 	touch $@
 
 endif # Docker container

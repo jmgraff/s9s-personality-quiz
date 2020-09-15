@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: S9S Personality Quiz
+ * Plugin Name: S9S Personality Quiz __FEATURE_SET__
  * Plugin URI: https://signal9software.com/personality-quiz
  * Description: Convert traffic to leads with viral Buzzfeed style quizzes!
  * Version: 1.0.0

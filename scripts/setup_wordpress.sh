@@ -31,4 +31,4 @@ $WP config set WP_TEMP_DIR __DIR__\ .\ \'/wp-content/temp/\' --raw
 $WP config set WP_DEBUG true --raw
 $WP config set WP_DEBUG_DISPLAY true --raw
 
-$WP plugin install /tmp/$PROJECT_NAME_SLUG.zip --force --activate
+$WP plugin install /tmp/$PROJECT_NAME_SLUG-$1.zip --force --activate

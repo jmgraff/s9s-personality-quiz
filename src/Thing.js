@@ -5,8 +5,16 @@ import { connect } from 'react-redux';
 
 import { getThing, setThingTitle, setThingText } from './store.js';
 
+import PremiumFeature from './PremiumFeature.js';
+
 function Thing({ title, text, setData, setThingTitle, setThingText }) {
     const handleToken = token => console.log(token);
+
+    if (PREMIUM) {
+        console.log("This is the premium plugin");
+    } else {
+        console.log("This is the free version");
+    }
 
     return (
         <div>
@@ -17,6 +25,7 @@ function Thing({ title, text, setData, setThingTitle, setThingText }) {
                     multiline="p"
                     placeholder="Thing text goes here"
             />
+            <PremiumFeature name="PremiumFeature001" />
         </div>
     );
 }

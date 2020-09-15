@@ -5,9 +5,16 @@ const { registerBlockType } = wp.blocks;
 import Thing from './Thing.js';
 import { getNewStore } from './store.js';
 
+let title = '';
+
+if (PREMIUM) {
+    title = 'S9S Personality Quiz Premium';
+} else {
+    title = 'S9S Personality Quiz - Free Edition';
+}
 
 registerBlockType('s9s/personality-quiz', {
-    title: 'S9S Personality Quiz - Free Edition',
+    title,
     category: 'common',
     attributes: {
         data: {
@@ -16,8 +23,6 @@ registerBlockType('s9s/personality-quiz', {
     },
 
     edit({ attributes: { data }, setAttributes }) {
-        console.log("Calling the edit function all over again");
-
         const store = getNewStore(data, () => {
             console.log("Saving attributes: ", store.getState());
             setAttributes({data: JSON.stringify(store.getState())})
