@@ -4,10 +4,11 @@ import produce from 'immer';
 import { intro } from './store-intro.js';
 import { results } from './store-results.js';
 import { questions } from './store-questions.js';
+import { answers } from './store-answers.js';
 
 const { debounce } = lodash;
 
-const combined = combineReducers({intro, results});
+const combined = combineReducers({intro, results, questions, answers});
 
 export const getNewStore = (data, saveCallback) => {
     const debounceSave = debounce(() => saveCallback(), 500);
