@@ -1,37 +1,13 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import produce from 'immer';
 
+import { intro } from './store-intro.js';
+import { results } from './store-results.js';
+import { questions } from './store-questions.js';
+
 const { debounce } = lodash;
 
-const SET_THING_TITLE = 'SET_THING_TITLE';
-const SET_THING_TEXT = 'SET_THING_TEXT';
-
-const initialState = {
-    title: '',
-    text: ''
-}
-
-//actions
-export const setThingTitle = (title) => ({ type: SET_THING_TITLE, payload: { title } });
-export const setThingText = (text) => ({ type: SET_THING_TEXT, payload: { text } });
-
-//selectors
-export const getThing = ({thing}) => thing;
-
-const thing = produce((draft, action) => {
-    switch (action.type) {
-        case SET_THING_TITLE:
-            draft.title = action.payload.title
-            break;
-        case SET_THING_TEXT:
-            draft.text = action.payload.text
-            break;
-        default:
-            return;
-    }
-}, initialState);
-
-const combined = combineReducers({thing});
+const combined = combineReducers({intro, results});
 
 export const getNewStore = (data, saveCallback) => {
     const debounceSave = debounce(() => saveCallback(), 500);

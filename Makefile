@@ -57,7 +57,10 @@ PHONY+=clean
 
 # *** Build Targets ***
 webpack.empty: $(JS_FILES)
-	rm -f build/*.js
+	rm -f build/free/*.js
+	rm -f build/free-debug/*.js
+	rm -f build/premium/*.js
+	rm -f build/premium-debug/*.js
 	npm run-script build-all
 	touch $@
 
@@ -65,11 +68,9 @@ build/style.css: src/style.css
 	cp $^ $@
 
 build/index.free.php: src/index.php
-	#cp $^ $@
 	sed 's/__FEATURE_SET__/Free/g' $^ > $@
 
 build/index.premium.php: src/index.php
-	#cp $^ $@
 	sed 's/__FEATURE_SET__/Premium/g' $^ > $@
 
 build: build/index.free.php build/index.premium.php build/style.css webpack.empty

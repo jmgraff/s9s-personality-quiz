@@ -1,8 +1,13 @@
 import { Provider } from 'react-redux';
 
 const { registerBlockType } = wp.blocks;
+const { TabPanel } = wp.components;
 
-import Thing from './Thing.js';
+import Intro from './Intro.js';
+import Results from './Results.js';
+import Questions from './Questions.js';
+import Finish from './Finish.js';
+
 import { getNewStore } from './store.js';
 
 let title = '';
@@ -30,7 +35,43 @@ registerBlockType('s9s/personality-quiz', {
 
         return (
             <Provider store={store}>
-                <Thing />
+                <TabPanel tabs={[
+                    {
+                        name: 'intro',
+                        title: 'Intro',
+                        className: 'intro'
+                    },
+                    {
+                        name: 'results',
+                        title: 'Results',
+                        className: 'results'
+                    },
+                    {
+                        name: 'questions',
+                        title: 'Questions',
+                        className: 'questions'
+                    },
+                    {
+                        name: 'finish',
+                        title: 'Finish',
+                        className: 'finish'
+                    },
+                ]}>
+                    {
+                        (tab) => {
+                            switch (tab.name) {
+                                case 'intro':
+                                    return <Intro />;
+                                case 'results':
+                                    return <Results />;
+                                case 'questions':
+                                    return <Questions />;
+                                case 'finish':
+                                    return <Finish />;
+                            }
+                        }
+                    }
+                </TabPanel>
             </Provider>
         );
     },
