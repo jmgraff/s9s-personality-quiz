@@ -27,7 +27,6 @@ export const results = produce((draft, action) => {
             draft.push(blank());
             break;
         case RESULT_REMOVE:
-            console.log(action);
             return draft.filter(r => r.id !== action.payload.id);
         case RESULT_SET_TITLE:
             draft.find(r => r.id === action.payload.id).title = action.payload.title;

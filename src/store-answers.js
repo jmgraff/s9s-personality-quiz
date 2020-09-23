@@ -53,7 +53,6 @@ export const answers = produce((draft, action) => {
         }
         case SET_ANSWER_RESULT_ID: {
             draft.find(a => a.id === action.payload.id).result_id = action.payload.resultID;
-            console.log('result_id set to: ', action.payload.resultID);
             break;
         }
         default:

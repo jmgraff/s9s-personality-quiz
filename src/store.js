@@ -15,7 +15,6 @@ export const getNewStore = (data, saveCallback) => {
 
     const debounceSaveMiddleware = store => next => action => {
         const returnValue = next(action);
-        console.log("debouncing saveCallback...");
         debounceSave();
         return returnValue;
     }
