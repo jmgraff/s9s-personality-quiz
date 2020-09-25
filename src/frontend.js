@@ -2,16 +2,41 @@ import { MemoryRouter as Router, Switch, Route, useHistory } from 'react-router-
 const { render, useState, useEffect } = wp.element;
 
 function Result(props) {
+    let modeMap = {};
+    let mode = null;
+    let result = null;
+
+    props.userAnswers.forEach(answer => {
+        if (Object.keys(modeMap).find(x => x === answer.result_id)) {
+          modeMap[answer.result_id]++
+        } else {
+          modeMap[answer.result_id] = 1;
+        }
+        if (!!!mode || modeMap[answer.result_id] > modeMap[mode.id]) {
+          mode = props.results.find(r => r.id === answer.result_id);
+        }
+    });
+
+    result = props.results.find(result => result.id === mode.id) || 'Nothing';
+
     return (
-        <h4>Results</h4>
+        <div>
+            <h1>{result.title}</h1>
+            <p>{result.description}</p>
+        </div>
     );
 }
 
 function Question(props) {
+    console.log(props);
     return (
         <div>
-            <h4>{props.data.title}</h4>
-            <button onClick={props.nextQuestion}>Next</button>
+            <h4>{props.question.title}</h4>
+            {props.answers.map(a => (
+                <button onClick={() => props.onAnswered(a)}>
+                    {a.title}
+                </button>
+            ))}
         </div>
     );
 }
@@ -34,8 +59,9 @@ function S9SPersonalityQuiz(props) {
 
     useEffect(() => history.push('/'), []);
 
-    const nextQuestion = () => {
+    const onAnswered = (answer) => {
         let nextQuestionNumber = questionNumber + 1;
+        setUserAnswers([...userAnswers, answer]);
 
         if (nextQuestionNumber < questions.length) {
             history.push(`/question/${nextQuestionNumber}`);
@@ -52,10 +78,14 @@ function S9SPersonalityQuiz(props) {
                 <Intro data={intro} onStartQuiz={() => history.push(`/question/0`)}/>
             </Route>
             <Route path="/question/:questionNumber">
-                <Question data={questions[questionNumber]} nextQuestion={nextQuestion}/>
+                <Question
+                    question={questions[questionNumber]}
+                    answers={answers.filter(a => a.question_id == questions[questionNumber].id)}
+                    onAnswered={onAnswered}
+                />
             </Route>
             <Route path="/results">
-                <Result data={results} answers={userAnswers} />
+                <Result results={results} userAnswers={userAnswers} />
             </Route>
         </Switch>
     );

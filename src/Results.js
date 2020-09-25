@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { getResults, add, remove, setTitle, setDescription, setImageURL } from './store-results.js';
 
 function Results({ results, add, remove, setTitle, setDescription, setImageURL }) {
-    console.log('results: ', results);
     return (
         <div>
             { results.map((r,i) => (
