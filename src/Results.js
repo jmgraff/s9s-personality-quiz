@@ -1,33 +1,46 @@
-const { TextControl, TextareaControl, Button, Card, CardBody, CardHeader, CardFooter, ButtonGroup } = wp.components;
-
-import { connect } from 'react-redux';
+const { TextControl, TextareaControl, Button, Card, CardBody, CardHeader, CardFooter,
+    ButtonGroup, TabPanel } = wp.components;
 
 import { getResults, add, remove, setTitle, setDescription, setImageURL } from './store-results.js';
+import { connect } from 'react-redux';
 
 function Results({ results, add, remove, setTitle, setDescription, setImageURL }) {
+    const tabs = results.map((r,i) => ({
+        name: i,
+        title: r.title ? r.title : `Result ${i + 1}`,
+        className: 'result'
+    }));
+
     return (
-        <div>
-            { results.map((r,i) => (
-                <Card>
-                    <CardBody>
-                        <TextControl
-                            label="Result Title"
-                            onChange={ val => setTitle(r.id, val) }
-                            value={ r.title }
-                        />
-                        <TextareaControl
-                            label="Result Description"
-                            onChange={ val => setDescription(r.id, val) }
-                            value={ r.description }
-                        />
-                    </CardBody>
-                    <CardFooter>
-                        <Button onClick={() => remove(r.id)} isDestructive>Delete Result</Button>
-                    </CardFooter>
-                </Card>
-            ))}
+        <>
+            <TabPanel tabs={tabs}>
+                { (tab) => (
+                    <Card>
+                        <CardBody>
+                            <TextControl
+                                label="Result Title"
+                                onChange={ val => setTitle(results[tab.name].id, val) }
+                                value={ results[tab.name].title }
+                            />
+                            <TextareaControl
+                                label="Result Description"
+                                onChange={ val => setDescription(results[tab.name].id, val) }
+                                value={ results[tab.name].description }
+                            />
+                        </CardBody>
+                        <CardFooter>
+                            <Button
+                                onClick={() => remove(results[tab.name].id)}
+                                isDestructive
+                            >
+                                Delete Result
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                )}
+            </TabPanel>
             <Button onClick={add} isPrimary>Add Result</Button>
-        </div>
+        </>
     );
 }
 
