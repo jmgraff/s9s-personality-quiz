@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import ellipsize from 'ellipsize';
+
 const { TextControl, Card, CardBody, CardFooter, Button, SelectControl, TabPanel } = wp.components;
 
 import { getAnswers, remove, add, setTitle, up, down, setImageURL, setResultID } from './store-answers.js';
@@ -7,36 +9,36 @@ import { getResults } from './store-results.js';
 function Answers({question_id, results, answers, remove, add, setTitle, up, down, setImageURL, setResultID}) {
     const tabs = answers.map((a,i) => ({
         name: i,
-        title: a.title ? a.title : `Answer ${i + 1}`,
-        className: 'answer'
+        title: a.title ? ellipsize(a.title, 16) : `Answer ${i + 1}`,
+        answer: a
     }));
 
     const resultOptions = results.map((r) => {
         return { value: r.id, label: r.title };
     });
 
-    resultOptions.unshift({ value: '', label: 'None'});
+    resultOptions.unshift({ value: '', label: 'None' });
 
     return (
         <>
-            <TabPanel tabs={tabs}>
-                {(tab) => (
+            <TabPanel tabs={ tabs }>
+                { (tab) => (
                     <Card>
                         <CardBody>
                             <TextControl
                                 label="Answer Text"
-                                value={answers[tab.name].title}
-                                onChange={val => setTitle(answers[tab.name].id, val)}
+                                value={tab.answer.title}
+                                onChange={val => setTitle(tab.answer.id, val)}
                             />
                             <SelectControl
                                 label="Associated Result"
-                                value={answers[tab.name].result_id}
+                                value={tab.answer.result_id}
                                 options={resultOptions}
-                                onChange={val => setResultID(answers[tab.name].id, val)}
+                                onChange={val => setResultID(tab.answer.id, val)}
                             />
                         </CardBody>
                         <CardFooter>
-                            <Button onClick={e => remove(answers[tab.name].id)} isDestructive>&times; Remove Answer </Button>
+                            <Button onClick={e => remove(tab.answer.id)} isDestructive>&times; Remove Answer </Button>
                         </CardFooter>
                     </Card>
                 )}

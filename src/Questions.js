@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 const { Button, Card, CardHeader, CardBody, CardFooter, TextareaControl, TextControl, TabPanel } = wp.components;
 
+import ellipsize from 'ellipsize';
+
 import Answers from './Answers.js';
 
 import { getQuestions, remove, add, up, down, setTitle, setImageURL } from './store-questions.js';
@@ -8,30 +10,30 @@ import { getQuestions, remove, add, up, down, setTitle, setImageURL } from './st
 function Questions({questions, remove, add, up, down, setTitle, setImageURL}) {
     const tabs = questions.map((q,i) => ({
         name: i,
-        title: q.title ? q.title : `Question ${i + 1}`,
-        className: 'question'
+        title: q.title ? ellipsize(q.title, 16) : `Question ${i + 1}`,
+        question: q
     }));
 
     return (
         <>
-            <TabPanel tabs={tabs}>
+            <TabPanel tabs={ tabs }>
                 { (tab) => (
                     <Card>
                         <CardBody>
                             <TextControl
                                 label="Question Title"
-                                onChange={ val => setTitle(questions[tab.name].id, val) }
-                                value={ questions[tab.name].title }
+                                onChange={ val => setTitle(tab.question.id, val) }
+                                value={ tab.question.title }
                             />
-                            <Answers question_id={questions[tab.name].id} />
+                            <Answers question_id={ tab.question.id } />
                         </CardBody>
                         <CardFooter>
-                            <Button onClick={e => remove(questions[tab.name].id)} isDestructive>&times; Remove Question </Button>
+                            <Button onClick={ e => remove(tab.question.id) } isDestructive>&times; Remove Question </Button>
                         </CardFooter>
                     </Card>
                 )}
             </TabPanel>
-            <Button onClick={e => add()} isPrimary>&#43; Add Question </Button>
+            <Button onClick={ e => add() } isPrimary>&#43; Add Question </Button>
         </>
     );
 }
