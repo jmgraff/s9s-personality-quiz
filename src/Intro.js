@@ -1,4 +1,4 @@
-const { TextControl, TextareaControl } = wp.components;
+const { TextControl, TextareaControl, Card, CardBody } = wp.components;
 
 import { connect } from 'react-redux';
 
@@ -6,10 +6,12 @@ import { getIntro, setIntroTitle, setIntroDescription } from './store-intro.js';
 
 function Intro({ title, description, setIntroTitle, setIntroDescription }) {
     return (
-        <>
-            <TextControl label="Quiz Title" onChange={ setIntroTitle } value={ title }/>
-            <TextareaControl label="Quiz Description" onChange={ setIntroDescription } value={ description } />
-        </>
+        <Card>
+            <CardBody>
+                <TextControl label="Quiz Title" onChange={ setIntroTitle } value={ title }/>
+                <TextareaControl label="Quiz Description" onChange={ setIntroDescription } value={ description } />
+            </CardBody>
+        </Card>
     );
 }
 
