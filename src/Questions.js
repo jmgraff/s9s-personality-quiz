@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-const { Button, Card, CardHeader, CardBody, CardFooter, TextareaControl, TextControl, TabPanel } = wp.components;
+const { Button, ButtonGroup, Card, CardHeader, CardBody, CardFooter, TextareaControl, TextControl, TabPanel } = wp.components;
+const { MediaUpload } = wp.blockEditor;
 
 import ellipsize from 'ellipsize';
 
@@ -17,7 +18,7 @@ function Questions({questions, remove, add, up, down, setTitle, setImageURL}) {
     return (
         <>
             <TabPanel tabs={ tabs }>
-                { (tab) => (
+                {(tab) => (
                     <Card>
                         <CardBody>
                             <TextControl
@@ -25,10 +26,22 @@ function Questions({questions, remove, add, up, down, setTitle, setImageURL}) {
                                 onChange={ val => setTitle(tab.question.id, val) }
                                 value={ tab.question.title }
                             />
+                            <MediaUpload
+                                onSelect={ media => setImageURL(tab.question.id, media.url)}
+                                render={({open}) => (
+                                    <Button onClick={open}>
+                                        Set Image
+                                    </Button>
+                                )}
+                            />
                             <Answers question_id={ tab.question.id } />
                         </CardBody>
                         <CardFooter>
-                            <Button onClick={ e => remove(tab.question.id) } isDestructive>&times; Remove Question </Button>
+                            <ButtonGroup>
+                                <Button onClick={() => up(tab.name)}>Move Left</Button>
+                                <Button onClick={() => down(tab.name)}>Move Right</Button>
+                                <Button onClick={() => remove(tab.question.id)} isDestructive>&times; Remove Question </Button>
+                            </ButtonGroup>
                         </CardFooter>
                     </Card>
                 )}

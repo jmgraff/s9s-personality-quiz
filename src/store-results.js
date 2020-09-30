@@ -15,7 +15,7 @@ export const add = (question_id) => ({ type: RESULT_ADD, payload: { question_id 
 export const remove = id => ({ type: RESULT_REMOVE, payload: { id } });
 export const setTitle = (id, title) => ({ type: RESULT_SET_TITLE, payload: { id, title } });
 export const setDescription = (id, description) => ({ type: RESULT_SET_DESCRIPTION, payload: { id, description } });
-export const setImageURL = (id, imageURL) => ({ type: RESULT_SET_IMAGE_URL, payload: { id, imageURL } });
+export const setImageURL = (id, image_url) => ({ type: RESULT_SET_IMAGE_URL, payload: { id, image_url } });
 
 //selectors
 export const getResults = ({results}) => results;
@@ -23,20 +23,26 @@ export const getResults = ({results}) => results;
 //reducer
 export const results = produce((draft, action) => {
     switch (action.type) {
-        case RESULT_ADD:
+        case RESULT_ADD: {
             draft.push(blank());
             break;
-        case RESULT_REMOVE:
+        }
+        case RESULT_REMOVE: {
             return draft.filter(r => r.id !== action.payload.id);
-        case RESULT_SET_TITLE:
+        }
+        case RESULT_SET_TITLE: {
             draft.find(r => r.id === action.payload.id).title = action.payload.title;
             break;
-        case RESULT_SET_DESCRIPTION:
+        }
+        case RESULT_SET_DESCRIPTION: {
             draft.find(r => r.id === action.payload.id).description = action.payload.description;
             break;
-        case RESULT_SET_IMAGE_URL:
+        }
+        case RESULT_SET_IMAGE_URL: {
+            console.log("In store: image url is: ", action.payload.image_url);
             draft.find(r => r.id === action.payload.id).image_url = action.payload.image_url;
             break;
+        }
         default:
             return;
     }

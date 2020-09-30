@@ -17,21 +17,22 @@ function Result(props) {
         }
     });
 
-    result = props.results.find(result => result.id === mode.id) || 'Nothing';
+    result = props.results.find(result => result.id === mode.id);
 
     return (
         <div>
             <h1>{result.title}</h1>
+            <img src={result.image_url} />
             <p>{result.description}</p>
         </div>
     );
 }
 
 function Question(props) {
-    console.log(props);
     return (
         <div>
             <h4>{props.question.title}</h4>
+            <img src={props.question.image_url} />
             {props.answers.map(a => (
                 <button onClick={() => props.onAnswered(a)}>
                     {a.title}

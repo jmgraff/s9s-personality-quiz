@@ -22,7 +22,7 @@ function Answers({question_id, results, answers, remove, add, setTitle, up, down
     return (
         <>
             <TabPanel tabs={ tabs }>
-                { (tab) => (
+                {(tab) => (
                     <Card>
                         <CardBody>
                             <TextControl
