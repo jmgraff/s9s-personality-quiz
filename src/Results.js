@@ -1,8 +1,9 @@
-const { TextControl, TextareaControl, Button, Card, CardBody, CardHeader, CardFooter,
-    ButtonGroup, TabPanel } = wp.components;
-const { MediaUpload } = wp.blockEditor;
+import { TextControl, TextareaControl, Button, Card, CardBody, CardHeader, CardFooter,
+    ButtonGroup, TabPanel } from '@wordpress/components';
 
 import ellipsize from 'ellipsize';
+
+import QuizMediaUpload from './QuizMediaUpload.js';
 
 import { getResults, add, remove, setTitle, setDescription, setImageURL } from './store-results.js';
 import { connect } from 'react-redux';
@@ -14,29 +15,6 @@ function Results({ results, add, remove, setTitle, setDescription, setImageURL }
         title: r.title ? ellipsize(r.title, 16) : `Result ${i + 1}`,
         result: r
     }));
-    const renderMediaUpload = (open, result) => {
-        if (result.image_url) {
-            return (
-                <div>
-                    <img src={result.image_url} />
-                    <ButtonGroup>
-                        <Button onClick={open}>
-                            Change Image
-                        </Button>
-                        <Button onClick={() => setImageURL(result.id, '')}>
-                            Remove Image
-                        </Button>
-                    </ButtonGroup>
-                </div>
-            );
-        } else {
-            return (
-                <Button onClick={open}>
-                    Set Image
-                </Button>
-            );
-        }
-    }
 
     return (
         <>
@@ -54,9 +32,9 @@ function Results({ results, add, remove, setTitle, setDescription, setImageURL }
                                 onChange={ val => setDescription(tab.result.id, val) }
                                 value={ tab.result.description }
                             />
-                            <MediaUpload
-                                onSelect={ media => setImageURL(tab.result.id, media.url) }
-                                render={({open}) => renderMediaUpload(open, tab.result) }
+                            <QuizMediaUpload
+                                imgSrc={tab.result.image_url}
+                                onChange={ (url) => setImageURL(tab.result.id, url) }
                             />
                         </CardBody>
                         <CardFooter>

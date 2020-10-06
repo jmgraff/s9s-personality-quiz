@@ -39,7 +39,6 @@ export const results = produce((draft, action) => {
             break;
         }
         case RESULT_SET_IMAGE_URL: {
-            console.log("In store: image url is: ", action.payload.image_url);
             draft.find(r => r.id === action.payload.id).image_url = action.payload.image_url;
             break;
         }

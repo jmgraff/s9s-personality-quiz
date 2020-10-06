@@ -40,10 +40,12 @@ export const answers = produce((draft, action) => {
             break;
         }
         case MOVE_ANSWER_UP: {
+            console.log(action.payload);
             const {index} = action.payload;
             return arrayMove(draft, index, index - 1);
         }
         case MOVE_ANSWER_DOWN: {
+            console.log(action.payload);
             const {index} = action.payload;
             return arrayMove(draft, index, index + 1);
         }

@@ -1,8 +1,10 @@
-import { connect } from 'react-redux';
 import ellipsize from 'ellipsize';
 
-const { TextControl, Card, CardBody, CardFooter, Button, SelectControl, TabPanel } = wp.components;
+import { connect } from 'react-redux';
 
+import { TextControl, Button, Card, CardBody, CardHeader, CardFooter, Toolbar, ToolbarButton, SelectControl,
+    TabPanel, IconButton, DropdownMenu , MenuItem, MenuGroup } from '@wordpress/components';
+import { moreVertical, trash, arrowLeft, arrowRight } from '@wordpress/icons';
 import { getAnswers, remove, add, setTitle, up, down, setImageURL, setResultID } from './store-answers.js';
 import { getResults } from './store-results.js';
 
@@ -23,7 +25,28 @@ function Answers({question_id, results, answers, remove, add, setTitle, up, down
         <>
             <TabPanel tabs={ tabs }>
                 {(tab) => (
-                    <Card>
+                    <Card style={{position:'relative'}}>
+                        <Toolbar style={{top: 0, right: 0, border: 0, position: 'absolute'}}>
+                            <DropdownMenu icon={moreVertical}>
+                                {({onClose}) => (
+                                    <>
+                                        <MenuGroup>
+                                            <MenuItem icon={arrowLeft} onClick={() => up(tab.name)}>
+                                                Move Left
+                                            </MenuItem>
+                                            <MenuItem icon={arrowRight} onClick={() => down(tab.name)}>
+                                                Move Right
+                                            </MenuItem>
+                                        </MenuGroup>
+                                        <MenuGroup>
+                                            <MenuItem icon={trash} onClick={() => remove(tab.answer.id)}>
+                                                Remove Answer
+                                            </MenuItem>
+                                        </MenuGroup>
+                                    </>
+                                )}
+                            </DropdownMenu>
+                        </Toolbar>
                         <CardBody>
                             <TextControl
                                 label="Answer Text"
@@ -37,9 +60,6 @@ function Answers({question_id, results, answers, remove, add, setTitle, up, down
                                 onChange={val => setResultID(tab.answer.id, val)}
                             />
                         </CardBody>
-                        <CardFooter>
-                            <Button onClick={e => remove(tab.answer.id)} isDestructive>&times; Remove Answer </Button>
-                        </CardFooter>
                     </Card>
                 )}
             </TabPanel>
