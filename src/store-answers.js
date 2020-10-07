@@ -1,14 +1,15 @@
 import {v4 as uuidv4} from 'uuid';
-import arrayMove from 'array-move';
-import produce from 'immer';
+import { produce } from 'immer';
 
-const blank = (question_id) => ({ id: uuidv4(), question_id, title: '', image_url: '', result_id: '' });
+import { moveIndexLeft, moveIndexRight } from './store-utils.js';
+
+const blank = (question_id, index) => ({ id: uuidv4(), question_id, title: '', image_url: '', result_id: '', index });
 const initialState = [ ];
 
 const ADD_ANSWER = 'ADD_ANSWER';
 const REMOVE_ANSWER = 'REMOVE_ANSWER';
-const MOVE_ANSWER_UP = 'MOVE_ANSWER_UP';
-const MOVE_ANSWER_DOWN = 'MOVE_ANSWER_DOWN';
+const MOVE_ANSWER_LEFT = 'MOVE_ANSWER_LEFT';
+const MOVE_ANSWER_RIGHT = 'MOVE_ANSWER_RIGHT';
 const SET_ANSWER_TITLE = 'SET_ANSWER_TITLE';
 const SET_ANSWER_IMAGE_URL = 'SET_ANSWER_IMAGE_URL';
 const SET_ANSWER_RESULT_ID = 'SET_ANSWER_RESULT_ID';
@@ -16,20 +17,23 @@ const SET_ANSWER_RESULT_ID = 'SET_ANSWER_RESULT_ID';
 //actions
 export const add = (question_id) => ({ type: ADD_ANSWER, payload: { question_id } });
 export const remove = id => ({ type: REMOVE_ANSWER, payload: { id } });
-export const up = index => ({ type: MOVE_ANSWER_UP, payload: { index } });
-export const down = index => ({ type: MOVE_ANSWER_DOWN, payload: { index } });
+export const moveLeft = id => ({ type: MOVE_ANSWER_LEFT, payload: { id } });
+export const moveRight = id => ({ type: MOVE_ANSWER_RIGHT, payload: { id } });
 export const setTitle = (id, title) => ({ type: SET_ANSWER_TITLE, payload: { id, title } });
 export const setImageURL = (id, imageURL) => ({ type: SET_ANSWER_IMAGE_URL, payload: { id, imageURL } });
 export const setResultID = (id, resultID) => ({ type: SET_ANSWER_RESULT_ID, payload: { id, resultID } });
 
 //selectors
-export const getAnswers = ({questions, answers}, question_id) => answers.filter(a => a.question_id === question_id);
+export const getAnswers = ({questions, answers}, question_id) => {
+    return answers.filter(a => a.question_id === question_id).sort((a,b) => a.index - b.index);
+};
 
 //reducer
 export const answers = produce((draft, action) => {
     switch (action.type) {
         case ADD_ANSWER: {
-            draft.push(blank(action.payload.question_id));
+            const newIndex = draft.filter(a => a.question_id == action.payload.question_id).length;
+            draft.push(blank(action.payload.question_id, newIndex));
             break;
         }
         case REMOVE_ANSWER: {
@@ -39,15 +43,15 @@ export const answers = produce((draft, action) => {
             draft.find(a => a.id === action.payload.id).title = action.payload.title;
             break;
         }
-        case MOVE_ANSWER_UP: {
-            console.log(action.payload);
-            const {index} = action.payload;
-            return arrayMove(draft, index, index - 1);
+        case MOVE_ANSWER_LEFT: {
+            const answer = draft.find(a => a.id == action.payload.id);
+            moveIndexLeft(draft.filter(a => a.question_id == answer.question_id), answer.id);
+            break;
         }
-        case MOVE_ANSWER_DOWN: {
-            console.log(action.payload);
-            const {index} = action.payload;
-            return arrayMove(draft, index, index + 1);
+        case MOVE_ANSWER_RIGHT: {
+            const answer = draft.find(a => a.id == action.payload.id);
+            moveIndexRight(draft.filter(a => a.question_id == answer.question_id), answer.id);
+            break;
         }
         case SET_ANSWER_IMAGE_URL: {
             draft.find(a => a.id === action.payload.id).image_url = action.payload.imageURL;

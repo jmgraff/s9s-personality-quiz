@@ -30,7 +30,6 @@
     "@babel/preset-react": "^7.10.4",
     "@wordpress/components": "^10.2.0",
     "@wordpress/icons": "^2.6.0",
-    "array-move": "^3.0.1",
     "babel-loader": "^8.1.0",
     "cross-env": "^7.0.2",
     "ellipsize": "^0.1.0",
