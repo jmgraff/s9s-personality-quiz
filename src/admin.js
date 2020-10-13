@@ -41,14 +41,14 @@ registerBlockType('s9s/personality-quiz', {
                         className: 'intro'
                     },
                     {
-                        name: 'results',
-                        title: 'Results',
-                        className: 'results'
-                    },
-                    {
                         name: 'questions',
                         title: 'Questions',
                         className: 'questions'
+                    },
+                    {
+                        name: 'results',
+                        title: 'Results',
+                        className: 'results'
                     },
                     {
                         name: 'finish',

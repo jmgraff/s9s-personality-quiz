@@ -1,55 +1,37 @@
-import { TextControl, TextareaControl, Button, Card, CardBody, CardHeader, CardFooter,
-    ButtonGroup, TabPanel } from '@wordpress/components';
-
-import ellipsize from 'ellipsize';
-
-import QuizMediaUpload from './QuizMediaUpload.js';
+import { TextControl, TextareaControl } from '@wordpress/components';
+import { connect } from 'react-redux';
 
 import { getResults, add, remove, setTitle, setDescription, setImageURL } from './store-results.js';
-import { connect } from 'react-redux';
+import QuizMediaUpload from './QuizMediaUpload.js';
+import ItemTabs from './ItemTabs.js';
 
 
 function Results({ results, add, remove, setTitle, setDescription, setImageURL }) {
-    const tabs = results.map((r,i) => ({
-        name: i,
-        title: r.title ? ellipsize(r.title, 16) : `Result ${i + 1}`,
-        result: r
-    }));
-
     return (
-        <>
-            <TabPanel tabs={ tabs }>
-                {(tab) => (
-                    <Card>
-                        <CardBody>
-                            <TextControl
-                                label="Result Title"
-                                onChange={ val => setTitle(tab.result.id, val) }
-                                value={ tab.result.title }
-                            />
-                            <TextareaControl
-                                label="Result Description"
-                                onChange={ val => setDescription(tab.result.id, val) }
-                                value={ tab.result.description }
-                            />
-                            <QuizMediaUpload
-                                imgSrc={tab.result.image_url}
-                                onChange={ (url) => setImageURL(tab.result.id, url) }
-                            />
-                        </CardBody>
-                        <CardFooter>
-                            <Button
-                                onClick={ () => remove(tab.result.id) }
-                                isDestructive
-                            >
-                                Delete Result
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                )}
-            </TabPanel>
-            <Button onClick={ add } isPrimary>Add Result</Button>
-        </>
+        <ItemTabs
+            items={results}
+            itemName={'Result'}
+            onAdd={() => add()}
+            onRemove={r => remove(r.id)}
+            renderItem={(r) => (
+                <>
+                    <QuizMediaUpload
+                        imgSrc={ r.image_url }
+                        onChange={ (url) => setImageURL(r.id, url) }
+                    />
+                    <TextControl
+                        label="Result Title"
+                        onChange={ val => setTitle(r.id, val) }
+                        value={ r.title }
+                    />
+                    <TextareaControl
+                        label="Result Description"
+                        onChange={ val => setDescription(r.id, val) }
+                        value={ r.description }
+                    />
+                </>
+            )}
+        />
     );
 }
 

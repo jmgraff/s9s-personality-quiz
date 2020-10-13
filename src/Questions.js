@@ -19,14 +19,14 @@ function Questions({questions, remove, add, moveLeft, moveRight, setTitle, setIm
             onMoveRight={q => moveRight(q.id)}
             renderItem={(q) => (
                 <>
+                    <QuizMediaUpload
+                        imgSrc={ q.image_url }
+                        onChange={ (url) => setImageURL(q.id, url) }
+                    />
                     <TextControl
                         label="Question Title"
                         onChange={ val => setTitle(q.id, val) }
                         value={ q.title }
-                    />
-                    <QuizMediaUpload
-                        imgSrc={ q.image_url }
-                        onChange={ (url) => setImageURL(q.id, url) }
                     />
                     <Answers question_id={ q.id } />
                 </>
