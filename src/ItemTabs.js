@@ -1,10 +1,12 @@
 const { createRef, useState, useEffect } = wp.element;
-import { Button, Card, CardHeader, CardBody, Placeholder, Toolbar, TabPanel, DropdownMenu, MenuGroup, MenuItem, Icon } from '@wordpress/components';
-import { moreVertical, trash, arrowLeft, arrowRight, plus } from '@wordpress/icons';
+import { Button, Card, CardHeader, CardBody, Toolbar, ToolbarButton, TabPanel, Icon } from '@wordpress/components';
+import { trash, chevronLeft, chevronRight, plus, image, close, edit } from '@wordpress/icons';
 
 import ellipsize from 'ellipsize';
 
-export default function ItemTabs({items, itemName, onMoveLeft, onMoveRight, onAdd, onRemove, renderItem, renderEmpty}) {
+import QuizMediaUpload from './QuizMediaUpload.js';
+
+export default function ItemTabs({items, itemName, onMoveLeft, onMoveRight, onAdd, onRemove, onMediaChange, renderItem }) {
     const [activeTabIndex, setActiveTabIndex] = useState(null);
 
     const itemTabs = items.map((item, ii) => {
@@ -25,9 +27,7 @@ export default function ItemTabs({items, itemName, onMoveLeft, onMoveRight, onAd
     const tabs = [...itemTabs, newTabTab];
 
     useEffect(() => {
-        console.log(`${itemName}s: tabs: `, tabs);
         if (activeTabIndex !== null && tabs[activeTabIndex] && tabs[activeTabIndex].ref) {
-            console.log(`${itemName}s: Attempting to click tab index `, activeTabIndex);
             tabs[activeTabIndex].ref.current.click();
             setActiveTabIndex(null);
         }
@@ -41,57 +41,45 @@ export default function ItemTabs({items, itemName, onMoveLeft, onMoveRight, onAd
     }
 
     const onMoveTabLeft = (tab) => {
-        console.log(`Setting current ${itemName} index to: `, tab.name - 1);
         setActiveTabIndex(tab.name - 1);
         onMoveLeft(tab.item);
     }
 
     const onMoveTabRight = (tab) => {
-        console.log(`Setting current ${itemName} index to: `, tab.name + 1);
         setActiveTabIndex(tab.name + 1);
         onMoveRight(tab.item);
     }
 
     const onRemoveTab = (tab) => {
         const newIndex = tab.name <= 0 ? 0 : tab.name - 1;
-        console.log(`Setting current ${itemName} index to: `, newIndex);
         setActiveTabIndex(newIndex);
         onRemove(tab.item);
     }
 
     if (tabs.length > 1) {
         return (
-            <TabPanel tabs={ tabs } onSelect={onSelectTab}>
+            <TabPanel tabs={tabs} onSelect={onSelectTab} style={{overflow: 'scroll'}}>
                 {(tab) => (
                     <Card>
-                        <CardHeader style={{padding: 0, display: 'flex', justifyContent: 'right'}}>
-                            <div>
-                                <Toolbar style={{border: 0}}>
-                                    <DropdownMenu icon={moreVertical}>
-                                        {({onClose}) => (
-                                            <>
-                                                { onMoveLeft && onMoveRight &&
-                                                    <MenuGroup>
-                                                        <MenuItem icon={arrowLeft} onClick={() => onMoveTabLeft(tab)}>
-                                                            Move Left
-                                                        </MenuItem>
-                                                        <MenuItem icon={arrowRight} onClick={() => onMoveTabRight(tab)}>
-                                                            Move Right
-                                                        </MenuItem>
-                                                    </MenuGroup>
-                                                }
-                                                <MenuGroup>
-                                                    <MenuItem icon={trash} onClick={() => onRemoveTab(tab)}>
-                                                        Remove {itemName}
-                                                    </MenuItem>
-                                                </MenuGroup>
-                                            </>
-                                        )}
-                                    </DropdownMenu>
-                                </Toolbar>
-                            </div>
+                        <CardHeader style={{padding: 0, display: 'flex', justifyContent: 'flex-end'}}>
+                            <Toolbar style={{border: 0}} label="Toolbar label">
+                                { onMoveLeft && onMoveRight &&
+                                    <>
+                                        <ToolbarButton icon={chevronLeft} label="Move left" onClick={() => onMoveTabLeft(tab)} />
+                                        <ToolbarButton icon={chevronRight} label="Move right" onClick={() => onMoveTabRight(tab)} />
+                                    </>
+                                }
+                                <ToolbarButton icon={trash} label="Remove" onClick={() => onRemoveTab(tab)} />
+                            </Toolbar>
                         </CardHeader>
                         <CardBody>
+                            {tab.item && onMediaChange &&
+                                <QuizMediaUpload
+                                    onChange={url => onMediaChange(tab.item, url)}
+                                    src={tab.item.image_url}
+                                    width={'100%'}
+                                    height={300} />
+                            }
                             {tab.item && renderItem(tab.item)}
                         </CardBody>
                     </Card>
@@ -102,7 +90,7 @@ export default function ItemTabs({items, itemName, onMoveLeft, onMoveRight, onAd
         return (
             <Card>
                 <CardBody style={{ height: '6em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Button isPrimary onClick={onAdd} style={{padding: '2em'}}>Add {itemName}</Button>
+                    <Button icon={plus} onClick={onAdd}>Add {itemName}</Button>
                 </CardBody>
             </Card>
         )

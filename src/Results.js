@@ -13,12 +13,9 @@ function Results({ results, add, remove, setTitle, setDescription, setImageURL }
             itemName={'Result'}
             onAdd={() => add()}
             onRemove={r => remove(r.id)}
+            onMediaChange={(r, url) => setImageURL(r.id, url)}
             renderItem={(r) => (
                 <>
-                    <QuizMediaUpload
-                        imgSrc={ r.image_url }
-                        onChange={ (url) => setImageURL(r.id, url) }
-                    />
                     <TextControl
                         label="Result Title"
                         onChange={ val => setTitle(r.id, val) }

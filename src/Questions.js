@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { Button, TextControl } from '@wordpress/components';
+import { Button, TextControl, Icon } from '@wordpress/components';
+import { image } from '@wordpress/icons';
 
-import QuizMediaUpload from './QuizMediaUpload.js';
 import ItemTabs from './ItemTabs.js';
 import Answers from './Answers.js';
 
@@ -9,6 +9,7 @@ import { getQuestions, remove, add, moveLeft, moveRight, setTitle, setImageURL }
 
 
 function Questions({questions, remove, add, moveLeft, moveRight, setTitle, setImageURL}) {
+
     return (
         <ItemTabs
             items={questions}
@@ -17,12 +18,9 @@ function Questions({questions, remove, add, moveLeft, moveRight, setTitle, setIm
             onRemove={q => remove(q.id)}
             onMoveLeft={q => moveLeft(q.id)}
             onMoveRight={q => moveRight(q.id)}
+            onMediaChange={(q, url) => setImageURL(q.id, url) }
             renderItem={(q) => (
                 <>
-                    <QuizMediaUpload
-                        imgSrc={ q.image_url }
-                        onChange={ (url) => setImageURL(q.id, url) }
-                    />
                     <TextControl
                         label="Question Title"
                         onChange={ val => setTitle(q.id, val) }
