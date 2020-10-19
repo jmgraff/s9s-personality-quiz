@@ -21,8 +21,8 @@ function Result(props) {
 
     return (
         <div>
-            <h1>{result.title}</h1>
             <img src={result.image_url} />
+            <h4>{result.title}</h4>
             <p>{result.description}</p>
         </div>
     );
@@ -31,8 +31,8 @@ function Result(props) {
 function Question(props) {
     return (
         <div>
-            <h4>{props.question.title}</h4>
             <img src={props.question.image_url} />
+            <h4>{props.question.title}</h4>
             {props.answers.map(a => (
                 <button onClick={() => props.onAnswered(a)}>
                     {a.title}
@@ -45,6 +45,7 @@ function Question(props) {
 function Intro(props) {
     return (
         <div>
+            <img src={props.data.image_url} />
             <h4>{props.data.title}</h4>
             <p>{props.data.description}</p>
             <button onClick={props.onStartQuiz}>Start Quiz</button>

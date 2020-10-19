@@ -1,9 +1,11 @@
 import ellipsize from 'ellipsize';
 import { connect } from 'react-redux';
-import { TextControl, SelectControl } from '@wordpress/components';
+import { TextControl, SelectControl, Snackbar } from '@wordpress/components';
 
 import { getAnswers, remove, add, setTitle, moveLeft, moveRight, setImageURL, setResultID } from './store-answers.js';
 import { getResults } from './store-results.js';
+
+import QuizMediaUpload from './QuizMediaUpload.js';
 import ItemTabs from './ItemTabs.js';
 
 function Answers({question_id, results, answers, remove, add, setTitle, moveLeft, moveRight, setImageURL, setResultID}) {
@@ -23,6 +25,12 @@ function Answers({question_id, results, answers, remove, add, setTitle, moveLeft
             onMoveRight={a => moveRight(a.id)}
             renderItem = {a => (
                 <>
+                    <QuizMediaUpload
+                        onChange={url => setImageURL(a.id, url)}
+                        src={a.image_url}
+                        width={200}
+                        height={100}
+                    />
                     <TextControl
                         label="Answer Text"
                         value={a.title}
@@ -32,8 +40,14 @@ function Answers({question_id, results, answers, remove, add, setTitle, moveLeft
                         label="Associated Result"
                         value={a.result_id}
                         options={resultOptions}
+                        disabled={resultOptions.length <= 1}
                         onChange={val => setResultID(a.id, val)}
                     />
+                    { resultOptions.length === 1 &&
+                        <p style={{font: '.5em sans-serif', color: 'red', fontStyle: 'italic', textAlign: 'right', margin: 0, padding: 0}}>
+                            No results yet, add some on the Results tab!
+                        </p>
+                    }
                 </>
             )}
         />

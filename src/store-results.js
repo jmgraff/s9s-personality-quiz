@@ -2,7 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import produce from 'immer';
 
 const blank = () => ({ id: uuidv4(), title: '', description: '', image_url: '' });
-const initialState = [ blank() ];
+const initialState = [];
 
 const RESULT_ADD = 'RESULT_ADD';
 const RESULT_REMOVE = 'RESULT_REMOVE';
