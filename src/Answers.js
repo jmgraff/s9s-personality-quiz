@@ -44,7 +44,7 @@ function Answers({question_id, results, answers, remove, add, setTitle, moveLeft
                         onChange={val => setResultID(a.id, val)}
                     />
                     { resultOptions.length === 1 &&
-                        <p style={{font: '.5em sans-serif', color: 'red', fontStyle: 'italic', textAlign: 'right', margin: 0, padding: 0}}>
+                        <p style={{font: '.5em sans-serif', color: 'gray', fontStyle: 'italic', textAlign: 'right', margin: 0, padding: 0}}>
                             No results yet, add some on the Results tab!
                         </p>
                     }
