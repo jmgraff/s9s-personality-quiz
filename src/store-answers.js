@@ -11,7 +11,6 @@ const REMOVE_ANSWER = 'REMOVE_ANSWER';
 const MOVE_ANSWER_LEFT = 'MOVE_ANSWER_LEFT';
 const MOVE_ANSWER_RIGHT = 'MOVE_ANSWER_RIGHT';
 const SET_ANSWER_TITLE = 'SET_ANSWER_TITLE';
-const SET_ANSWER_IMAGE_URL = 'SET_ANSWER_IMAGE_URL';
 const SET_ANSWER_RESULT_ID = 'SET_ANSWER_RESULT_ID';
 
 //actions
@@ -20,7 +19,6 @@ export const remove = id => ({ type: REMOVE_ANSWER, payload: { id } });
 export const moveLeft = id => ({ type: MOVE_ANSWER_LEFT, payload: { id } });
 export const moveRight = id => ({ type: MOVE_ANSWER_RIGHT, payload: { id } });
 export const setTitle = (id, title) => ({ type: SET_ANSWER_TITLE, payload: { id, title } });
-export const setImageURL = (id, imageURL) => ({ type: SET_ANSWER_IMAGE_URL, payload: { id, imageURL } });
 export const setResultID = (id, resultID) => ({ type: SET_ANSWER_RESULT_ID, payload: { id, resultID } });
 
 //selectors
@@ -51,10 +49,6 @@ export const answers = produce((draft, action) => {
         case MOVE_ANSWER_RIGHT: {
             const answer = draft.find(a => a.id == action.payload.id);
             moveIndexRight(draft.filter(a => a.question_id == answer.question_id), answer.id);
-            break;
-        }
-        case SET_ANSWER_IMAGE_URL: {
-            draft.find(a => a.id === action.payload.id).image_url = action.payload.imageURL;
             break;
         }
         case SET_ANSWER_RESULT_ID: {

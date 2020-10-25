@@ -30,6 +30,7 @@ registerBlockType('s9s/personality-quiz', {
     edit({ attributes: { data }, setAttributes }) {
         const store = getNewStore(data, () => {
             setAttributes({data: JSON.stringify(store.getState())})
+            console.log(JSON.stringify(store.getState()));
         });
 
         return (

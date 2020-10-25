@@ -1,4 +1,4 @@
-import { Button, Toolbar, ToolbarButton, TextControl, Popover } from '@wordpress/components';
+import { Button, ToolbarGroup, ToolbarButton, TextControl, Popover } from '@wordpress/components';
 import { image, trash, edit, link } from '@wordpress/icons';
 
 const { MediaUpload } = wp.blockEditor;
@@ -10,12 +10,12 @@ export default function QuizMediaUpload({src, width, height, onChange}) {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
                     <img src={src} style={{ maxWidth: width, maxHeight: height, width: 'auto', height: 'auto', display: 'block' }} />
-                    <Toolbar style={{border: 0, display: 'flex', justifyContent: 'center'}}>
+                    <ToolbarGroup style={{border: 0, display: 'flex', justifyContent: 'center'}}>
                         <ToolbarButton icon={trash} onClick={() => onChange('')} />
                         <MediaUpload onSelect={media => onChange(media.url)}
                             render={({open}) => <ToolbarButton label="Change image" icon={edit} onClick={open} />}
                         />
-                    </Toolbar>
+                    </ToolbarGroup>
                 </div>
             </div>
         );

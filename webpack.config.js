@@ -36,10 +36,20 @@ module.exports = env => {
     const debug = {
         mode: 'development',
         devtool: 'inline-source-map',
+        plugins: [
+            new webpack.DefinePlugin({
+                DEBUG: true
+            })
+        ]
     }
 
     const production = {
-        mode: 'production'
+        mode: 'production',
+        plugins: [
+            new webpack.DefinePlugin({
+                DEBUG: false
+            })
+        ]
     }
 
     const free = {

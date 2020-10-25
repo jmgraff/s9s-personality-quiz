@@ -1,6 +1,6 @@
 const { createRef, useState, useEffect } = wp.element;
-import { Button, Card, CardHeader, CardBody, Toolbar, ToolbarButton, TabPanel, Icon } from '@wordpress/components';
-import { trash, chevronLeft, chevronRight, plus, image, close, edit } from '@wordpress/icons';
+import { Button, Card, CardHeader, CardBody, ToolbarButton, TabPanel, Icon, ToolbarGroup } from '@wordpress/components';
+import { trash, chevronLeft, chevronRight, plus, edit } from '@wordpress/icons';
 
 import ellipsize from 'ellipsize';
 
@@ -62,7 +62,7 @@ export default function ItemTabs({items, itemName, onMoveLeft, onMoveRight, onAd
                 {(tab) => (
                     <Card>
                         <CardHeader style={{padding: 0, display: 'flex', justifyContent: 'flex-end'}}>
-                            <Toolbar style={{border: 0}} label="Toolbar label">
+                            <ToolbarGroup style={{border: 0}}>
                                 { onMoveLeft && onMoveRight &&
                                     <>
                                         <ToolbarButton icon={chevronLeft} label="Move left" onClick={() => onMoveTabLeft(tab)} />
@@ -70,7 +70,7 @@ export default function ItemTabs({items, itemName, onMoveLeft, onMoveRight, onAd
                                     </>
                                 }
                                 <ToolbarButton icon={trash} label="Remove" onClick={() => onRemoveTab(tab)} />
-                            </Toolbar>
+                            </ToolbarGroup>
                         </CardHeader>
                         <CardBody>
                             {tab.item && onMediaChange &&

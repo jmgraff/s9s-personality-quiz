@@ -2,13 +2,13 @@ import ellipsize from 'ellipsize';
 import { connect } from 'react-redux';
 import { TextControl, SelectControl, Snackbar } from '@wordpress/components';
 
-import { getAnswers, remove, add, setTitle, moveLeft, moveRight, setImageURL, setResultID } from './store-answers.js';
+import { getAnswers, remove, add, setTitle, moveLeft, moveRight, setResultID } from './store-answers.js';
 import { getResults } from './store-results.js';
 
 import QuizMediaUpload from './QuizMediaUpload.js';
 import ItemTabs from './ItemTabs.js';
 
-function Answers({question_id, results, answers, remove, add, setTitle, moveLeft, moveRight, setImageURL, setResultID}) {
+function Answers({question_id, results, answers, remove, add, setTitle, moveLeft, moveRight, setResultID}) {
     const resultOptions = results.map((r) => {
         return { value: r.id, label: r.title };
     });
@@ -25,12 +25,6 @@ function Answers({question_id, results, answers, remove, add, setTitle, moveLeft
             onMoveRight={a => moveRight(a.id)}
             renderItem = {a => (
                 <>
-                    <QuizMediaUpload
-                        onChange={url => setImageURL(a.id, url)}
-                        src={a.image_url}
-                        width={200}
-                        height={100}
-                    />
                     <TextControl
                         label="Answer Text"
                         value={a.title}
@@ -58,4 +52,4 @@ const mapStateToProps = (state, ownProps) => ({
     answers: getAnswers(state, ownProps.question_id),
     results: getResults(state)
 });
-export default connect(mapStateToProps, {remove, add, setTitle, moveLeft, moveRight, setImageURL, setResultID})(Answers);
+export default connect(mapStateToProps, {remove, add, setTitle, moveLeft, moveRight, setResultID})(Answers);
