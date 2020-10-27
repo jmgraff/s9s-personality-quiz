@@ -20,36 +20,47 @@ function Result(props) {
     result = props.results.find(result => result.id === mode.id);
 
     return (
-        <div>
-            <img src={result.image_url} />
+        <>
+            <img src={result.image_url} style={{
+                display: 'block',
+                maxWidth: '100%',
+                maxHeight: '300px',
+                width: 'auto',
+                height: 'auto',
+                margin: 'auto'
+            }} />
+
             <h4>{result.title}</h4>
             <p>{result.description}</p>
-        </div>
+            <button onClick={() => props.onTryAgain()}>
+                Try Again
+            </button>
+        </>
     );
 }
 
 function Question(props) {
     return (
-        <div>
+        <>
             <img src={props.question.image_url} />
             <h4>{props.question.title}</h4>
             {props.answers.map(a => (
-                <button onClick={() => props.onAnswered(a)}>
+                <button style={{width: '100%', display: 'block', margin: '0.1em'}} onClick={() => props.onAnswered(a)}>
                     {a.title}
                 </button>
             ))}
-        </div>
+        </>
     );
 }
 
 function Intro(props) {
     return (
-        <div>
+        <>
             <img src={props.data.image_url} />
             <h4>{props.data.title}</h4>
             <p>{props.data.description}</p>
             <button onClick={props.onStartQuiz}>Start Quiz</button>
-        </div>
+        </>
     );
 }
 
@@ -74,21 +85,28 @@ function S9SPersonalityQuiz(props) {
         }
     }
 
+    const onTryAgain = () => {
+        history.push('/');
+        setUserAnswers([]);
+    }
+
     return (
         <Switch>
-            <Route exact path="/">
-                <Intro data={intro} onStartQuiz={() => history.push(`/question/0`)}/>
-            </Route>
-            <Route path="/question/:questionNumber">
-                <Question
-                    question={questions[questionNumber]}
-                    answers={answers.filter(a => a.question_id == questions[questionNumber].id)}
-                    onAnswered={onAnswered}
-                />
-            </Route>
-            <Route path="/results">
-                <Result results={results} userAnswers={userAnswers} />
-            </Route>
+            <div style={{maxWidth: "600px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                <Route exact path="/">
+                    <Intro data={intro} onStartQuiz={() => history.push('/question/0')}/>
+                </Route>
+                <Route path="/question/:questionNumber">
+                    <Question
+                        question={questions[questionNumber]}
+                        answers={answers.filter(a => a.question_id == questions[questionNumber].id)}
+                        onAnswered={onAnswered}
+                    />
+                </Route>
+                <Route path="/results">
+                    <Result results={results} userAnswers={userAnswers} onTryAgain={onTryAgain} />
+                </Route>
+            </div>
         </Switch>
     );
 }
