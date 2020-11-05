@@ -2,7 +2,7 @@ describe('Admin', function () {
     beforeEach(() => {
         cy.visit('/wp-login.php');
 
-        cy.wait(2000); //FIXME: rq-10: this is dumb. Cypress was supposed to make this unnecessary.
+        cy.wait(2000); //FIXME: this is dumb. Cypress was supposed to make this unnecessary.
         cy.get('#user_login').type('admin');
         cy.get('#user_pass').type('admin');
         cy.get('#wp-submit').click();
