@@ -12,11 +12,7 @@ import { getNewStore } from './store.js';
 
 let title = '';
 
-if (PREMIUM) {
-    title = 'S9S Personality Quiz Premium';
-} else {
-    title = 'S9S Personality Quiz - Free Edition';
-}
+title = 'Personality Quiz';
 
 if (DEBUG) {
     title = `${title} - DEBUG`;
