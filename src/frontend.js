@@ -67,7 +67,7 @@ function Intro(props) {
 }
 
 function S9SPersonalityQuiz(props) {
-    const { intro, results, questions, answers } = props.data;
+    const { intro, results, questions, answers, finish } = props.data;
     const [questionNumber, setQuestionNumber] = useState(0);
     const [userAnswers, setUserAnswers] = useState([]);
     const history = useHistory();
@@ -106,7 +106,7 @@ function S9SPersonalityQuiz(props) {
                     />
                 </Route>
                 <Route path="/results">
-                    <Result results={results} userAnswers={userAnswers} onTryAgain={onTryAgain} />
+                    <Result results={results} userAnswers={userAnswers} allowTryAgain={finish.allow_try_again} onTryAgain={onTryAgain} />
                 </Route>
             </div>
         </Switch>
