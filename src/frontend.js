@@ -32,9 +32,11 @@ function Result(props) {
 
             <h4>{result.title}</h4>
             <p>{result.description}</p>
-            <button onClick={() => props.onTryAgain()}>
-                Try Again
-            </button>
+            {props.allowTryAgain &&
+                <button onClick={() => props.onTryAgain()}>
+                    Try Again
+                </button>
+            }
         </>
     );
 }

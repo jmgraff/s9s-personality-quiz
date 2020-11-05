@@ -22,7 +22,8 @@ if [ -z $RUNNING_CONTAINER_NAME ]; then
         -e HOST_PWD=$(pwd) \
         -e HOST_IP=$(hostname -I | awk -F' ' '{print $1}') \
         -e PROJECT_NAME="$PROJECT_NAME" \
-        --network host \
+        --network="host" \
+        --ipc="host" \
         $DEV_IMAGE_NAME fish
 else
     docker attach --detach-keys=$DETACH_KEYS $RUNNING_CONTAINER_NAME

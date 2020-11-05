@@ -11,7 +11,7 @@ export default function QuizMediaUpload({src, width, height, onChange}) {
                 <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
                     <img src={src} style={{ maxWidth: width, maxHeight: height, width: 'auto', height: 'auto', display: 'block' }} />
                     <ToolbarGroup style={{border: 0, display: 'flex', justifyContent: 'center'}}>
-                        <ToolbarButton icon={trash} onClick={() => onChange('')} />
+                        <ToolbarButton icon={trash} label="Remove image" onClick={() => onChange('')} />
                         <MediaUpload onSelect={media => onChange(media.url)}
                             render={({open}) => <ToolbarButton label="Change image" icon={edit} onClick={open} />}
                         />

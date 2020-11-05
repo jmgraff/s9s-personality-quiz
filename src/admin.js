@@ -18,6 +18,10 @@ if (PREMIUM) {
     title = 'S9S Personality Quiz - Free Edition';
 }
 
+if (DEBUG) {
+    title = `${title} - DEBUG`;
+}
+
 registerBlockType('s9s/personality-quiz', {
     title,
     category: 'common',

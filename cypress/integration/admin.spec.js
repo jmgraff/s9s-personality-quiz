@@ -9,25 +9,23 @@ describe('Admin', function () {
     });
 
     it('Creates a quiz', function() {
-        cy.visit('/wp-admin/post-new.php?post_type=reactquiz_quiz');
-
-        cy.get('#title').type('Test Quiz');
-        cy.get('#reactquiz-title').type('my new quiz');
-        cy.get('#reactquiz-description').type('my new quiz description');
-
-        cy.get('#publish').click();
-        cy.get('#sample-permalink').click();
+        cy.visit('/wp-admin/post-new.php');
+        cy.get('.edit-post-welcome-guide button[aria-label="Close dialog"]').click();
+        cy.get('textarea[placeholder="Add title"]').type('Test Quiz Post Title');
+        cy.get('.edit-post-visual-editor button[aria-label="Add block"]').click();
+        cy.contains('S9S Personality Quiz').click();
+        cy.get('[aria-label*="Block: S9S Personality Quiz"]').should('be.visible')
+        cy.contains('Quiz Title').should('be.visible');
+        cy.get('input[value="Color Quiz"]').clear().type("Color Quiz (2)");
+        cy.contains('Quiz Description').should('be.visible');
+        cy.contains('Questions').click({force: true});
+        cy.contains('Question Title').should('be.visible');
+        cy.contains('Results').click({force: true});
+        cy.contains('Result Title').should('be.visible');
+        cy.contains('Publish').first().click();
+        cy.get('.editor-post-publish-panel button.editor-post-publish-button').click();
+        cy.contains('View Post').click();
+        cy.contains('View Post').click(); //not sure why this needs to happen twice
+        cy.contains('Color Quiz (2)').should('be.visible');
     });
-
-    it('Updates a quiz', function() {
-        cy.visit('/wp-admin/edit.php?post_type=reactquiz_quiz');
-
-        cy.get('.row-title').first().click();
-        cy.get('#reactquiz-title').clear().type('my newer quiz');
-        cy.get('#publish').click();
-        cy.get('#sample-permalink').click();
-
-        cy.get('#reactquiz h1').first().should('contain', 'my newer quiz');
-    });
-
 });

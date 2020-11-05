@@ -23,8 +23,8 @@ web:
 	docker build -t $(WP_IMAGE_NAME) containers/wp/
 PHONY+=web
 
-test: build
-	./scripts/setup_wordpress.sh
+test: serve-free-debug
+	#./scripts/setup_wordpress.sh
 	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
 PHONY+=test
 
@@ -50,7 +50,7 @@ PHONY+=server-down
 
 clean: server-down
 	rm -rf build/*
-	rm -f dist/*
+	rm -rf dist/*
 	rm -f *.empty
 PHONY+=clean
 
