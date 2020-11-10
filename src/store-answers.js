@@ -1,5 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
-import { produce } from 'immer';
+import { produce, current } from 'immer';
 
 import { moveIndexLeft, moveIndexRight } from './store-utils.js';
 
@@ -8,6 +8,7 @@ const initialState = [ ];
 
 const ADD_ANSWER = 'ADD_ANSWER';
 const REMOVE_ANSWER = 'REMOVE_ANSWER';
+const REMOVE_QUESTION_ANSWERS = 'REMOVE_QUESTION_ANSWERS';
 const MOVE_ANSWER_LEFT = 'MOVE_ANSWER_LEFT';
 const MOVE_ANSWER_RIGHT = 'MOVE_ANSWER_RIGHT';
 const SET_ANSWER_TITLE = 'SET_ANSWER_TITLE';
@@ -16,6 +17,7 @@ const SET_ANSWER_RESULT_ID = 'SET_ANSWER_RESULT_ID';
 //actions
 export const add = (question_id) => ({ type: ADD_ANSWER, payload: { question_id } });
 export const remove = id => ({ type: REMOVE_ANSWER, payload: { id } });
+export const removeQuestionAnswers = questionId => ({ type: REMOVE_QUESTION_ANSWERS, payload: { questionId } });
 export const moveLeft = id => ({ type: MOVE_ANSWER_LEFT, payload: { id } });
 export const moveRight = id => ({ type: MOVE_ANSWER_RIGHT, payload: { id } });
 export const setTitle = (id, title) => ({ type: SET_ANSWER_TITLE, payload: { id, title } });
@@ -36,6 +38,9 @@ export const answers = produce((draft, action) => {
         }
         case REMOVE_ANSWER: {
             return draft.filter(a => a.id !== action.payload.id);
+        }
+        case REMOVE_QUESTION_ANSWERS: {
+            return draft.filter(a => a.question_id !== action.payload.questionId);
         }
         case SET_ANSWER_TITLE: {
             draft.find(a => a.id === action.payload.id).title = action.payload.title;

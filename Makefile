@@ -28,6 +28,10 @@ test: serve-free-debug
 	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
 PHONY+=test
 
+unit-test:
+	npx jest
+PHONY+=unit-test
+
 serve-free: dist
 	./scripts/setup_wordpress.sh free
 PHONY+=serve-free

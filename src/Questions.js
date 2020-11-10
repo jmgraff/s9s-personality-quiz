@@ -5,10 +5,16 @@ import { image } from '@wordpress/icons';
 import ItemTabs from './ItemTabs.js';
 import Answers from './Answers.js';
 
-import { getQuestions, remove, add, moveLeft, moveRight, setTitle, setImageURL } from './store-questions.js';
+import { getQuestions, remove as removeQuestion, add, moveLeft, moveRight, setTitle, setImageURL } from './store-questions.js';
+import { removeQuestionAnswers } from './store-answers.js';
 
 
-function Questions({questions, remove, add, moveLeft, moveRight, setTitle, setImageURL}) {
+function Questions({questions, removeQuestion, removeQuestionAnswers, add, moveLeft, moveRight, setTitle, setImageURL}) {
+
+    const remove = (id) => {
+        removeQuestion(id);
+        removeQuestionAnswers(id);
+    }
 
     return (
         <ItemTabs
@@ -34,4 +40,4 @@ function Questions({questions, remove, add, moveLeft, moveRight, setTitle, setIm
 }
 
 const mapStateToProps = state => ({ questions: getQuestions(state) });
-export default connect(mapStateToProps, {remove, add, moveLeft, moveRight, setTitle, setImageURL})(Questions);
+export default connect(mapStateToProps, { removeQuestion, removeQuestionAnswers, add, moveLeft, moveRight, setTitle, setImageURL })(Questions);

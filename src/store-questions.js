@@ -2,6 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import { produce } from 'immer';
 
 import { moveIndexLeft, moveIndexRight } from './store-utils.js';
+import { removeQuestionAnswers } from './store-answers.js';
 
 const blank = (index) => ({ id: uuidv4(), title: '', image_url: '', index});
 const initialState = [ blank(0) ];

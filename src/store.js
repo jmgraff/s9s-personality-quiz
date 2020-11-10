@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import produce from 'immer';
-
-const { useState } = wp.element;
+import { useState } from 'react';
+import { debounce } from 'lodash';
 
 import { intro } from './store-intro.js';
 import { results } from './store-results.js';
@@ -9,9 +9,10 @@ import { questions } from './store-questions.js';
 import { answers } from './store-answers.js';
 import { finish } from './store-finish.js';
 
-const { debounce } = lodash;
 
 const combined = combineReducers({intro, results, questions, answers, finish});
+
+export const getNewTestStore = (testData) => createStore(combined, testData)
 
 export const getNewStore = (data, saveCallback) => {
     const debounceSave = debounce(() => saveCallback(), 500);
