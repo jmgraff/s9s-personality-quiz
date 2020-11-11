@@ -1,5 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
-import { produce, current } from 'immer';
+import { produce } from 'immer';
 
 import { moveIndexLeft, moveIndexRight } from './store-utils.js';
 

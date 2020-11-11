@@ -1,7 +1,13 @@
-import { MemoryRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
 const { render, useState, useEffect } = wp.element;
 
+import { MemoryRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
+
+import { Share } from './Share.js';
+
+
 function Result(props) {
+    const { allow_try_again, allow_share, share_buttons } = props.finish;
+
     let modeMap = {};
     let mode = null;
     let result = null;
@@ -19,6 +25,11 @@ function Result(props) {
 
     result = props.results.find(result => result.id === mode.id);
 
+    const shareButtonAttributes = {
+        url: window.location,
+        media: result.image_url
+    };
+
     return (
         <>
             <img src={result.image_url} style={{
@@ -32,7 +43,10 @@ function Result(props) {
 
             <h4>{result.title}</h4>
             <p>{result.description}</p>
-            {props.allowTryAgain &&
+            {allow_share && share_buttons.length > 0 &&
+                <Share ids={share_buttons} atts={shareButtonAttributes} />
+            }
+            {allow_try_again &&
                 <button onClick={() => props.onTryAgain()}>
                     Try Again
                 </button>
@@ -106,7 +120,11 @@ function S9SPersonalityQuiz(props) {
                     />
                 </Route>
                 <Route path="/results">
-                    <Result results={results} userAnswers={userAnswers} allowTryAgain={finish.allow_try_again} onTryAgain={onTryAgain} />
+                    <Result
+                        results={results}
+                        userAnswers={userAnswers}
+                        finish={finish}
+                        onTryAgain={onTryAgain} />
                 </Route>
             </div>
         </Switch>

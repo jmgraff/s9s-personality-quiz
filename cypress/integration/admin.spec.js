@@ -13,8 +13,8 @@ describe('Admin', function () {
         cy.get('.edit-post-welcome-guide button[aria-label="Close dialog"]').click();
         cy.get('textarea[placeholder="Add title"]').type('Test Quiz Post Title');
         cy.get('.edit-post-visual-editor button[aria-label="Add block"]').click();
-        cy.contains('S9S Personality Quiz').click();
-        cy.get('[aria-label*="Block: S9S Personality Quiz"]').should('be.visible')
+        cy.contains('Personality Quiz').click();
+        cy.get('[aria-label*="Block: Personality Quiz"]').should('be.visible')
         cy.contains('Quiz Title').should('be.visible');
         cy.get('input[value="Color Quiz"]').clear().type("Color Quiz (2)");
         cy.contains('Quiz Description').should('be.visible');
