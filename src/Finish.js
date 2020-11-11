@@ -5,6 +5,14 @@ import { setAllowTryAgain, setAllowShare, getFinish, toggleShareButton } from '.
 import { share_classes } from './Share.js';
 
 function Finish({ allow_try_again, allow_share, share_buttons, setAllowTryAgain, setAllowShare, toggleShareButton }) {
+    const ShareCheckbox = id => (
+        <CheckboxControl
+            label={id[0].toUpperCase() + id.slice(1)}
+            onChange={() => toggleShareButton(id)}
+            checked={share_buttons.includes(id)}
+        />
+    );
+
     return (
         <Card>
             <CardBody>
@@ -23,13 +31,7 @@ function Finish({ allow_try_again, allow_share, share_buttons, setAllowTryAgain,
                 { allow_share &&
                     <div style={{ display: 'flex' }}>
                         <div style={{ flex: '50%' }}>
-                            { Object.keys(share_classes).map(k => (
-                                <CheckboxControl
-                                    label={k[0].toUpperCase() + k.slice(1)}
-                                    onChange={() => toggleShareButton(k)}
-                                    checked={share_buttons.includes(k)}
-                                />
-                            ))}
+                            { Object.keys(share_classes).map(k => <ShareCheckbox id={k} />)}
                         </div>
                     </div>
                 }
