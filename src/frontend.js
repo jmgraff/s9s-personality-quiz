@@ -1,12 +1,20 @@
 const { render, useState, useEffect } = wp.element;
 
 import { MemoryRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
+import format from 'string-template';
 
 import { Share } from './Share.js';
 
 
 function Result(props) {
-    const { allow_try_again, allow_share, share_buttons } = props.finish;
+    const {
+        allow_try_again,
+        allow_share,
+        share_buttons,
+        share_title,
+        share_description,
+        share_hashtags,
+    } = props.finish;
 
     let modeMap = {};
     let mode = null;
@@ -14,7 +22,7 @@ function Result(props) {
 
     props.userAnswers.forEach(answer => {
         if (Object.keys(modeMap).find(x => x === answer.result_id)) {
-          modeMap[answer.result_id]++
+          modeMap[answer.result_id]++;
         } else {
           modeMap[answer.result_id] = 1;
         }
@@ -25,9 +33,28 @@ function Result(props) {
 
     result = props.results.find(result => result.id === mode.id);
 
+    const formattedShareTitle = format(share_title, { title: result.title });
+    const formattedShareDescription = format(share_description, { description: result.description });
+    const hashtags = share_hashtags ? share_hashtags.split(" ") : undefined;
+    const tags = hashtags;
+    const hashtag = hashtags ? hashtags[0] : undefined;
+
     const shareButtonAttributes = {
         url: window.location,
-        media: result.image_url
+        via: window.location,
+        media: result.image_url,
+        image: result.image_url,
+        imageUrl: result.image_url,
+        title: formattedShareTitle,
+        subject: formattedShareTitle,
+        description: formattedShareDescription,
+        caption: formattedShareDescription,
+        body: formattedShareDescription,
+        summary: formattedShareDescription,
+        quote: formattedShareDescription,
+        hashtag,
+        hashtags,
+        tags
     };
 
     return (

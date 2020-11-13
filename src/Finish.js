@@ -1,17 +1,84 @@
-import { Card, CardBody, ToggleControl, CheckboxControl } from '@wordpress/components'; //FIXME what is component for bool? Switch?
+import { Card, CardBody, ToggleControl, CheckboxControl, TextControl, TextareaControl } from '@wordpress/components';
 import { connect } from 'react-redux';
 
-import { setAllowTryAgain, setAllowShare, getFinish, toggleShareButton } from './store-finish.js';
+import { setAllowTryAgain, setAllowShare, getFinish, toggleShareButton, setShareTitle,
+    setShareDescription, setShareHashtags } from './store-finish.js';
 import { share_classes } from './Share.js';
 
-function Finish({ allow_try_again, allow_share, share_buttons, setAllowTryAgain, setAllowShare, toggleShareButton }) {
-    const ShareCheckbox = id => (
+//TODO move this to Share.js and connect to store
+function Share(props) {
+    const {
+        toggleShareButton,
+        shareButtons,
+        shareTitle,
+        setShareTitle,
+        shareDescription,
+        setShareDescription,
+        shareHashtags,
+        setShareHashtags
+    } = props;
+
+    const ShareCheckbox = ({id}) => (
         <CheckboxControl
-            label={id[0].toUpperCase() + id.slice(1)}
+            label={share_classes[id].name}
             onChange={() => toggleShareButton(id)}
-            checked={share_buttons.includes(id)}
+            checked={shareButtons.includes(id)}
         />
     );
+
+    const ShareCheckboxes = ({keys}) => keys.map(k => <ShareCheckbox id={k} />);
+
+    const shareKeys = Object.keys(share_classes);
+    const firstHalf = shareKeys.slice(0, Math.ceil(shareKeys.length / 2));
+    const secondHalf = shareKeys.slice(firstHalf.length, shareKeys.length);
+
+    return (
+        <>
+            <TextControl
+                label="Share Title"
+                onChange={ val => setShareTitle(val) }
+                value={ shareTitle }
+                help="Use {title} to use the title of the quiz result"
+            />
+            <TextareaControl
+                label="Share Description"
+                onChange={ setShareDescription }
+                value={ shareDescription }
+                help="Applies to Instapaper, LinkedIn, Livejournal, Mail.ru, OK, Pinterest, Tumblr, Workplace, and Email. Use {description} to use the description of the quiz result."
+            />
+            <TextControl
+                label="Hashtags"
+                onChange={ setShareHashtags }
+                value={ shareHashtags }
+                help="Space-separated list of hashtags. Applies to Facebook, Tumblr, Twitter, and Workplace. Note: Facebook and Workplace only accept one hashtag; if multiple are supplied, only the first will be used."
+            />
+            <div style={{ display: 'flex' }}>
+                <div style={{ flex: '50%' }}>
+                    <ShareCheckboxes keys={firstHalf} />
+                </div>
+                <div style={{ flex: '50%' }}>
+                    <ShareCheckboxes keys={secondHalf} />
+                </div>
+            </div>
+        </>
+    );
+}
+
+function Finish(props) {
+    const {
+        allow_try_again,
+        allow_share,
+        share_buttons,
+        share_title,
+        share_description,
+        share_hashtags,
+        setShareHashtags,
+        setShareDescription,
+        setAllowTryAgain,
+        setAllowShare,
+        toggleShareButton,
+        setShareTitle
+    } = props;
 
     return (
         <Card>
@@ -29,11 +96,16 @@ function Finish({ allow_try_again, allow_share, share_buttons, setAllowTryAgain,
                     onChange={ () => setAllowShare(!allow_share) }
                 />
                 { allow_share &&
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ flex: '50%' }}>
-                            { Object.keys(share_classes).map(k => <ShareCheckbox id={k} />)}
-                        </div>
-                    </div>
+                    <Share
+                        toggleShareButton={toggleShareButton}
+                        shareButtons={share_buttons}
+                        shareTitle={share_title}
+                        shareHashtags={share_hashtags}
+                        setShareHashtags={setShareHashtags}
+                        setShareTitle={setShareTitle}
+                        shareDescription={share_description}
+                        setShareDescription={setShareDescription}
+                    />
                 }
             </CardBody>
         </Card>
@@ -41,4 +113,4 @@ function Finish({ allow_try_again, allow_share, share_buttons, setAllowTryAgain,
 }
 
 const mapStateToProps = (state) => getFinish(state);
-export default connect(mapStateToProps, { setAllowTryAgain, setAllowShare, toggleShareButton })(Finish);
+export default connect(mapStateToProps, { setAllowTryAgain, setAllowShare, toggleShareButton, setShareTitle, setShareDescription, setShareHashtags })(Finish);

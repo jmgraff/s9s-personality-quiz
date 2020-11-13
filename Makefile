@@ -23,7 +23,7 @@ web:
 	docker build -t $(WP_IMAGE_NAME) containers/wp/
 PHONY+=web
 
-test: serve-free-debug
+test: serve-premium-debug
 	#./scripts/setup_wordpress.sh
 	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
 PHONY+=test
