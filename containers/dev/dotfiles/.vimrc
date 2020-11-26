@@ -30,9 +30,24 @@ let g:solarized_termcolors=256
 silent! colorscheme solarized
 hi clear SignColumn
 
-"tab to switch tabs
-:nnoremap <Tab> :tabn<CR>
-:nnoremap <S-Tab> :tabp<CR>
+"tab/pane movement
+map <C-l> :tabn<cr>
+map <C-h> :tabp<cr>
+map <C-j> <C-w><C-j>
+map <C-k> <C-w><C-k>
+
+"rolodex h-splits
+set noequalalways winminheight=0 winheight=9999 helpheight=9999
+
+"open wildcard in h-splits
+:command! -nargs=+ -complete=file Split
+\ for s:f in [<f-args>]
+\|  for s:m in glob(s:f, 0, 1)
+\|      exe 'split' fnameescape(s:m)
+\|  endfor
+\|endfor
+\|if exists(s:f) | unlet s:f
+\|if exists(s:m) | unlet s:m
 
 "search
 set hlsearch

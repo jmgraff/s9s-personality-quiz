@@ -1,0 +1,51 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build-all": "npm-run-all --parallel build-premium build-premium-debug build-free build-free-debug",
+    "build-premium": "webpack --env.target=premium --env.premium",
+    "build-premium-debug": "webpack --env.target=premium-debug --env.premium --env.debug",
+    "build-free": "webpack --env.target=free",
+    "build-free-debug": "webpack --env.target=free-debug --env.debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmgraff/s9s-personality-quiz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmgraff/s9s-personality-quiz/issues"
+  },
+  "homepage": "https://github.com/jmgraff/s9s-personality-quiz#readme",
+  "dependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@wordpress/components": "^10.2.0",
+    "@wordpress/icons": "^2.6.0",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "ellipsize": "^0.1.0",
+    "immer": "^7.0.7",
+    "jest": "^26.6.3",
+    "license-checker": "^25.0.1",
+    "lodash": "^4.17.20",
+    "npm-run-all": "^4.1.5",
+    "react-redux": "^7.2.1",
+    "react-router-dom": "^5.2.0",
+    "react-share": "^4.3.1",
+    "redux": "^4.0.5",
+    "string-template": "^1.0.0",
+    "uuid": "^8.3.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.4"
+  }
+}

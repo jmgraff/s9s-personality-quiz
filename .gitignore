@@ -1,3 +1,8 @@
+node_modules/
 build/
+dist/
 cypress/screenshots/
 cypress/videos/
+webpack.empty
+.DS_Store
+._*

@@ -1,4 +1,4 @@
-FROM wordpress
+FROM wordpress:latest
 
 # Install requirements for wp-cli support
 RUN apt-get update \
