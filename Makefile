@@ -8,6 +8,10 @@ SHELL = /bin/sh
 dev:
 	./scripts/run_dev_container.sh $(DEV_IMAGE_NAME) $(PROJECT_NAME)
 
+.PHONY: dev
+docker:
+	scripts/install_docker_ubuntu.sh
+
 # *********************************************************************
 # * Everything below this line only runs inside the Docker container! *
 # *********************************************************************
@@ -23,7 +27,6 @@ web:
 
 .PHONY: test
 test: serve-premium-debug
-	#./scripts/setup_wordpress.sh
 	(CYPRESS_BASE_URL=http://$$HOST_IP:3000 cypress run)
 
 .PHONY: unit-test
