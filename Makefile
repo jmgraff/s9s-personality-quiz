@@ -8,9 +8,13 @@ SHELL = /bin/sh
 dev:
 	./scripts/run_dev_container.sh $(DEV_IMAGE_NAME) $(PROJECT_NAME)
 
-.PHONY: dev
+.PHONY: docker
 docker:
 	scripts/install_docker_ubuntu.sh
+
+.PHONY: list
+list:
+	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
 # *********************************************************************
 # * Everything below this line only runs inside the Docker container! *
@@ -52,11 +56,12 @@ webpack.empty: $(JS_FILES)
 build/style.css: src/style.css
 	cp $^ $@
 
-build/index.free.php: src/index.php
-	sed 's/__FEATURE_SET__/Free/g' $^ > $@
-
-build/index.premium.php: src/index.php
-	sed 's/__FEATURE_SET__/Premium/g' $^ > $@
+FREE_PREMIUM=Free Premium
+define BUILD_PHP_INDEX
+build/index.$(2).php: src/index.php
+	sed 's/__FEATURE_SET__/$(1)/g' $$^ > $$@
+endef
+$(foreach ii,$(FREE_PREMIUM),$(eval $(call BUILD_PHP_INDEX,$(ii),$(shell echo $(ii) | tr '[:upper:]' '[:lower:]'))))
 
 build: build/index.free.php build/index.premium.php build/style.css webpack.empty
 	touch $@
@@ -65,13 +70,10 @@ define BUILD_ZIPS
 dist/$(PROJECT_NAME_SLUG)-$(1).zip: build
 	rm -f $$@
 	zip -rj $$@ build/$(1)/* build/index.$(2).php build/style.css
-
 .PHONY: serve-$(1)
 serve-$(1): dist
 	scripts/setup_wordpress.sh $(1)
-
 endef
-
 $(foreach ii,$(BUILDS),$(eval $(call BUILD_ZIPS,$(ii),$(shell echo $(ii) | cut -d'-' -f1))))
 
 dist: $(foreach ii,$(BUILDS),dist/$(PROJECT_NAME_SLUG)-$(ii).zip)
