@@ -10,6 +10,7 @@ function Result(props) {
     const {
         allow_try_again,
         allow_share,
+        force_share,
         share_buttons,
         share_title,
         share_description,
@@ -67,11 +68,10 @@ function Result(props) {
                 height: 'auto',
                 margin: 'auto'
             }} />
-
             <h4>{result.title}</h4>
             <p>{result.description}</p>
             {allow_share && share_buttons.length > 0 &&
-                <Share ids={share_buttons} atts={shareButtonAttributes} />
+                <Share ids={share_buttons} atts={shareButtonAttributes} onShare={() => alert('foo')} />
             }
             {allow_try_again &&
                 <button onClick={() => props.onTryAgain()}>
