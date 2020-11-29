@@ -3,13 +3,15 @@ const { render, useState, useEffect } = wp.element;
 import { MemoryRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
 import format from 'string-template';
 
-import { Share } from './Share.js';
+import { Share, createHashtagList } from './Share.js';
 
 
 function Result(props) {
+    const [shared, setShared] = useState(false);
     const {
         allow_try_again,
         allow_share,
+        force_share,
         share_buttons,
         share_title,
         share_description,
@@ -35,7 +37,7 @@ function Result(props) {
 
     const formattedShareTitle = format(share_title, { title: result.title });
     const formattedShareDescription = format(share_description, { description: result.description });
-    const hashtags = share_hashtags ? share_hashtags.split(" ") : undefined;
+    const hashtags = createHashtagList(share_hashtags);
     const tags = hashtags;
     const hashtag = hashtags ? hashtags[0] : undefined;
 
@@ -59,21 +61,27 @@ function Result(props) {
 
     return (
         <>
-            <img src={result.image_url} style={{
-                display: 'block',
-                maxWidth: '100%',
-                maxHeight: '300px',
-                width: 'auto',
-                height: 'auto',
-                margin: 'auto'
-            }} />
-
-            <h4>{result.title}</h4>
-            <p>{result.description}</p>
-            {allow_share && share_buttons.length > 0 &&
-                <Share ids={share_buttons} atts={shareButtonAttributes} />
+            { (!force_share || shared) &&
+                <>
+                    <img src={result.image_url} style={{
+                        display: 'block',
+                        maxWidth: '100%',
+                        maxHeight: '300px',
+                        width: 'auto',
+                        height: 'auto',
+                        margin: 'auto'
+                    }} />
+                    <h4>{result.title}</h4>
+                    <p>{result.description}</p>
+                </>
             }
-            {allow_try_again &&
+            { (force_share && !shared) &&
+                <h3>Share to see your results!</h3>
+            }
+            { allow_share && share_buttons.length > 0 &&
+                <Share ids={share_buttons} atts={shareButtonAttributes} onShare={() => setShared(true)} />
+            }
+            { (!force_share || shared) && allow_try_again &&
                 <button onClick={() => props.onTryAgain()}>
                     Try Again
                 </button>

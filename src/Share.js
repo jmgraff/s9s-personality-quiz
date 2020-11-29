@@ -46,20 +46,33 @@ export const share_classes = {
     'workplace': { name: 'Workplace', button: WorkplaceShareButton, icon: WorkplaceIcon },
 };
 
-const ShareButton = ({id, atts}) => {
+const ShareButton = ({id, atts, onShare}) => {
     const ShareButtonTag = share_classes[id].button;
     const ShareIconTag = share_classes[id].icon;
     return (
-        <ShareButtonTag {...atts}>
+        <ShareButtonTag {...atts} beforeOnClick={() => onShare()}>
             <ShareIconTag />
         </ShareButtonTag>
     );
 }
 
-export function Share({ids, atts}) {
+export function createHashtagList(str) {
+    let list = undefined;
+    if (str) {
+        list = str.split(" ").map(ii => {
+            while (ii.startsWith('#')) {
+                ii = ii.substring(1);
+            }
+            return ii;
+        });
+    }
+    return list;
+}
+
+export function Share({ids, atts, onShare}) {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1em', flexWrap: 'flex', width: '100%' }}>
-            { ids.map(id => <ShareButton id={id} atts={atts} />) }
+            { ids.map(id => <ShareButton id={id} atts={atts} onShare={onShare} />) }
         </div>
     );
 }

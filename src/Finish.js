@@ -2,20 +2,22 @@ import { Card, CardBody, ToggleControl, CheckboxControl, TextControl, TextareaCo
 import { connect } from 'react-redux';
 
 import { setAllowTryAgain, setAllowShare, getFinish, toggleShareButton, setShareTitle,
-    setShareDescription, setShareHashtags } from './store-finish.js';
+    setShareDescription, setShareHashtags, setForceShare } from './store-finish.js';
 import { share_classes } from './Share.js';
 
 //TODO move this to Share.js and connect to store
 function Share(props) {
     const {
         toggleShareButton,
+        forceShare,
         shareButtons,
         shareTitle,
         setShareTitle,
         shareDescription,
         setShareDescription,
         shareHashtags,
-        setShareHashtags
+        setShareHashtags,
+        setForceShare
     } = props;
 
     const ShareCheckbox = ({id}) => (
@@ -34,6 +36,12 @@ function Share(props) {
 
     return (
         <>
+            <ToggleControl
+                label='Force share'
+                help={ forceShare ? 'User must share to see results': 'User can see results without sharing' }
+                checked={ forceShare }
+                onChange={ () => setForceShare(!forceShare) }
+            />
             <TextControl
                 label="Share Title"
                 onChange={ val => setShareTitle(val) }
@@ -68,6 +76,7 @@ function Finish(props) {
     const {
         allow_try_again,
         allow_share,
+        force_share,
         share_buttons,
         share_title,
         share_description,
@@ -77,6 +86,7 @@ function Finish(props) {
         setAllowTryAgain,
         setAllowShare,
         toggleShareButton,
+        setForceShare,
         setShareTitle
     } = props;
 
@@ -98,6 +108,8 @@ function Finish(props) {
                 { allow_share &&
                     <Share
                         toggleShareButton={toggleShareButton}
+                        setForceShare={setForceShare}
+                        forceShare={force_share}
                         shareButtons={share_buttons}
                         shareTitle={share_title}
                         shareHashtags={share_hashtags}
@@ -113,4 +125,5 @@ function Finish(props) {
 }
 
 const mapStateToProps = (state) => getFinish(state);
-export default connect(mapStateToProps, { setAllowTryAgain, setAllowShare, toggleShareButton, setShareTitle, setShareDescription, setShareHashtags })(Finish);
+export default connect(mapStateToProps, { setAllowTryAgain, setAllowShare, toggleShareButton, setShareTitle,
+    setShareDescription, setShareHashtags, setForceShare })(Finish);

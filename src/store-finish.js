@@ -3,6 +3,7 @@ import produce from 'immer';
 const initialState = {
     allow_try_again: true,
     allow_share: false,
+    force_share: false,
     share_title: 'I got {title}... what did you get?',
     share_description: '{description}',
     share_hashtags: '',
@@ -24,6 +25,7 @@ const FINISH_TOGGLE_SHARE_BUTTON = 'FINISH_TOGGLE_SHARE_BUTTON';
 const FINISH_SET_SHARE_TITLE = 'FINISH_SET_SHARE_TITLE';
 const FINISH_SET_SHARE_DESCRIPTION = 'FINISH_SET_SHARE_DESCRIPTION';
 const FINISH_SET_SHARE_HASHTAGS = 'FINISH_SET_SHARE_HASHTAGS';
+const FINISH_SET_FORCE_SHARE = 'FINISH_SET_FORCE_SHARE';
 
 //actions
 export const setAllowTryAgain = (allow_try_again) => ({ type: FINISH_SET_ALLOW_TRY_AGAIN, payload: { allow_try_again } });
@@ -32,6 +34,7 @@ export const toggleShareButton = (share_button_id) => ({ type: FINISH_TOGGLE_SHA
 export const setShareTitle = (share_title) => ({ type: FINISH_SET_SHARE_TITLE, payload: { share_title } });
 export const setShareDescription = (share_description) => ({ type: FINISH_SET_SHARE_DESCRIPTION, payload: { share_description } });
 export const setShareHashtags = (share_hashtags) => ({ type: FINISH_SET_SHARE_HASHTAGS, payload: { share_hashtags } });
+export const setForceShare = (force_share) => ({ type: FINISH_SET_FORCE_SHARE, payload: { force_share } });
 
 //selectors
 export const getFinish = ({finish}) => finish;
@@ -68,6 +71,10 @@ export const finish = produce((draft, action) => {
                 draft.share_buttons.push(action.payload.share_button_id);
                 break;
             }
+        }
+        case FINISH_SET_FORCE_SHARE: {
+            draft.force_share = action.payload.force_share;
+            break;
         }
         default:
             return;
