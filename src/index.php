@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: S9S Personality Quiz __FEATURE_SET__
+ * Plugin Name: __PRODUCT_NAME__
  * Plugin URI: https://signal9software.com/personality-quiz
  * Description: Convert traffic to leads with viral Buzzfeed style quizzes!
  * Version: 1.0.0
@@ -28,7 +28,6 @@
     }
 
     function s9spq_frontend_assets() {
-        wp_enqueue_style('s9spq_frontend_css', S9SPQ_PLUGIN_URL . 'style.css', [], null);
         if (!is_admin()) {
             wp_enqueue_script('s9spq_frontend_script', s9spq_get_script_url('frontend'), ['wp-element'], null, true);
         }
@@ -37,7 +36,6 @@
 
     function s9spq_admin_assets() {
         wp_enqueue_media();
-        wp_enqueue_style('s9spq_admin_css', S9SPQ_PLUGIN_URL . 'style.css', [], null);
         wp_enqueue_script('s9spq_admin_script', s9spq_get_script_url('admin'), ['wp-element', 'wp-data', 'lodash'], null, true);
     }
     add_action( 'enqueue_block_editor_assets', 's9spq_admin_assets' );

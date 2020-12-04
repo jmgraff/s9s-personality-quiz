@@ -8,10 +8,10 @@
   },
   "scripts": {
     "build-all": "npm-run-all --parallel build-premium build-premium-debug build-free build-free-debug",
-    "build-premium": "webpack --env.target=premium --env.premium",
-    "build-premium-debug": "webpack --env.target=premium-debug --env.premium --env.debug",
-    "build-free": "webpack --env.target=free",
-    "build-free-debug": "webpack --env.target=free-debug --env.debug"
+    "build-premium": "webpack --env.target=s9s-personality-quiz-premium --env.premium",
+    "build-premium-debug": "webpack --env.target=s9s-personality-quiz-premium-debug --env.premium --env.debug",
+    "build-free": "webpack --env.target=s9s-personality-quiz",
+    "build-free-debug": "webpack --env.target=s9s-personality-quiz-debug --env.debug"
   },
   "repository": {
     "type": "git",

@@ -12,8 +12,8 @@ services:
         ports:
             - "3000:80"
         volumes:
-            - ${HOST_PWD}/dist/${PROJECT_NAME_SLUG}-free.zip:/tmp/${PROJECT_NAME_SLUG}-free.zip
-            - ${HOST_PWD}/dist/${PROJECT_NAME_SLUG}-free-debug.zip:/tmp/${PROJECT_NAME_SLUG}-free-debug.zip
+            - ${HOST_PWD}/dist/${PROJECT_NAME_SLUG}.zip:/tmp/${PROJECT_NAME_SLUG}.zip
+            - ${HOST_PWD}/dist/${PROJECT_NAME_SLUG}-debug.zip:/tmp/${PROJECT_NAME_SLUG}-debug.zip
             - ${HOST_PWD}/dist/${PROJECT_NAME_SLUG}-premium.zip:/tmp/${PROJECT_NAME_SLUG}-premium.zip
             - ${HOST_PWD}/dist/${PROJECT_NAME_SLUG}-premium-debug.zip:/tmp/${PROJECT_NAME_SLUG}-premium-debug.zip
     mysql:

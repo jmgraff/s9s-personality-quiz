@@ -123,7 +123,7 @@ function Settings(props) {
                             setShareTitle={setShareTitle}
                             shareDescription={share_description}
                             setShareDescription={setShareDescription}
-                            allow_share
+                            allow_share={allow_share}
                         />
                     </>
                 }

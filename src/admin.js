@@ -10,15 +10,19 @@ import Settings from './Settings.js';
 
 import { getNewStore } from './store.js';
 
-let title = '';
+let title = 'Personality Quiz';
+let blockName = 's9s/personality-quiz';
 
-title = 'Personality Quiz';
-
-if (DEBUG) {
-    title = `${title} - DEBUG`;
+if (PREMIUM) {
+    title += ' PREMIUM';
+    blockName += '-premium';
 }
 
-registerBlockType('s9s/personality-quiz', {
+if (DEBUG) {
+    title += ` - DEBUG`;
+}
+
+registerBlockType(blockName, {
     title,
     category: 'common',
     attributes: {
