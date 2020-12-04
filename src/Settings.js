@@ -1,8 +1,8 @@
 import { Card, CardBody, ToggleControl, CheckboxControl, TextControl, TextareaControl } from '@wordpress/components';
 import { connect } from 'react-redux';
 
-import { setAllowTryAgain, setAllowShare, getFinish, toggleShareButton, setShareTitle,
-    setShareDescription, setShareHashtags, setForceShare } from './store-finish.js';
+import { setAllowTryAgain, setAllowShare, getSettings, toggleShareButton, setShareTitle,
+    setShareDescription, setShareHashtags, setForceShare } from './store-settings.js';
 import { share_classes } from './Share.js';
 
 //TODO move this to Share.js and connect to store
@@ -72,7 +72,7 @@ function Share(props) {
     );
 }
 
-function Finish(props) {
+function Settings(props) {
     const {
         allow_try_again,
         allow_share,
@@ -124,6 +124,6 @@ function Finish(props) {
     );
 }
 
-const mapStateToProps = (state) => getFinish(state);
+const mapStateToProps = (state) => getSettings(state);
 export default connect(mapStateToProps, { setAllowTryAgain, setAllowShare, toggleShareButton, setShareTitle,
-    setShareDescription, setShareHashtags, setForceShare })(Finish);
+    setShareDescription, setShareHashtags, setForceShare })(Settings);
