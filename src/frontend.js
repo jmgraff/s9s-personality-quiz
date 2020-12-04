@@ -166,6 +166,11 @@ function S9SPersonalityQuiz(props) {
     );
 }
 
-document.querySelectorAll('.wp-block-s9s-personality-quiz').forEach(e => {
+let className = '.wp-block-s9s-personality-quiz';
+if (PREMIUM) {
+    className += '-premium';
+}
+
+document.querySelectorAll(className).forEach(e => {
     render(<Router><S9SPersonalityQuiz data={JSON.parse(e.getAttribute('data-quiz'))} /></Router>, e);
 });
