@@ -6,7 +6,7 @@ import { TabPanel } from '@wordpress/components';
 import Intro from './Intro.js';
 import Results from './Results.js';
 import Questions from './Questions.js';
-import Finish from './Finish.js';
+import Settings from './Settings.js';
 
 import { getNewStore } from './store.js';
 
@@ -51,9 +51,9 @@ registerBlockType('s9s/personality-quiz', {
                         className: 'results'
                     },
                     {
-                        name: 'finish',
-                        title: 'Finish',
-                        className: 'finish'
+                        name: 'settings',
+                        title: 'Settings',
+                        className: 'settings'
                     },
                 ]}>
                     {
@@ -65,8 +65,8 @@ registerBlockType('s9s/personality-quiz', {
                                     return <Results />;
                                 case 'questions':
                                     return <Questions />;
-                                case 'finish':
-                                    return <Finish />;
+                                case 'settings':
+                                    return <Settings />;
                             }
                         }
                     }

@@ -16,7 +16,7 @@ function Result(props) {
         share_title,
         share_description,
         share_hashtags,
-    } = props.finish;
+    } = props.settings;
 
     let modeMap = {};
     let mode = null;
@@ -116,7 +116,7 @@ function Intro(props) {
 }
 
 function S9SPersonalityQuiz(props) {
-    const { intro, results, questions, answers, finish } = props.data;
+    const { intro, results, questions, answers, settings } = props.data;
     const [questionNumber, setQuestionNumber] = useState(0);
     const [userAnswers, setUserAnswers] = useState([]);
     const history = useHistory();
@@ -158,7 +158,7 @@ function S9SPersonalityQuiz(props) {
                     <Result
                         results={results}
                         userAnswers={userAnswers}
-                        finish={finish}
+                        settings={settings}
                         onTryAgain={onTryAgain} />
                 </Route>
             </div>

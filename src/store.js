@@ -7,10 +7,10 @@ import { intro } from './store-intro.js';
 import { results } from './store-results.js';
 import { questions } from './store-questions.js';
 import { answers } from './store-answers.js';
-import { finish } from './store-finish.js';
+import { settings } from './store-settings.js';
 
 
-const combined = combineReducers({intro, results, questions, answers, finish});
+const combined = combineReducers({intro, results, questions, answers, settings});
 
 export const getNewTestStore = (testData) => createStore(combined, testData)
 
