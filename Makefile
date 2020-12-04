@@ -53,9 +53,6 @@ webpack.empty: $(JS_FILES)
 	npm run-script build-all
 	touch $@
 
-build/style.css: src/style.css
-	cp $^ $@
-
 build/index.php: src/index.php
 	sed 's/__PRODUCT_NAME__/S9S Personality Quiz/g' $^ > $@
 
