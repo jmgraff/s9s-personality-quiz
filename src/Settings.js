@@ -17,7 +17,8 @@ function Share(props) {
         setShareDescription,
         shareHashtags,
         setShareHashtags,
-        setForceShare
+        setForceShare,
+        allow_share
     } = props;
 
     const ShareCheckbox = ({id}) => (
@@ -36,38 +37,42 @@ function Share(props) {
 
     return (
         <>
-            <ToggleControl
-                label='Force share'
-                help={ forceShare ? 'User must share to see results': 'User can see results without sharing' }
-                checked={ forceShare }
-                onChange={ () => setForceShare(!forceShare) }
-            />
-            <TextControl
-                label="Share Title"
-                onChange={ val => setShareTitle(val) }
-                value={ shareTitle }
-                help="Use {title} to use the title of the quiz result"
-            />
-            <TextareaControl
-                label="Share Description"
-                onChange={ setShareDescription }
-                value={ shareDescription }
-                help="Applies to Instapaper, LinkedIn, Livejournal, Mail.ru, OK, Pinterest, Tumblr, Workplace, and Email. Use {description} to use the description of the quiz result."
-            />
-            <TextControl
-                label="Hashtags"
-                onChange={ setShareHashtags }
-                value={ shareHashtags }
-                help="Space-separated list of hashtags. Applies to Facebook, Tumblr, Twitter, and Workplace. Note: Facebook and Workplace only accept one hashtag; if multiple are supplied, only the first will be used."
-            />
-            <div style={{ display: 'flex' }}>
-                <div style={{ flex: '50%' }}>
-                    <ShareCheckboxes keys={firstHalf} />
-                </div>
-                <div style={{ flex: '50%' }}>
-                    <ShareCheckboxes keys={secondHalf} />
-                </div>
-            </div>
+            { allow_share &&
+                <>
+                    <ToggleControl
+                        label='Force share'
+                        help={ forceShare ? 'User must share to see results': 'User can see results without sharing' }
+                        checked={ forceShare }
+                        onChange={ () => setForceShare(!forceShare) }
+                    />
+                    <TextControl
+                        label="Share Title"
+                        onChange={ val => setShareTitle(val) }
+                        value={ shareTitle }
+                        help="Use {title} to use the title of the quiz result"
+                    />
+                    <TextareaControl
+                        label="Share Description"
+                        onChange={ setShareDescription }
+                        value={ shareDescription }
+                        help="Applies to Instapaper, LinkedIn, Livejournal, Mail.ru, OK, Pinterest, Tumblr, Workplace, and Email. Use {description} to use the description of the quiz result."
+                    />
+                    <TextControl
+                        label="Hashtags"
+                        onChange={ setShareHashtags }
+                        value={ shareHashtags }
+                        help="Space-separated list of hashtags. Applies to Facebook, Tumblr, Twitter, and Workplace. Note: Facebook and Workplace only accept one hashtag; if multiple are supplied, only the first will be used."
+                    />
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ flex: '50%' }}>
+                            <ShareCheckboxes keys={firstHalf} />
+                        </div>
+                        <div style={{ flex: '50%' }}>
+                            <ShareCheckboxes keys={secondHalf} />
+                        </div>
+                    </div>
+                </>
+            }
         </>
     );
 }
@@ -99,25 +104,28 @@ function Settings(props) {
                     checked={ allow_try_again }
                     onChange={ () => setAllowTryAgain(!allow_try_again) }
                 />
-                <ToggleControl
-                    label='Share buttons'
-                    help={ allow_share ? 'Visible': 'Hidden' }
-                    checked={ allow_share }
-                    onChange={ () => setAllowShare(!allow_share) }
-                />
-                { allow_share &&
-                    <Share
-                        toggleShareButton={toggleShareButton}
-                        setForceShare={setForceShare}
-                        forceShare={force_share}
-                        shareButtons={share_buttons}
-                        shareTitle={share_title}
-                        shareHashtags={share_hashtags}
-                        setShareHashtags={setShareHashtags}
-                        setShareTitle={setShareTitle}
-                        shareDescription={share_description}
-                        setShareDescription={setShareDescription}
-                    />
+                { PREMIUM &&
+                    <>
+                        <ToggleControl
+                            label='Share buttons'
+                            help={ allow_share ? 'Visible': 'Hidden' }
+                            checked={ allow_share }
+                            onChange={ () => setAllowShare(!allow_share) }
+                        />
+                        <Share
+                            toggleShareButton={toggleShareButton}
+                            setForceShare={setForceShare}
+                            forceShare={force_share}
+                            shareButtons={share_buttons}
+                            shareTitle={share_title}
+                            shareHashtags={share_hashtags}
+                            setShareHashtags={setShareHashtags}
+                            setShareTitle={setShareTitle}
+                            shareDescription={share_description}
+                            setShareDescription={setShareDescription}
+                            allow_share
+                        />
+                    </>
                 }
             </CardBody>
         </Card>
