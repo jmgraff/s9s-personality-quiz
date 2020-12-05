@@ -53,20 +53,21 @@ webpack.empty: $(JS_FILES)
 	npm run-script build-all
 	touch $@
 
-build/style.css: src/style.css
-	cp $^ $@
-
 build/index.php: src/index.php
 	sed 's/__PRODUCT_NAME__/S9S Personality Quiz/g' $^ > $@
 
 build/index.premium.php: src/index.php
 	sed 's/__PRODUCT_NAME__/S9S Personality Quiz PREMIUM/g' $^ > $@
 
-build: build/index.php build/index.premium.php build/style.css webpack.empty
+build/readme.txt: src/readme.txt
+	cp $^ $@
+
+build: build/index.php build/index.premium.php build/readme.txt webpack.empty
 	cp build/index.premium.php build/$(SLUG)-premium/index.php
 	cp build/index.premium.php build/$(SLUG)-premium-debug/index.php
 	cp build/index.php build/$(SLUG)/index.php
 	cp build/index.php build/$(SLUG)-debug/index.php
+	cp build/readme.txt build/$(SLUG)/readme.txt
 	touch $@
 
 define BUILD_ZIPS
