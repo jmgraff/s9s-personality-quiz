@@ -71,8 +71,15 @@ build: build/index.php build/index.premium.php build/readme.txt build/assets web
 	cp build/index.php build/$(SLUG)/index.php
 	cp build/index.php build/$(SLUG)-debug/index.php
 	cp build/readme.txt build/$(SLUG)/readme.txt
-	cp -r build/assets build/$(SLUG)/assets
 	touch $@
+
+.PHONY: svn
+svn: build
+	svn co https://plugins.svn.wordpress.org/s9s-personality-quiz wordpress-svn
+	rm -rf wordpress-svn/trunk/*
+	rm -rf wordpress-svn/assets/*
+	cp -r build/$(SLUG)/* wordpress-svn/trunk/
+	cp -r build/assets/* wordpress-svn/assets/
 
 define BUILD_ZIPS
 dist/$(1).zip: build

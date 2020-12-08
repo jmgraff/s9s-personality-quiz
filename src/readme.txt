@@ -13,30 +13,23 @@ Create viral content with this Buzzfeed-style personality quiz!
 
 == Description ==
 
-Increase your social media traffic with personality quizzes! ("Which
-____ are you? Take this quiz and find out!" You know the drill.) They've
-been wildly popular for nearly a decade now and show no signs of going
-away any time soon.
+Increase your social media traffic with personality quizzes! ("Which ____ are you? Take this quiz and find out!" You know the drill.) They've been wildly popular for nearly a decade now and show no signs of going away any time soon.
 
-Because this quiz plugin is an
-[editor block](https://wordpress.com/support/wordpress-editor/), adding
-a quiz to your post is as easy as adding another paragraph! You can even
-have multiple quizzes per post. Pretty slick, huh?
+Because this quiz plugin is an [editor block](https://wordpress.com/support/wordpress-editor/), adding a quiz to your post is as easy as adding another paragraph! You can even have multiple quizzes per post. Pretty slick, huh?
 
 Cool features:
-*   Easy *editor block* interface
-*   Unlimited questions, answers, and results
-*   Multiple quizzes per page (and post!)
-*   Minimal styling - blends in with *your* theme
-*   More to come in future releases!
+
+* Easy *editor block* interface
+* Unlimited questions, answers, and results
+* Multiple quizzes per page (and post!)
+* Minimal styling - blends in with *your* theme
+* More to come in future releases!
 
 == Frequently Asked Questions ==
 
 = Where is the plugin? =
 
-This plugin is called "Personality Quiz" in the
-[add block](https://wordpress.com/support/wordpress-editor/#adding-a-block)
-menu in any post. Check the screenshots below!
+This plugin is called "Personality Quiz" in the [add block](https://wordpress.com/support/wordpress-editor/#adding-a-block) menu in any post. Check the screenshots below!
 
 == Screenshots ==
 

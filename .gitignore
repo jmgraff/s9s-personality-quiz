@@ -6,3 +6,4 @@ cypress/videos/
 webpack.empty
 .DS_Store
 ._*
+wordpress-svn
