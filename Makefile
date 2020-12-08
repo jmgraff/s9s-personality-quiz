@@ -62,18 +62,22 @@ build/index.premium.php: src/index.php
 build/readme.txt: src/readme.txt
 	cp $^ $@
 
-build: build/index.php build/index.premium.php build/readme.txt webpack.empty
+build/assets: src/assets
+	cp -r $^ $@
+
+build: build/index.php build/index.premium.php build/readme.txt build/assets webpack.empty
 	cp build/index.premium.php build/$(SLUG)-premium/index.php
 	cp build/index.premium.php build/$(SLUG)-premium-debug/index.php
 	cp build/index.php build/$(SLUG)/index.php
 	cp build/index.php build/$(SLUG)-debug/index.php
 	cp build/readme.txt build/$(SLUG)/readme.txt
+	cp -r build/assets build/$(SLUG)/assets
 	touch $@
 
 define BUILD_ZIPS
 dist/$(1).zip: build
 	rm -f $$@
-	zip -rj $$@ build/$(1)/*
+	cd build && zip -r ../$$@ $(1)/*
 .PHONY: serve-$(1)
 serve-$(1): dist
 	scripts/setup_wordpress.sh $(1)

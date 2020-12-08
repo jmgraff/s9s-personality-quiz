@@ -99,5 +99,8 @@ set nowrap
 "no swap files
 set noswapfile
 
+"long line indicator
+set colorcolumn=72
+
 "Makefile stuff
 autocmd FileType make setlocal noexpandtab shiftwidth=2 softtabstop=0
