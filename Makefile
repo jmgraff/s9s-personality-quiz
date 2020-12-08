@@ -77,7 +77,7 @@ build: build/index.php build/index.premium.php build/readme.txt build/assets web
 define BUILD_ZIPS
 dist/$(1).zip: build
 	rm -f $$@
-	zip -rj $$@ build/$(1)/*
+	cd build && zip -r ../$$@ $(1)/*
 .PHONY: serve-$(1)
 serve-$(1): dist
 	scripts/setup_wordpress.sh $(1)
