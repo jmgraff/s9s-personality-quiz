@@ -5,18 +5,19 @@ RUN apt-get update && apt-get -y install \
     apt-transport-https \
     ca-certificates \
     curl \
-    gnupg-agent \
-    software-properties-common \
-    vim \
-    tmux \
-    git \
-    python3.7 \
-    python3-pip \
     fish \
-    ncurses-term \
+    git \
+    gnupg-agent \
     iproute2 \
-    zip \
-    unzip
+    ncurses-term \
+    python3-pip \
+    python3.7 \
+    software-properties-common \
+    subversion \
+    tmux \
+    unzip \
+    vim \
+    zip
 
 # Python packages
 RUN pip3 install python-slugify
