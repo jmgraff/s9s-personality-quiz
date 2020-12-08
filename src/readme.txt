@@ -1,5 +1,6 @@
-=== Plugin Name ===
-Contributors: @signal9software
+=== S9S Personality Quiz ===
+Contributors: signal9software
+Donate link: https://www.paypal.com/donate?hosted_button_id=V765VR3XGPP8G
 Tags: personality quiz, quiz, viral content
 Requires at least: 4.7
 Tested up to: 5.5
