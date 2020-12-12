@@ -1,4 +1,4 @@
-describe('Admin', function () {
+describe('Quiz', function () {
     beforeEach(() => {
         cy.visit('/wp-login.php');
 
@@ -27,5 +27,10 @@ describe('Admin', function () {
         cy.contains('View Post').click();
         cy.contains('View Post').click(); //not sure why this needs to happen twice
         cy.contains('Color Quiz (2)').should('be.visible');
+        cy.contains('Start Quiz').click({force: true});
+        cy.contains('Strawberry').click({force: true});
+        cy.contains('Firetrucks').click({force: true});
+        cy.contains('Tomato').click({force: true});
+        cy.contains('You are the color red').should('be.visible');
     });
 });

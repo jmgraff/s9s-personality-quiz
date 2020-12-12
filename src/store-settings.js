@@ -2,21 +2,23 @@ import produce from 'immer';
 
 const initialState = {
     allow_try_again: true,
-    allow_share: false,
-    force_share: false,
-    share_title: 'I got {title}... what did you get?',
-    share_description: '{description}',
-    share_hashtags: '',
-    share_buttons: [
-        'facebook',
-        'twitter',
-        'pinterest',
-        'reddit',
-        'whatsapp',
-        'telegram',
-        'tumblr',
-        'email',
-    ]
+    share: {
+        allow: false,
+        force: false,
+        title: 'I got {title}... what did you get?',
+        description: '{description}',
+        hashtags: '',
+        buttons: [
+            'facebook',
+            'twitter',
+            'pinterest',
+            'reddit',
+            'whatsapp',
+            'telegram',
+            'tumblr',
+            'email',
+        ]
+    }
 };
 
 const SETTINGS_SET_ALLOW_TRY_AGAIN = 'SETTINGS_SET_ALLOW_TRY_AGAIN';
@@ -38,6 +40,7 @@ export const setForceShare = (force_share) => ({ type: SETTINGS_SET_FORCE_SHARE,
 
 //selectors
 export const getSettings = ({settings}) => settings;
+export const getShareSettings = ({settings}) => settings.share;
 
 //reducer
 export const settings = produce((draft, action) => {
@@ -47,33 +50,33 @@ export const settings = produce((draft, action) => {
             break;
         }
         case SETTINGS_SET_ALLOW_SHARE: {
-            draft.allow_share = action.payload.allow_share;
+            draft.share.allow = action.payload.allow_share;
             break;
         }
         case SETTINGS_SET_SHARE_TITLE: {
-            draft.share_title = action.payload.share_title;
+            draft.share.title = action.payload.share_title;
             break;
         }
         case SETTINGS_SET_SHARE_DESCRIPTION: {
-            draft.share_description = action.payload.share_description;
+            draft.share.description = action.payload.share_description;
             break;
         }
         case SETTINGS_SET_SHARE_HASHTAGS: {
-            draft.share_hashtags = action.payload.share_hashtags;
+            draft.share.hashtags = action.payload.share_hashtags;
             break;
         }
         case SETTINGS_TOGGLE_SHARE_BUTTON: {
-            if (draft.share_buttons.includes(action.payload.share_button_id)) {
-                let index = draft.share_buttons.findIndex(ii => ii === action.payload.share_button_id);
-                draft.share_buttons.splice(index, 1);
+            if (draft.share.buttons.includes(action.payload.share_button_id)) {
+                let index = draft.share.buttons.findIndex(ii => ii === action.payload.share_button_id);
+                draft.share.buttons.splice(index, 1);
                 break;
             } else {
-                draft.share_buttons.push(action.payload.share_button_id);
+                draft.share.buttons.push(action.payload.share_button_id);
                 break;
             }
         }
         case SETTINGS_SET_FORCE_SHARE: {
-            draft.force_share = action.payload.force_share;
+            draft.share.force = action.payload.force_share;
             break;
         }
         default:
