@@ -1,4 +1,4 @@
-import { Button, ToggleControl, TextControl, TextareaControl, CheckboxControl } from '@wordpress/components';
+const { Button, ToggleControl, TextControl, TextareaControl, CheckboxControl } = wp.components;
 import { connect } from 'react-redux';
 import { getShareSettings, setShareTitle, setAllowShare, toggleShareButton,
     setShareDescription, setShareHashtags, setForceShare, setShareVia } from './store-settings.js';

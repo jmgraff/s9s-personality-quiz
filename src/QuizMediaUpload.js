@@ -1,4 +1,4 @@
-import { Button, ToolbarGroup, ToolbarButton, TextControl, Popover } from '@wordpress/components';
+const { Button, ToolbarGroup, ToolbarButton, TextControl, Popover } = wp.components;
 import { image, trash, edit, link } from '@wordpress/icons';
 
 const { MediaUpload } = wp.blockEditor;

@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 
 const { registerBlockType } = wp.blocks;
-import { TabPanel } from '@wordpress/components';
+const { TabPanel } = wp.components;
 
 import Intro from './Intro.js';
 import Results from './Results.js';

@@ -1,6 +1,6 @@
 import ellipsize from 'ellipsize';
 import { connect } from 'react-redux';
-import { TextControl, SelectControl, Snackbar } from '@wordpress/components';
+const { TextControl, SelectControl, Snackbar } = wp.components;
 
 import { getAnswers, remove, add, setTitle, moveLeft, moveRight, setResultID } from './store-answers.js';
 import { getResults } from './store-results.js';

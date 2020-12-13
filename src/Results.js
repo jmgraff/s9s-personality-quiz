@@ -1,4 +1,4 @@
-import { TextControl, TextareaControl } from '@wordpress/components';
+const { TextControl, TextareaControl } = wp.components;
 import { connect } from 'react-redux';
 
 import { getResults, add, remove, setTitle, setDescription, setImageURL } from './store-results.js';

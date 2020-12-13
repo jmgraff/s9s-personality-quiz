@@ -1,5 +1,5 @@
 const { createRef, useState, useEffect } = wp.element;
-import { Button, Card, CardHeader, CardBody, ToolbarButton, TabPanel, Icon, ToolbarGroup } from '@wordpress/components';
+const { Button, Card, CardHeader, CardBody, ToolbarButton, TabPanel, Icon, ToolbarGroup } = wp.components;
 import { trash, chevronLeft, chevronRight, plus, edit } from '@wordpress/icons';
 
 import ellipsize from 'ellipsize';
