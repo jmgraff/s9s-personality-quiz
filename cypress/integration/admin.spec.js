@@ -33,7 +33,7 @@ describe('Quiz', function () {
         cy.get('.editor-post-publish-panel button.editor-post-publish-button').click();
         //not sure why this needs to happen twice
         cy.contains('View Post').click();
-        cy.contains('View Post').click(); 
+        cy.contains('View Post').click();
 
         // take the quiz
         cy.contains('Color Quiz (2)').should('be.visible');
