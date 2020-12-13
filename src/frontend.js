@@ -8,15 +8,7 @@ import { Share, createHashtagList } from './Share.js';
 
 function Result(props) {
     const [shared, setShared] = useState(false);
-    const {
-        allow_try_again,
-        allow_share,
-        force_share,
-        share_buttons,
-        share_title,
-        share_description,
-        share_hashtags,
-    } = props.settings;
+    const { allow_try_again, share } = props.settings;
 
     let modeMap = {};
     let mode = null;
@@ -35,15 +27,15 @@ function Result(props) {
 
     result = props.results.find(result => result.id === mode.id);
 
-    const formattedShareTitle = format(share_title, { title: result.title });
-    const formattedShareDescription = format(share_description, { description: result.description });
-    const hashtags = createHashtagList(share_hashtags);
+    const formattedShareTitle = format(share.title, { title: result.title });
+    const formattedShareDescription = format(share.description, { description: result.description });
+    const hashtags = createHashtagList(share.hashtags);
     const tags = hashtags;
     const hashtag = hashtags ? hashtags[0] : undefined;
 
     const shareButtonAttributes = {
         url: window.location,
-        via: window.location,
+        via: share.via,
         media: result.image_url,
         image: result.image_url,
         imageUrl: result.image_url,
@@ -61,7 +53,7 @@ function Result(props) {
 
     return (
         <>
-            { (!force_share || shared) &&
+            { (!share.allow || !share.force || shared) &&
                 <>
                     <img src={result.image_url} style={{
                         display: 'block',
@@ -75,13 +67,13 @@ function Result(props) {
                     <p>{result.description}</p>
                 </>
             }
-            { (force_share && !shared) &&
+            { (share.allow && share.force && !shared) &&
                 <h3>Share to see your results!</h3>
             }
-            { allow_share && share_buttons.length > 0 &&
-                <Share ids={share_buttons} atts={shareButtonAttributes} onShare={() => setShared(true)} />
+            { share.allow && share.buttons.length > 0 && !shared &&
+                <Share ids={share.buttons} atts={shareButtonAttributes} onShare={() => setShared(true)} />
             }
-            { (!force_share || shared) && allow_try_again &&
+            { (!share.force || shared) && allow_try_again &&
                 <button onClick={() => props.onTryAgain()}>
                     Try Again
                 </button>

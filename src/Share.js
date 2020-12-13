@@ -76,3 +76,4 @@ export function Share({ids, atts, onShare}) {
         </div>
     );
 }
+
