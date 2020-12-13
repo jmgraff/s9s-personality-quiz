@@ -1,7 +1,7 @@
-import { ToggleControl, TextControl, TextareaControl, CheckboxControl } from '@wordpress/components';
+import { Button, ToggleControl, TextControl, TextareaControl, CheckboxControl } from '@wordpress/components';
 import { connect } from 'react-redux';
-import { getShareSettings, setShareTitle, setAllowShare,
-    setShareDescription, setShareHashtags, setForceShare } from './store-settings.js';
+import { getShareSettings, setShareTitle, setAllowShare, toggleShareButton,
+    setShareDescription, setShareHashtags, setForceShare, setShareVia } from './store-settings.js';
 import { share_classes } from './Share.js';
 
 function ShareSettings(props) {
@@ -18,6 +18,9 @@ function ShareSettings(props) {
         description,
         shareDescription,
         setShareDescription,
+        via,
+        setShareVia,
+        toggleShareButton,
     } = props;
 
     const ShareCheckbox = ({id}) => (
@@ -64,6 +67,12 @@ function ShareSettings(props) {
                         help="Applies to Instapaper, LinkedIn, Livejournal, Mail.ru, OK, Pinterest, Tumblr, Workplace, and Email. Use {description} to use the description of the quiz result."
                     />
                     <TextControl
+                        label='Shared "via"'
+                        onChange={ setShareVia }
+                        value={ via }
+                        help={"Applies to Twitter only. Should be a URL."}
+                    />
+                    <TextControl
                         label="Hashtags"
                         onChange={ setShareHashtags }
                         value={ hashtags }
@@ -83,5 +92,47 @@ function ShareSettings(props) {
     );
 }
 
-const mapStateToProps = (state) => getShareSettings(state);
-export default connect(mapStateToProps, { setShareTitle, setShareDescription, setShareHashtags, setForceShare, setAllowShare })(ShareSettings);
+function FreeShareSettings(props) {
+    const premiumLink = "http://www.google.com";
+    const PremiumButton = () => (
+        <center>
+            <Button as="a" isPrimary href={premiumLink} target="blank">
+                Click Here to Get PREMIUM Now!
+            </Button>
+        </center>
+    );
+    return (
+        <>
+            <h5>Want users to share this quiz?</h5>
+            <p><a href={premiumLink} target="blank">Get Personality Quiz PREMIUM</a> for access to...</p>
+            <ul>
+                <li>21 different <b>social media share buttons</b></li>
+                <li><b>Require</b> users to share the quiz before seeing the result</li>
+                <li>Customizable, templat-able sharing messages</li>
+                <li>
+                    Upcoming PREMIUM features like
+                    <ul>
+                        <li>Email marketing service integration</li>
+                        <li>Customizable call-to-action for sharing</li>
+                        <li>Video questions</li>
+                        <li>Image answers</li>
+                        <li>And more!</li>
+                    </ul>
+                </li>
+            </ul>
+            <PremiumButton />
+        </>
+    );
+}
+
+let settingsComponent = undefined;
+
+if (PREMIUM) {
+    const mapStateToProps = (state) => getShareSettings(state);
+    settingsComponent = connect(mapStateToProps, { setShareTitle, setShareDescription, toggleShareButton,
+        setShareHashtags, setForceShare, setAllowShare, setShareVia })(ShareSettings);
+} else {
+    settingsComponent = FreeShareSettings;
+}
+
+export default settingsComponent;

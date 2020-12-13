@@ -35,7 +35,7 @@ function Result(props) {
 
     const shareButtonAttributes = {
         url: window.location,
-        via: window.location,
+        via: share.via,
         media: result.image_url,
         image: result.image_url,
         imageUrl: result.image_url,
@@ -53,7 +53,7 @@ function Result(props) {
 
     return (
         <>
-            { (!share.force || shared) &&
+            { (!share.allow || !share.force || shared) &&
                 <>
                     <img src={result.image_url} style={{
                         display: 'block',
@@ -67,7 +67,7 @@ function Result(props) {
                     <p>{result.description}</p>
                 </>
             }
-            { (share.force && !shared) &&
+            { (share.allow && share.force && !shared) &&
                 <h3>Share to see your results!</h3>
             }
             { share.allow && share.buttons.length > 0 && !shared &&

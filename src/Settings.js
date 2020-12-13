@@ -1,14 +1,16 @@
 import { Card, CardBody, ToggleControl, CheckboxControl, TextControl, TextareaControl } from '@wordpress/components';
 import { connect } from 'react-redux';
 
-import { setAllowTryAgain, setAllowShare, getSettings, setShareTitle,
-    setShareDescription, setShareHashtags, setForceShare } from './store-settings.js';
 import ShareSettings from './ShareSettings.js';
+
+import { setAllowTryAgain, setAllowShare, getSettings, setShareTitle,
+    setShareDescription, setShareHashtags, setForceShare,
+    toggleShareButton } from './store-settings.js';
 
 function Settings(props) {
     const {
         allow_try_again,
-        allow_share,
+        setAllowTryAgain
     } = props;
 
     return (
@@ -20,7 +22,7 @@ function Settings(props) {
                     checked={ allow_try_again }
                     onChange={ () => setAllowTryAgain(!allow_try_again) }
                 />
-                { PREMIUM && <ShareSettings /> }
+                <ShareSettings />
             </CardBody>
         </Card>
     );
@@ -28,4 +30,4 @@ function Settings(props) {
 
 const mapStateToProps = (state) => getSettings(state);
 export default connect(mapStateToProps, { setAllowTryAgain, setAllowShare,  setShareTitle,
-    setShareDescription, setShareHashtags, setForceShare })(Settings);
+    setShareDescription, setShareHashtags, setForceShare, toggleShareButton })(Settings);

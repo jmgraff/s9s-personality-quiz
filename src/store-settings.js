@@ -8,6 +8,7 @@ const initialState = {
         title: 'I got {title}... what did you get?',
         description: '{description}',
         hashtags: '',
+        via: window.location.protocol + "//" + window.location.host,
         buttons: [
             'facebook',
             'twitter',
@@ -28,6 +29,7 @@ const SETTINGS_SET_SHARE_TITLE = 'SETTINGS_SET_SHARE_TITLE';
 const SETTINGS_SET_SHARE_DESCRIPTION = 'SETTINGS_SET_SHARE_DESCRIPTION';
 const SETTINGS_SET_SHARE_HASHTAGS = 'SETTINGS_SET_SHARE_HASHTAGS';
 const SETTINGS_SET_FORCE_SHARE = 'SETTINGS_SET_FORCE_SHARE';
+const SETTINGS_SET_SHARE_VIA = 'SETTINGS_SET_SHARE_VIA';
 
 //actions
 export const setAllowTryAgain = (allow_try_again) => ({ type: SETTINGS_SET_ALLOW_TRY_AGAIN, payload: { allow_try_again } });
@@ -37,6 +39,7 @@ export const setShareTitle = (share_title) => ({ type: SETTINGS_SET_SHARE_TITLE,
 export const setShareDescription = (share_description) => ({ type: SETTINGS_SET_SHARE_DESCRIPTION, payload: { share_description } });
 export const setShareHashtags = (share_hashtags) => ({ type: SETTINGS_SET_SHARE_HASHTAGS, payload: { share_hashtags } });
 export const setForceShare = (force_share) => ({ type: SETTINGS_SET_FORCE_SHARE, payload: { force_share } });
+export const setShareVia = (share_via) => ({ type: SETTINGS_SET_SHARE_VIA, payload: { share_via } });
 
 //selectors
 export const getSettings = ({settings}) => settings;
@@ -65,7 +68,12 @@ export const settings = produce((draft, action) => {
             draft.share.hashtags = action.payload.share_hashtags;
             break;
         }
+        case SETTINGS_SET_SHARE_VIA: {
+            draft.share.via = action.payload.share_via;
+            break;
+        }
         case SETTINGS_TOGGLE_SHARE_BUTTON: {
+            console.log("Toggling share button");
             if (draft.share.buttons.includes(action.payload.share_button_id)) {
                 let index = draft.share.buttons.findIndex(ii => ii === action.payload.share_button_id);
                 draft.share.buttons.splice(index, 1);
