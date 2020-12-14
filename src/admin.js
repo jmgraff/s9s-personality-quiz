@@ -1,12 +1,13 @@
 import { Provider } from 'react-redux';
 
 const { registerBlockType } = wp.blocks;
-import { TabPanel } from '@wordpress/components';
+const { TabPanel } = wp.components;
 
 import Intro from './Intro.js';
 import Results from './Results.js';
 import Questions from './Questions.js';
 import Settings from './Settings.js';
+import S9SPQIcon from './S9SPQIcon.js';
 
 import { getNewStore } from './store.js';
 
@@ -25,6 +26,7 @@ if (DEBUG) {
 registerBlockType(blockName, {
     title,
     category: 'common',
+    icon: <S9SPQIcon />,
     attributes: {
         data: {
             type: 'string'

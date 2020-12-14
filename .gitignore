@@ -3,6 +3,7 @@ build/
 dist/
 cypress/screenshots/
 cypress/videos/
+cc-bundle/
 webpack.empty
 .DS_Store
 ._*

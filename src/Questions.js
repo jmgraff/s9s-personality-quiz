@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { Button, TextControl, Icon } from '@wordpress/components';
+const { Button, TextControl, Icon } = wp.components;
 import { image } from '@wordpress/icons';
 
 import ItemTabs from './ItemTabs.js';

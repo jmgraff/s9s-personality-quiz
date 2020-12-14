@@ -1,4 +1,4 @@
-import { Card, CardBody, ToggleControl, CheckboxControl, TextControl, TextareaControl } from '@wordpress/components';
+const { Card, CardBody, ToggleControl, CheckboxControl, TextControl, TextareaControl } = wp.components;
 import { connect } from 'react-redux';
 
 import ShareSettings from './ShareSettings.js';
