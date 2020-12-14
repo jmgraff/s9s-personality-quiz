@@ -46,6 +46,8 @@ clean: server-down
 	rm -rf build/*
 	rm -rf dist/*
 	rm -f *.empty
+	rm -rf wordpress-svn
+	rm -rf cc-bundle
 
 # *** Build Targets ***
 webpack.empty: $(JS_FILES)
@@ -62,10 +64,21 @@ build/index.premium.php: src/index.php
 build/readme.txt: src/readme.txt
 	cp $^ $@
 
-build/assets: src/assets
+build/wp-assets: src/assets/wp
 	cp -r $^ $@
 
-build: build/index.php build/index.premium.php build/readme.txt build/assets webpack.empty
+build/cc-assets:
+	mkdir -p $@
+	cp src/assets/cc/CodeCanyon* $@
+	cp src/assets/cc/*.html $@
+	zip $@/previews.zip src/assets/cc/previews/*
+
+build/cc-assets/previews.zip: src/assets/cc/previews build/cc-assets
+	mkdir -p build/cc-assets
+	zip $@ $^/*
+
+build: build/index.php build/index.premium.php build/readme.txt
+build: build/wp-assets webpack.empty build/cc-assets/previews.zip
 	cp build/index.premium.php build/$(SLUG)-premium/index.php
 	cp build/index.premium.php build/$(SLUG)-premium-debug/index.php
 	cp build/index.php build/$(SLUG)/index.php
@@ -81,7 +94,14 @@ svn: build wordpress-svn
 	rm -rf wordpress-svn/trunk/*
 	rm -rf wordpress-svn/assets/*
 	cp -r build/$(SLUG)/* wordpress-svn/trunk/
-	cp -r build/assets/* wordpress-svn/assets/
+	cp -r build/wp-assets/* wordpress-svn/assets/
+
+cc-bundle: dist
+	mkdir -p $@
+	rm -rf $@/*
+	cp -r build/cc-assets $@/assets
+	cp dist/s9s-personality-quiz-premium.zip $@
+	touch $@
 
 define BUILD_ZIPS
 dist/$(1).zip: build
